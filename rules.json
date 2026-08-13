@@ -1,0 +1,78 @@
+{
+  "watchlist": [
+    "NASDAQ:AAPL",
+    "NASDAQ:NVDA",
+    "NASDAQ:MSFT",
+    "NASDAQ:GOOGL",
+    "NASDAQ:META"
+  ],
+  "default_timeframe": "D",
+  "entry_timeframe": "15",
+
+  "strategy": {
+    "name": "Top-Down Big Tech Trend (Free Tier)",
+    "source": "default-topdown-trend-trimmed",
+    "approach": "Daily chart sets the directional bias using two EMAs. 15-minute chart times the entry using VWAP. Only take entries on the 15m that agree with the daily bias.",
+    "primary_timeframes": [
+      "D (bias — checked every morning)",
+      "15 (entry timing — US market hours only, 14:30-21:00 UK)"
+    ],
+    "note": "Trimmed to fit TradingView Free tier (2 indicators per chart). Removed RSI and ATR; using flat 2% stop instead."
+  },
+
+  "indicators": {
+    "daily": {
+      "ema_20": "Short-term trend on the daily. Price above it = short-term strength.",
+      "ema_50": "Medium-term trend. 20 EMA above 50 EMA = confirmed uptrend."
+    },
+    "intraday_15m": {
+      "ema_9": "Fast intraday trend. Turning up = short-term momentum returning.",
+      "vwap": "Volume Weighted Average Price - the average price paid today. Price above VWAP = buyers winning the session."
+    }
+  },
+
+  "bias_criteria": {
+    "bullish": [
+      "Daily: price is above both the 20 EMA and the 50 EMA",
+      "Daily: 20 EMA is above the 50 EMA"
+    ],
+    "bearish": [
+      "Daily: price is below both the 20 EMA and the 50 EMA",
+      "Daily: 20 EMA is below the 50 EMA"
+    ],
+    "neutral": [
+      "Daily: price is chopping between the 20 EMA and the 50 EMA",
+      "Daily: the 20 EMA and 50 EMA are flat or tangled together"
+    ]
+  },
+
+  "entry_rules": {
+    "long": [
+      "Daily bias must be bullish (price and 20 EMA both above 50 EMA)",
+      "15m: price is trading above VWAP",
+      "15m: the 9 EMA is sloping up and price is holding above it"
+    ],
+    "short": [
+      "Daily bias must be bearish (price and 20 EMA both below 50 EMA)",
+      "15m: price is trading below VWAP",
+      "15m: the 9 EMA is sloping down and price is holding below it"
+    ]
+  },
+
+  "exit_rules": [
+    "Exit a long when the daily 20 EMA crosses back below the daily 50 EMA",
+    "Exit a short when the daily 20 EMA crosses back above the daily 50 EMA",
+    "Stop loss: 2% below entry for longs, 2% above entry for shorts (flat stop, adapted for free tier)"
+  ],
+
+  "risk_rules": [
+    "Risk 1% of the account on any single trade",
+    "Position size = (1% of account) divided by (2%) — so each trade risks exactly 1% if you hit the stop",
+    "Only take trades where the reward-to-risk is at least 1:2",
+    "Maximum 3 open positions at once across the watchlist",
+    "No new entries in the first 15 minutes of the US open (14:30-14:45 UK) - too erratic",
+    "Earnings: no new entries in the 2 days before a scheduled earnings report"
+  ],
+
+  "notes": "Top-down strategy across five big tech names, trimmed to fit TradingView Free tier (2 indicators per chart). The daily chart is the boss - if the daily bias is not clearly bullish or bearish, there is no trade regardless of what the 15m is doing. Intraday entries only matter during US market hours (14:30-21:00 UK time); outside those hours the morning brief is a daily-bias read only. This file is advisory: it tells me what my own rules say, it does not place trades."
+}
