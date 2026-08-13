@@ -81,6 +81,8 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("--hmm", action="store_true")
     p.add_argument("--no-plot", action="store_true")
     p.add_argument("--macro", action="store_true", help="Run multi-asset macro strategy with Markov gating")
+    p.add_argument("--cointegration", action="store_true", help="Run cointegration subsystem screening")
+    p.add_argument("--benchmark-cointegration", action="store_true", help="Run condition-number & cointegration benchmark suite")
     args = p.parse_args(argv)
     stride = args.stride if args.stride is not None else args.window
 
@@ -139,6 +141,56 @@ def main(argv: list[str] | None = None) -> int:
             except Exception as exc:
                 print(f"\n  ! plot skipped: {exc}")
                 
+    if args.benchmark_cointegration:
+        from .cointegration.benchmark import (
+            run_synthetic_validation,
+            benchmark_condition_number_estimator,
+            benchmark_precision_scaling,
+            benchmark_scaling,
+        )
+        print(R.header("COINTEGRATION BENCHMARK & SYNTHETIC VALIDATION SUITE"))
+        
+        print("\n1. Synthetic Test Cases (Cases A-E):")
+        df_syn = run_synthetic_validation()
+        print(df_syn.to_string(index=False))
+
+        print("\n2. Condition Number Estimator Benchmark (Exact SVD vs Fast Power Iteration):")
+        cond_bench = benchmark_condition_number_estimator(matrices_count=20)
+        for k, v in cond_bench.items():
+            print(f"  {k:<30s}: {v}")
+
+        print("\n3. Precision Scaling Experiment (Epsilon Sensitivity):")
+        df_prec = benchmark_precision_scaling()
+        print(df_prec.to_string(index=False))
+
+        print("\n4. Empirical Scaling Benchmark (N vs d):")
+        df_scale = benchmark_scaling(N_list=[1000, 2000, 5000], d_list=[2, 5, 10])
+        print(df_scale.to_string(index=False))
+        print(f"\n  Empirical Scaling Fit: {df_scale.attrs.get('empirical_scaling', 'N/A')}")
+        return 0
+
+    if args.cointegration:
+        from .universe_data import fetch_universe, get_tickers
+        from .cointegration.pipeline import scan_cointegrated_pairs
+        from .cointegration.integration import run_cointegration_markov_hybrid
+        print(R.header("MARKOV 2.0 COINTEGRATION SUBSYSTEM"))
+
+        tickers = get_tickers()
+        print(f"Fetching data for {len(tickers)} assets...")
+        df_close = fetch_universe(tickers, years=args.years)
+
+        print("\nScanning for cointegrated pairs (Condition threshold kappa >= 10.0)...")
+        pairs = scan_cointegrated_pairs(df_close, kappa_threshold=10.0)
+        print(f"Found {len(pairs)} cointegrated pairs:")
+        for p in pairs[:5]:
+            print(f"  Pair {p['asset_y']}/{p['asset_x']:<8s} | stat: {p['test_statistic']:+.4f} | "
+                  f"kappa: {p['condition_number']:6.1f} | hedge ratio: {p['hedge_ratio']:+.4f}")
+
+        print("\nRunning Cointegration + Markov 2.0 Hybrid Backtest...")
+        hyb_res = run_cointegration_markov_hybrid(df_close, cost_bps=args.cost_bps)
+        print(f"  Net Sharpe: {hyb_res['net_gated_metrics']['sharpe']:.4f}")
+        print(f"  CAGR:       {hyb_res['net_gated_metrics']['cagr']*100:.2f}%")
+        print(f"  Max DD:     {hyb_res['net_gated_metrics']['max_drawdown']*100:.2f}%")
         return 0
 
     # ------------------------------------------------------------- 1. DATA
