@@ -80,6 +80,7 @@ def main(argv: list[str] | None = None) -> int:
     p.add_argument("--enhanced", action="store_true")
     p.add_argument("--hmm", action="store_true")
     p.add_argument("--no-plot", action="store_true")
+    p.add_argument("--macro", action="store_true", help="Run multi-asset macro strategy with Markov gating")
     args = p.parse_args(argv)
     stride = args.stride if args.stride is not None else args.window
 
@@ -93,6 +94,52 @@ def main(argv: list[str] | None = None) -> int:
         print("  TCS.NS (Sharpe 0.024) and at -0.798 on TMPV.NS - worse than randomly")
         print("  rotated labels. It is retained for reproducibility and research only.")
         print("  " + "!" * 72)
+
+    if args.macro:
+        from .universe_data import fetch_universe, get_tickers
+        from .macro import walk_forward_macro
+        print(R.header(f"MARKOV 2.0 MACRO STRATEGY"))
+        tickers = get_tickers()
+        print(f"Fetching data for {len(tickers)} assets...")
+        df_close = fetch_universe(tickers, years=args.years)
+        
+        print("\nRunning Baseline Macro Strategy (No Markov Gating)...")
+        res_base = walk_forward_macro(
+            df_close, window=args.window, threshold=args.threshold,
+            matrix_kind="stride", stride=stride, stride_mode=args.stride_mode,
+            min_train=args.min_train, signal_threshold=args.signal_threshold,
+            cost_bps=args.cost_bps, apply_markov_gate=False
+        )
+        
+        print("Running Markov-Gated Macro Strategy...")
+        res_markov = walk_forward_macro(
+            df_close, window=args.window, threshold=args.threshold,
+            matrix_kind="stride", stride=stride, stride_mode=args.stride_mode,
+            min_train=args.min_train, signal_threshold=args.signal_threshold,
+            cost_bps=args.cost_bps, apply_markov_gate=True
+        )
+        
+        rows = [
+            _row("Baseline Macro", res_base),
+            _row("Markov-Gated Macro", res_markov),
+        ]
+        verdict = markov_adds_value(res_markov["net_metrics"], res_base["net_metrics"])
+        print(R.render_strategy(rows, args.cost_bps, verdict))
+        
+        if not args.no_plot:
+            try:
+                from .plot import plot_equity
+                OUT_DIR.mkdir(exist_ok=True)
+                out = OUT_DIR / f"macro_strategy_equity.png"
+                plot_equity({
+                    "Baseline Macro": res_base["net_returns"],
+                    "Markov-Gated Macro": res_markov["net_returns"],
+                }, out, f"Macro Strategy - net of {args.cost_bps:.0f}bps")
+                print(f"\n  equity curve -> {out}")
+            except Exception as exc:
+                print(f"\n  ! plot skipped: {exc}")
+                
+        return 0
 
     # ------------------------------------------------------------- 1. DATA
     if args.csv:
