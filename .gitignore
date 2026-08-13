@@ -3,3 +3,11 @@
 node_modules/
 .DS_Store
 *.log
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+.pytest_cache/
+output/
+*.egg-info/
