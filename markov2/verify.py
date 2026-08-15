@@ -1,5 +1,12 @@
 """FIX 2 - label verification.
 
+RESEARCH STATUS: DEPRECATED. Empirical evaluations (SUZLON-001, TMPV-001) prove the 3-state transition matrix provides no incremental alpha over continuous momentum.
+
+DEPRECATION NOTICE:
+Single-asset label verification is DEPRECATED following empirical rejection of single-asset
+Markov regime models across single-asset equities (SUZLON, TCS, TMPV, ^NSEI). Retained for
+reproducibility and historical research only.
+
 1.0 shipped a display in which BULL and BEAR were swapped. The data was right
 and the table was wrong, which is the worst kind of wrong because nothing
 crashes. This module makes that class of bug loud and automatic.

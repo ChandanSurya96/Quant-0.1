@@ -10,8 +10,7 @@ import yfinance as yf
 DEFAULT_UNIVERSE = {
     'bonds': ['TLT', 'IEF', 'BNDX', 'IGOV'],
     'currencies': ['UUP', 'FXE', 'FXY', 'FXB'],
-    'equities': ['SPY', 'EWJ', 'EFA', 'EEM'],
-    'commodities': ['GLD', 'DBC', 'USO', 'CORN']
+    'equities': ['SPY', 'EWJ', 'EFA', 'EEM']
 }
 
 def get_tickers(universe: dict[str, list[str]] = None) -> list[str]:
@@ -20,39 +19,32 @@ def get_tickers(universe: dict[str, list[str]] = None) -> list[str]:
         universe = DEFAULT_UNIVERSE
     return [t for sublist in universe.values() for t in sublist]
 
-def fetch_universe(tickers: list[str], years: int = 10, retries: int = 2, pause: int = 20) -> pd.DataFrame:
+def fetch_universe(tickers: list[str], years: int = 10, retries: int = 1, pause: int = 2) -> pd.DataFrame:
     """Download daily Close prices for a list of tickers and align them."""
     end = pd.Timestamp.now("UTC").normalize()
     start = end - pd.DateOffset(years=years)
 
     series_dict = {}
-    for t in tickers:
-        print(f"    Fetching {t}...")
-        for attempt in range(1, retries + 1):
-            try:
-                # Add delay between requests to avoid rate limit
-                time.sleep(1)
-                t_df = yf.download(
-                    t,
-                    start=start.strftime("%Y-%m-%d"),
-                    end=end.strftime("%Y-%m-%d"),
-                    progress=False,
-                    auto_adjust=True,
-                )
-                if not t_df.empty:
-                    if isinstance(t_df.columns, pd.MultiIndex):
-                        if "Close" in t_df.columns.get_level_values(0):
-                            series_dict[t] = t_df["Close"].iloc[:, 0]
-                        else:
-                            series_dict[t] = t_df.iloc[:, 3] # fallback
-                    else:
-                        series_dict[t] = t_df["Close"]
-                    break
-            except Exception as exc:
-                print(f"      ! {t} yfinance error on attempt {attempt}: {exc}")
-            if attempt < retries:
-                print(f"      ! {t} retrying in {pause}s")
-                time.sleep(pause)
+    try:
+        df_batch = yf.download(
+            tickers,
+            start=start.strftime("%Y-%m-%d"),
+            end=end.strftime("%Y-%m-%d"),
+            progress=False,
+            auto_adjust=True,
+        )
+        if not df_batch.empty:
+            if isinstance(df_batch.columns, pd.MultiIndex):
+                close_df = df_batch["Close"] if "Close" in df_batch.columns.get_level_values(0) else df_batch
+            else:
+                close_df = df_batch
+            for t in tickers:
+                if t in close_df.columns:
+                    s = close_df[t].dropna()
+                    if not s.empty:
+                        series_dict[t] = s
+    except Exception as exc:
+        print(f"    ! yfinance batch download exception: {exc}")
 
     if not series_dict:
         print("    ! yfinance rate limited on all attempts. Falling back to realistic synthetic data to demonstrate architecture.")

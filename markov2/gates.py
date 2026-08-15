@@ -31,7 +31,12 @@ NO_SIGNAL = "NO_ADMISSIBLE_SIGNAL"
 CONTAMINATED = "DATA_CONTAMINATED"
 RESEARCH_ONLY = "RESEARCH_ONLY"
 
-CORP_ACTION_THRESHOLD = 0.25
+class DataIntegrityError(Exception):
+    """Raised when an unhandled corporate action anomaly gap is detected."""
+    pass
+
+
+CORP_ACTION_THRESHOLD = 0.15
 NULL_PERCENTILE_REQUIRED = 95.0
 
 
@@ -39,10 +44,8 @@ def detect_corporate_actions(close: pd.Series,
                              threshold: float = CORP_ACTION_THRESHOLD) -> list[dict]:
     """Flag single-bar moves large enough to be a corporate action.
 
-    Detection only. Nothing is spliced automatically: a 30% move can be real
-    (TMPV.NS has genuine +20% days), and silently back-adjusting a legitimate
-    move would corrupt the series just as badly as leaving an unadjusted one in.
-    The caller gets the date and a suggested `--splice` argument and decides.
+    Detection only. Nothing is spliced automatically unless specified by manifest or caller.
+    The caller gets the date and a suggested `--splice` argument.
     """
     r = close.pct_change()
     hits = r[np.abs(r) >= threshold]
@@ -50,9 +53,28 @@ def detect_corporate_actions(close: pd.Series,
         "date": str(pd.Timestamp(d).date()),
         "return": float(v),
         "suggested_splice": str(pd.Timestamp(d).date()),
-        "likely": "unadjusted corporate action (demerger / spin-off / split)"
+        "likely": "unadjusted corporate action (demerger / spin-off / split / rights issue)"
                   if v < 0 else "unadjusted corporate action or genuine gap",
     } for d, v in hits.items()]
+
+
+def validate_data_integrity(close: pd.Series,
+                            ticker: str | None = None,
+                            threshold: float = CORP_ACTION_THRESHOLD,
+                            raise_on_anomaly: bool = True) -> list[dict]:
+    """Validates data integrity against rolling gap anomaly detector (default +/-15%).
+
+    If unhandled anomalies exist and raise_on_anomaly is True, raises DataIntegrityError.
+    """
+    actions = detect_corporate_actions(close, threshold=threshold)
+    if actions and raise_on_anomaly:
+        symbol = f" for {ticker!r}" if ticker else ""
+        gap_dates = [f"{a['date']} ({a['return']*100:+.2f}%)" for a in actions]
+        raise DataIntegrityError(
+            f"Unhandled price anomaly gap(s) >= +/-{threshold*100:.0f}% detected{symbol} "
+            f"on dates: {gap_dates}. Please update markov2/config/corporate_actions.json."
+        )
+    return actions
 
 
 def signal_admissibility(P: np.ndarray, signal_threshold: float) -> dict:

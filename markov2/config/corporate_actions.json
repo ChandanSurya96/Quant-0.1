@@ -1,0 +1,16 @@
+{
+  "SUZLON.NS": [
+    {
+      "date": "2022-10-31",
+      "type": "RIGHTS_ISSUE",
+      "adjustment_factor": 0.93
+    }
+  ],
+  "TMPV.NS": [
+    {
+      "date": "2025-10-14",
+      "type": "DEMERGER",
+      "adjustment_factor": 0.5985
+    }
+  ]
+}

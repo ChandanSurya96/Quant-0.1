@@ -1,5 +1,13 @@
 """Transition matrices - legacy (overlapping) and stride-sampled (honest).
 
+RESEARCH STATUS: DEPRECATED. Empirical evaluations (SUZLON-001, TMPV-001) prove the 3-state transition matrix provides no incremental alpha over continuous momentum.
+
+DEPRECATION NOTICE:
+Single-asset 20-bar discrete Markov transition matrix filters are DEPRECATED following
+empirical rejection across single-asset equities (SUZLON, TCS, TMPV, ^NSEI). 95% Wilson Score
+intervals confirm 9/9 transition cells cover unconditional base rates, carrying no predictive
+alpha over simple momentum controls. Research focus has shifted to Cross-Sectional Factor Alpha.
+
 FIX 1. Labels are built from a trailing 20-bar window. Two labels one bar apart
 describe windows that share 19 of their 20 bars, so counting day-to-day
 transitions measures the overlap of the windows, not the persistence of the
