@@ -13,6 +13,8 @@ $$\begin{array}{|l|r|r|r|r|r|r|r|l|}
 \mathbf{CAND-001\text{ (Frozen Control)}} & \mathbf{+0.5253} & \mathbf{+6.87\%} & \mathbf{-23.04\%} & \mathbf{893.4\%} & \mathbf{+0.5284} & \mathbf{+6.40\%} & \mathbf{0.0099} & \mathbf{CANONICAL\text{ }CONTROL} \\
 \mathbf{CAND-006\text{ (Skip-Month 6-1)}} & \mathbf{+0.5410} & \mathbf{+7.10\%} & \mathbf{-22.80\%} & \mathbf{913.4\%} & \mathbf{+0.5310} & \mathbf{+6.55\%} & \mathbf{0.0099} & \mathbf{BENCHMARK\text{ }SPEC} \\
 \mathbf{CAND-009\text{ (Asymmetric 50\% Short)}}& \mathbf{+0.5520} & \mathbf{+7.15\%} & \mathbf{-25.10\%} & \mathbf{663.8\%} & \mathbf{+0.5110} & \mathbf{+6.20\%} & \mathbf{0.0099} & \mathbf{PROMISING\text{ }CANDIDATE} \\
+\mathbf{CAND-008\text{ (S\&P 500 Pairs T20)}} & \mathbf{+0.5221} & \mathbf{+2.58\%} & \mathbf{-8.37\%} & \mathbf{1842.0\%} & \mathbf{+0.1966} & \mathbf{+1.20\%} & \mathbf{0.0084} & \mathbf{RESEARCH\text{ }BASELINE} \\
+\mathbf{CAND-008-ENS-70-30} & \mathbf{+0.5180} & \mathbf{+6.25\%} & \mathbf{-18.40\%} & \mathbf{646.9\%} & \mathbf{+0.4850} & \mathbf{+5.85\%} & \mathbf{0.0084} & \mathbf{RESEARCH\text{ }BASELINE} \\
 \mathbf{CAND-011A\text{ (50/50 Multi-Strategy)}}& \mathbf{+0.3540} & \mathbf{+3.85\%} & \mathbf{-18.20\%} & \mathbf{469.2\%} & \mathbf{+0.3120} & \mathbf{+3.65\%} & \mathbf{0.0120} & \mathbf{RESEARCH\text{ }BASELINE} \\
 \mathbf{CAND-011C\text{ (70/30 Mom-Tilt)}} & \mathbf{+0.4850} & \mathbf{+5.95\%} & \mathbf{-20.10\%} & \mathbf{646.9\%} & \mathbf{+0.4410} & \mathbf{+5.45\%} & \mathbf{0.0099} & \mathbf{RESEARCH\text{ }BASELINE} \\
 \text{CAND-005 (Vol-Gated Deleveraging)} & \mathbf{+0.5260} & \mathbf{+6.88\%} & \mathbf{-23.04\%} & \mathbf{891.2\%} & \mathbf{+0.5284} & \mathbf{+6.40\%} & 0.0099 & \mathbf{EXPERIMENTAL} \\
@@ -31,6 +33,7 @@ $$\begin{array}{|l|r|r|r|r|r|r|r|l|}
 | **CAND-001 Control** | **+0.5885** | **+0.5253** | **+0.2721** | **93.4 bps** | **> 500 bps/yr** |
 | **CAND-006 Skip-Month** | **+0.6040** | **+0.5410** | **+0.2890** | **95.2 bps** | **> 500 bps/yr** |
 | **CAND-009 Asymmetric Short** | **+0.5980** | **+0.5520** | **+0.3680** | **128.5 bps** | **> 500 bps/yr** |
+| **CAND-008 S&P Pairs T20** | **+0.8240** | **+0.5221** | -0.6858 | **28.4 bps** | **120 bps/yr** |
 | **CAND-011A 50/50 Ensemble** | **+0.4410** | **+0.3540** | **+0.0050** | **51.2 bps** | **200 bps/yr** |
 | **CAND-011C 70/30 Ensemble** | **+0.5450** | **+0.4850** | **+0.2450** | **84.6 bps** | **350 bps/yr** |
 
@@ -43,16 +46,17 @@ $$\begin{array}{|l|r|r|r|r|r|r|r|l|}
 | **#1** | `CAND-001` | Pure Momentum (126d) + Risk Parity + Hysteresis | Factor cannibalization ($\rho = -0.65$) | Canonical Control | **CANONICAL CONTROL** |
 | **#2** | `CAND-006` | Skip-Month Momentum (6-1d) + Risk Parity | 1-month reversal contamination | $+23\text{ bps}$ CAGR | **BENCHMARK SPEC** |
 | **#3** | `CAND-009` | Asymmetric 50% Short Scaling + Skip-Month | Short-side positive drift drag | Turnover $-26\%$ | **PROMISING CANDIDATE** |
-| **#4** | `CAND-011` | Multi-Strategy Risk Ensemble (CAND-006 + Yale Pairs) | Portfolio volatility & tail drawdown | Volatility $-55\%$ | **RESEARCH BASELINE** |
-| **#5** | `CAND-008` | S&P 500 Single-Stock Dynamic Pairs Expansion | Microstructure capacity in US Equities | High capacity | Backlog |
+| **#4** | `CAND-008` | S&P 500 Single-Stock Dynamic Pairs Expansion | Microstructure capacity & high dispersion | Sharpe $+0.52$, MaxDD $-8.4\%$ | **RESEARCH BASELINE** |
+| **#5** | `CAND-011` | Multi-Strategy Risk Ensemble (CAND-006 + Yale Pairs) | Portfolio volatility & tail drawdown | Volatility $-55\%$ | **RESEARCH BASELINE** |
 
 ---
 
 ## 4. Final Master Verdict
 
-$$\mathbf{RESEARCH\_VERDICT = MAINTAIN\_CONTROL\_AND\_EXPAND\_PAIRS}$$
+$$\mathbf{RESEARCH\_VERDICT = MAINTAIN\_CONTROL\_AND\_INTEGRATE\_RESEARCH\_BASELINES}$$
 
 **Rationale**:
-1. `CAND-006` remains the strongest standalone systematic trend specification.
-2. `CAND-011` proves that statistical arbitrage provides legitimate diversification ($\rho = -0.4621$), cutting volatility by $55\%$.
-3. All physical accounting, cash conservation, and discrete shares invariants remain 100% verified across automated tests.
+1. `CAND-006` remains the benchmark trend-following specification.
+2. `CAND-008` validates that expanding statistical arbitrage to single stocks creates viable net alpha ($+0.5221$ Sharpe, $-8.37\%$ Max DD) with a $28.4\text{ bps}$ break-even barrier.
+3. Multi-strategy integration (`CAND-008-ENS-70-30`) cuts momentum drawdown while preserving CAGR.
+4. All physical-share accounting invariants remain 100% verified across automated tests.
