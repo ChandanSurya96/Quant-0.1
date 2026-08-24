@@ -28,14 +28,16 @@ class PairTradeRecord:
 
 
 class PairSignalEngine:
-    """Evaluates 2-sigma spread divergence signals with wait-one-day execution rule."""
+    """Evaluates spread divergence signals with wait-one-day execution rule and exit hysteresis."""
 
     def __init__(
         self,
         entry_threshold_sigma: float = 2.0,
+        exit_threshold_sigma: float = 0.0,
         wait_one_day: bool = True,
     ) -> None:
         self.entry_threshold_sigma = entry_threshold_sigma
+        self.exit_threshold_sigma = exit_threshold_sigma
         self.wait_one_day = wait_one_day
 
     def evaluate_pair_states(
@@ -61,6 +63,7 @@ class PairSignalEngine:
         p_j_init = pair_info["p_j_init"]
         s_ij = pair_info["spread_std"]
         threshold = self.entry_threshold_sigma * s_ij
+        exit_thresh = self.exit_threshold_sigma * s_ij
 
         # Normalized prices using initial formation base
         norm_i = trading_prices[sym_i] / p_i_init
@@ -118,9 +121,10 @@ class PairSignalEngine:
             curr_spread = float(spread.iloc[t])
             if current_trade is not None and current_trade.is_active:
                 eps = current_trade.leader
-                # Convergence test: sgn(P_i,t - P_j,t) != eps
+                # Convergence test: sgn(P_i,t - P_j,t) != eps or spread inside exit hysteresis threshold
                 curr_sign = 1 if curr_spread > 0 else (-1 if curr_spread < 0 else 0)
-                if curr_sign != eps or curr_spread == 0.0:
+                is_converged = (curr_sign != eps) or (abs(curr_spread) <= exit_thresh) or (curr_spread == 0.0)
+                if is_converged:
                     if self.wait_one_day:
                         pending_exit = {"signal_date": dt, "reason": "CONVERGENCE"}
                     else:

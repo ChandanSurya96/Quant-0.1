@@ -14,11 +14,13 @@ class PairExecutionEngine:
     def __init__(
         self,
         entry_threshold_sigma: float = 2.0,
+        exit_threshold_sigma: float = 0.0,
         wait_one_day: bool = True,
         cost_bps: float = 10.0,
     ) -> None:
         self.signal_engine = PairSignalEngine(
             entry_threshold_sigma=entry_threshold_sigma,
+            exit_threshold_sigma=exit_threshold_sigma,
             wait_one_day=wait_one_day,
         )
         self.cost_bps = cost_bps

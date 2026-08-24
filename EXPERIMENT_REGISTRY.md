@@ -254,7 +254,16 @@ Every quantitative alpha experiment conducted in this repository must be assigne
   - Universe D (Within-Sector): Sharpe = **-0.3817**, Max DD = **-21.11%**.
   - ENS-70-30 Multi-Strategy: Sharpe = **+0.4308**, CAGR = **+4.00%**, Volatility = **11.10%**, Max DD = **-13.52%**, True OOS Sharpe = **+0.5147**.
   - ENS-80-20 Multi-Strategy: Sharpe = **+0.4648**, CAGR = **+4.88%**, Volatility = **12.35%**, Max DD = **-14.73%**, True OOS Sharpe = **+0.5340**.
-- **Conclusion**: **STANDALONE REJECTED / RETAINED AS MULTI-STRATEGY RISK HEDGE**. Standalone pairs trading fails under conservative survivorship and borrow stress, but serves as a proven defensive volatility/drawdown dampener for the primary trend engine.
+### EXP-028: CAND-013 Asymmetric Macro-Hedged Volatility Targeting & Turnover Hysteresis
+- **Date**: 2026-08-24
+- **Hypothesis**: Evaluating whether pair-entry/exit threshold hysteresis and portfolio volatility targeting can compress ENS-80/20 turnover below 5.0x/year while maintaining True OOS Sharpe >= 0.50 and Max DD >= -15.5%.
+- **Result**:
+  - Tested: 48 full parameter configurations across entry sigma (2.0-3.0), exit sigma (0.50-1.00), and volatility targets (8%-14%).
+  - Passed Hard Eligibility Criteria: **0 / 48 configurations**.
+  - Frozen Control (ENS-80/20): Sharpe = **+0.4648**, CAGR = **+4.88%**, Volatility = **12.35%**, Max DD = **-14.73%**, OOS Sharpe = **+0.5340**, Turnover = **7.37x**.
+  - Best Candidate (E2.0_X0.50_V8): Sharpe = **+0.2495**, CAGR = **+1.75%**, Max DD = **-20.75%**, OOS Sharpe = **+0.1892**, Turnover = **16.60x**.
+  - Deflated Sharpe Ratio: $p = 1.0000$ (zero significant overperformance).
+- **Conclusion**: **REJECTED (FALSIFICATION CONFIRMED)**. Hysteresis truncates mean-reversion profits before transaction costs, and portfolio volatility targeting causes deleveraging drag during market rebounds. The Frozen Control ENS-80/20 is retained as the active research specification.
 
 ---
 
@@ -267,13 +276,14 @@ Every quantitative alpha experiment conducted in this repository must be assigne
 | `CAND-009` | Asymmetric 50% Short Scale + Skip-Month Momentum | Completed | Quantitative Research | **PROMISING CANDIDATE (Sharpe +0.55, Turn 6.6x)** |
 | `CAND-008` | S&P 500 Single-Stock Dynamic Pairs Expansion | Completed | Quantitative Research | **RESEARCH BASELINE (Sharpe +0.52, MaxDD -8.4%)** |
 | `CAND-012` | Survivorship & Borrow Robustness Audit on Single-Stock Pairs | Completed | Quantitative Research | **RETAINED AS MULTI-STRATEGY RISK HEDGE** |
+| `CAND-013` | Volatility Targeting & Turnover Hysteresis (48 Configurations) | Completed | Quantitative Research | **REJECTED (0/48 Passed Criteria)** |
 | `CAND-011` | Multi-Strategy Risk Ensemble (CAND-006 + Yale Pairs) | Completed | Quantitative Research | **RESEARCH BASELINE (Vol -55%, MaxDD -18.2%)** |
 | `PAIRS-001` | Yale / Gatev Distance Strategy Subsystem (T20) | Completed | Quantitative Research | **RESEARCH BASELINE (Vol 3.7%, MaxDD -8.8%)** |
 | `CAND-005` | Macro Volatility-Gated Sizing Engine | Completed | Quantitative Research | **EXPERIMENTAL** |
 | `CAND-010` | Dynamic Macro Yield & Rate Differential Carry | Completed | Quantitative Research | **REJECTED (Degrades Sharpe to -0.63)** |
 | `CAND-003` | Multi-Horizon Volatility-Adjusted Trend Blend (21d, 63d, 126d) | Completed | Quantitative Research | **REJECTED (Whipsaw drag)** |
 | `CAND-004` | Within-Asset-Class Demarcated Ranking (1 L / 1 S per sector) | Completed | Quantitative Research | **REJECTED (Forces bad shorts)** |
-| `CAND-013` | Asymmetric Macro-Hedged Volatility Targeting | Future | Quantitative Research | Backlog |
+| `CAND-014` | High-Dispersion Dynamic Pair Rebalancing Window Engine | Future | Quantitative Research | Backlog |
 
 
 

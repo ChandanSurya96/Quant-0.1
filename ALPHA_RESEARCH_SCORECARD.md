@@ -17,6 +17,7 @@ $$\begin{array}{|l|r|r|r|r|r|r|r|l|}
 \mathbf{CAND-012\text{ (Robust Pairs Hedge)}} & -0.3817 & -1.87\% & \mathbf{-21.11\%} & \mathbf{1842.0\%} & -0.1980 & -0.95\% & \mathbf{0.0068} & \mathbf{RISK\text{ }HEDGE\text{ }ONLY} \\
 \mathbf{ENS-70-30\text{ (Robust Multi-Strategy)}} & \mathbf{+0.4308} & \mathbf{+4.00\%} & \mathbf{-13.52\%} & \mathbf{646.9\%} & \mathbf{+0.5147} & \mathbf{+5.10\%} & \mathbf{0.0068} & \mathbf{RESEARCH\text{ }BASELINE} \\
 \mathbf{ENS-80-20\text{ (Return-Tilted Multi)}}& \mathbf{+0.4648} & \mathbf{+4.88\%} & \mathbf{-14.73\%} & \mathbf{736.7\%} & \mathbf{+0.5340} & \mathbf{+5.70\%} & \mathbf{0.0068} & \mathbf{RESEARCH\text{ }BASELINE} \\
+\text{CAND-013 (Hysteresis+Vol Target)} & +0.2495 & +1.75\% & -20.75\% & 1660.0\% & +0.1892 & +1.20\% & 0.0052 & \mathbf{REJECT\text{ (0/48 Passed)}} \\
 \text{CAND-005 (Vol-Gated Deleveraging)} & \mathbf{+0.5260} & \mathbf{+6.88\%} & \mathbf{-23.04\%} & \mathbf{891.2\%} & \mathbf{+0.5284} & \mathbf{+6.40\%} & 0.0099 & \mathbf{EXPERIMENTAL} \\
 \text{CAND-010 (Dynamic Macro Carry)} & -0.6336 & -13.69\% & -73.66\% & 1120.4\% & -0.8808 & -18.20\% & 0.5210 & \mathbf{REJECT\text{ (Yield Trap)}} \\
 \text{CAND-003 (Multi-Horizon Blend)} & +0.0988 & +0.35\% & -33.73\% & 1240.2\% & +0.3499 & +3.85\% & 0.4120 & \mathbf{REJECT\text{ (Whipsaw drag)}} \\

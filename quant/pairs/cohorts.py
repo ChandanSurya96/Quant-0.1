@@ -25,6 +25,7 @@ class OverlappingCohortManager:
         step_bars: int = 21,
         top_m: int = 20,
         entry_threshold_sigma: float = 2.0,
+        exit_threshold_sigma: float = 0.0,
         wait_one_day: bool = True,
         liquidity_percentile: float = 0.0,
         sector_map: dict[str, str] | None = None,
@@ -42,6 +43,7 @@ class OverlappingCohortManager:
         )
         self.execution_engine = PairExecutionEngine(
             entry_threshold_sigma=entry_threshold_sigma,
+            exit_threshold_sigma=exit_threshold_sigma,
             wait_one_day=wait_one_day,
             cost_bps=cost_bps,
         )
