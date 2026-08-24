@@ -1,0 +1,20 @@
+{
+  "PAIRS-001 (Gatev Distance T20)": {
+    "sharpe": -0.03594987128470709,
+    "cagr": -0.0020250012956760655,
+    "max_drawdown": -0.08830183642018469,
+    "volatility": 0.03718147782114254,
+    "trade_count": 2264,
+    "win_rate": 0.5432862190812721,
+    "convergence_rate": 0.2751766784452297
+  },
+  "PAIRS-005 (Engle-Granger Cointegration)": {
+    "sharpe": -0.3639900328748777,
+    "cagr": -0.004975745965479228,
+    "max_drawdown": -0.06377452155933488,
+    "volatility": 0.013455363508092356,
+    "trade_count": 37,
+    "win_rate": 0.4864864864864865,
+    "convergence_rate": 0.02702702702702703
+  }
+}

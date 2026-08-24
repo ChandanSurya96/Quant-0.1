@@ -1,0 +1,240 @@
+{
+  "legacy": {
+    "cagr": -0.08736905542845885,
+    "sharpe": -0.37674188082587357,
+    "sortino": -0.75388242293576,
+    "volatility": 0.19315344115063418,
+    "max_drawdown": -0.6151115197945287,
+    "calmar": 0.1420377486307581,
+    "turnover": 2.9754324585234144,
+    "final_nav": 51074.15151408729
+  },
+  "physical": {
+    "cagr": -0.06727715825060143,
+    "sharpe": -0.25829250436928575,
+    "sortino": -0.5654270037353033,
+    "volatility": 0.19560531901884334,
+    "max_drawdown": -0.565860752550858,
+    "calmar": 0.11889348739477165,
+    "turnover": 3.6483584606136152,
+    "total_costs": 1934.592796584847,
+    "final_nav": 59921.91417151711
+  },
+  "divergence": {
+    "mean_diff": 8.816794659848366e-05,
+    "std_diff": 0.0034432630951553734,
+    "max_abs_diff": 0.025271248379342318,
+    "correlation": 0.9605544760202269,
+    "cum_divergence": 0.1732336689918263
+  },
+  "invariants": {
+    "nav_conservation_errors": 0,
+    "share_conservation_errors": 0,
+    "total_trades": 543
+  },
+  "partitions": {
+    "TRAIN": {
+      "legacy": {
+        "sharpe": -0.866767844448234,
+        "cagr": -0.1761574375827819,
+        "max_drawdown": -0.5265392615559638
+      },
+      "physical": {
+        "sharpe": -0.6223814029424323,
+        "cagr": -0.13562071092472738,
+        "max_drawdown": -0.47491204102950524
+      }
+    },
+    "VALIDATION": {
+      "legacy": {
+        "sharpe": 0.2294398596197061,
+        "cagr": 0.025415253323836096,
+        "max_drawdown": -0.24277319979279866
+      },
+      "physical": {
+        "sharpe": 0.24274710678928726,
+        "cagr": 0.02811972322263534,
+        "max_drawdown": -0.24437657898890092
+      }
+    },
+    "TRUE_OOS": {
+      "legacy": {
+        "sharpe": -0.15601419735242011,
+        "cagr": -0.04830906548923586,
+        "max_drawdown": -0.29403877140347634
+      },
+      "physical": {
+        "sharpe": -0.14931230825373096,
+        "cagr": -0.04817139968760176,
+        "max_drawdown": -0.24212736042484753
+      }
+    }
+  },
+  "drift_trace_sample": [
+    {
+      "date": "2019-07-18",
+      "symbol": "TLT",
+      "shares": 0.0,
+      "price": 62.5913111967171,
+      "market_value": 0.0,
+      "cash": 100000.0,
+      "nav": 100000.0,
+      "physical_weight": 0.0,
+      "legacy_weight": 0.0
+    },
+    {
+      "date": "2019-07-18",
+      "symbol": "SPY",
+      "shares": 0.0,
+      "price": 170.2577543226263,
+      "market_value": 0.0,
+      "cash": 100000.0,
+      "nav": 100000.0,
+      "physical_weight": 0.0,
+      "legacy_weight": 0.0
+    },
+    {
+      "date": "2019-07-18",
+      "symbol": "UUP",
+      "shares": 0.0,
+      "price": 61.35017649477456,
+      "market_value": 0.0,
+      "cash": 100000.0,
+      "nav": 100000.0,
+      "physical_weight": 0.0,
+      "legacy_weight": 0.0
+    },
+    {
+      "date": "2019-07-19",
+      "symbol": "TLT",
+      "shares": 0.0,
+      "price": 62.89418729553433,
+      "market_value": 0.0,
+      "cash": 100000.0,
+      "nav": 100000.0,
+      "physical_weight": 0.0,
+      "legacy_weight": 0.3239567563873707
+    },
+    {
+      "date": "2019-07-19",
+      "symbol": "SPY",
+      "shares": 0.0,
+      "price": 169.69262628396592,
+      "market_value": 0.0,
+      "cash": 100000.0,
+      "nav": 100000.0,
+      "physical_weight": 0.0,
+      "legacy_weight": -0.35279542860833246
+    },
+    {
+      "date": "2019-07-19",
+      "symbol": "UUP",
+      "shares": 0.0,
+      "price": 62.04906084466965,
+      "market_value": 0.0,
+      "cash": 100000.0,
+      "nav": 100000.0,
+      "physical_weight": 0.0,
+      "legacy_weight": 0.32881679859887847
+    },
+    {
+      "date": "2019-07-22",
+      "symbol": "TLT",
+      "shares": 0.0,
+      "price": 63.14616090797064,
+      "market_value": 0.0,
+      "cash": 100000.0,
+      "nav": 100000.0,
+      "physical_weight": 0.0,
+      "legacy_weight": 0.3239567563873707
+    },
+    {
+      "date": "2019-07-22",
+      "symbol": "SPY",
+      "shares": 0.0,
+      "price": 168.89850746897415,
+      "market_value": 0.0,
+      "cash": 100000.0,
+      "nav": 100000.0,
+      "physical_weight": 0.0,
+      "legacy_weight": -0.35279542860833246
+    },
+    {
+      "date": "2019-07-22",
+      "symbol": "UUP",
+      "shares": 0.0,
+      "price": 61.84510424815465,
+      "market_value": 0.0,
+      "cash": 100000.0,
+      "nav": 100000.0,
+      "physical_weight": 0.0,
+      "legacy_weight": 0.32881679859887847
+    },
+    {
+      "date": "2019-07-23",
+      "symbol": "TLT",
+      "shares": 0.0,
+      "price": 62.82018250789022,
+      "market_value": 0.0,
+      "cash": 100000.0,
+      "nav": 100000.0,
+      "physical_weight": 0.0,
+      "legacy_weight": 0.3239567563873707
+    },
+    {
+      "date": "2019-07-23",
+      "symbol": "SPY",
+      "shares": 0.0,
+      "price": 172.85044051543215,
+      "market_value": 0.0,
+      "cash": 100000.0,
+      "nav": 100000.0,
+      "physical_weight": 0.0,
+      "legacy_weight": -0.35279542860833246
+    },
+    {
+      "date": "2019-07-23",
+      "symbol": "UUP",
+      "shares": 0.0,
+      "price": 61.746785025914974,
+      "market_value": 0.0,
+      "cash": 100000.0,
+      "nav": 100000.0,
+      "physical_weight": 0.0,
+      "legacy_weight": 0.32881679859887847
+    },
+    {
+      "date": "2019-07-24",
+      "symbol": "TLT",
+      "shares": 0.0,
+      "price": 61.26315243012013,
+      "market_value": 0.0,
+      "cash": 100000.0,
+      "nav": 100000.0,
+      "physical_weight": 0.0,
+      "legacy_weight": 0.3239567563873707
+    },
+    {
+      "date": "2019-07-24",
+      "symbol": "SPY",
+      "shares": 0.0,
+      "price": 169.34050649308801,
+      "market_value": 0.0,
+      "cash": 100000.0,
+      "nav": 100000.0,
+      "physical_weight": 0.0,
+      "legacy_weight": -0.35279542860833246
+    },
+    {
+      "date": "2019-07-24",
+      "symbol": "UUP",
+      "shares": 0.0,
+      "price": 61.916053333326026,
+      "market_value": 0.0,
+      "cash": 100000.0,
+      "nav": 100000.0,
+      "physical_weight": 0.0,
+      "legacy_weight": 0.32881679859887847
+    }
+  ]
+}

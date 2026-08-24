@@ -19,34 +19,58 @@ def get_tickers(universe: dict[str, list[str]] = None) -> list[str]:
         universe = DEFAULT_UNIVERSE
     return [t for sublist in universe.values() for t in sublist]
 
-def fetch_universe(tickers: list[str], years: int = 10, retries: int = 1, pause: int = 2) -> pd.DataFrame:
+def fetch_universe(
+    tickers: list[str],
+    years: int = 10,
+    retries: int = 1,
+    pause: int = 2,
+    allow_synthetic_fallback: bool = True,
+) -> pd.DataFrame:
     """Download daily Close prices for a list of tickers and align them."""
     end = pd.Timestamp.now("UTC").normalize()
     start = end - pd.DateOffset(years=years)
 
     series_dict = {}
-    try:
-        df_batch = yf.download(
-            tickers,
-            start=start.strftime("%Y-%m-%d"),
-            end=end.strftime("%Y-%m-%d"),
-            progress=False,
-            auto_adjust=True,
-        )
-        if not df_batch.empty:
-            if isinstance(df_batch.columns, pd.MultiIndex):
-                close_df = df_batch["Close"] if "Close" in df_batch.columns.get_level_values(0) else df_batch
-            else:
-                close_df = df_batch
-            for t in tickers:
-                if t in close_df.columns:
-                    s = close_df[t].dropna()
-                    if not s.empty:
-                        series_dict[t] = s
-    except Exception as exc:
-        print(f"    ! yfinance batch download exception: {exc}")
+    last_error = None
+    for attempt in range(1, retries + 1):
+        try:
+            df_batch = yf.download(
+                tickers,
+                start=start.strftime("%Y-%m-%d"),
+                end=end.strftime("%Y-%m-%d"),
+                progress=False,
+                auto_adjust=True,
+            )
+            if not df_batch.empty:
+                if isinstance(df_batch.columns, pd.MultiIndex):
+                    close_df = df_batch["Close"] if "Close" in df_batch.columns.get_level_values(0) else df_batch
+                else:
+                    close_df = df_batch
+                for t in tickers:
+                    if t in close_df.columns:
+                        s = close_df[t].dropna()
+                        if not s.empty:
+                            series_dict[t] = s
+                if len(series_dict) == len(tickers):
+                    break
+        except Exception as exc:  # noqa: BLE001
+            last_error = exc
+            print(f"    ! yfinance batch download exception on attempt {attempt}: {exc}")
+        if attempt < retries and len(series_dict) < len(tickers):
+            time.sleep(pause)
 
-    if not series_dict:
+    if not series_dict or len(series_dict) < len(tickers):
+        if not allow_synthetic_fallback:
+            raise RuntimeError(
+                f"yfinance returned incomplete data for {tickers} (retrieved {list(series_dict.keys())}, "
+                f"last error: {last_error}). Ingestion failed closed."
+            )
+        import warnings
+        warnings.warn(
+            "RESEARCH ONLY: yfinance rate limited; generating synthetic geometric random walks.",
+            UserWarning,
+            stacklevel=2,
+        )
         print("    ! yfinance rate limited on all attempts. Falling back to realistic synthetic data to demonstrate architecture.")
         import numpy as np
         dates = pd.date_range(start=start.strftime("%Y-%m-%d"), end=end.strftime("%Y-%m-%d"), freq='B')

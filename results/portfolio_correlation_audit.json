@@ -1,0 +1,49 @@
+{
+  "alignment": {
+    "start_date": "2019-07-18",
+    "end_date": "2026-08-24",
+    "observation_count": 1853
+  },
+  "individual_series_statistics": {
+    "cand_001": {
+      "daily_mean": 0.000213640957828246,
+      "daily_std": 0.011991053770753888,
+      "annualized_return": 0.05383752137271799,
+      "annualized_volatility": 0.19035207741010862,
+      "cagr": 0.03637405998017984,
+      "sharpe": 0.282831278256693,
+      "max_drawdown": -0.3347387470444827
+    },
+    "pairs_t20": {
+      "daily_mean": -0.0001784404476651394,
+      "daily_std": 0.0042301055188490155,
+      "annualized_return": -0.04496699281161513,
+      "annualized_volatility": 0.06715084333461806,
+      "cagr": -0.046127804576606146,
+      "sharpe": -0.6696415201748247,
+      "max_drawdown": -0.3646022106128419
+    }
+  },
+  "correlation_metrics": {
+    "daily_covariance": -2.6347613487575143e-05,
+    "full_sample_pearson_correlation": -0.5194368216540551,
+    "both_downside_correlation": -0.14313104792853476,
+    "either_downside_correlation": -0.6627367700410257,
+    "correlation_during_cand_drawdown": -0.5502856268188226,
+    "rolling_252_min_correlation": -0.7967103590863971,
+    "rolling_252_max_correlation": -0.33304133747355935,
+    "rolling_252_mean_correlation": -0.5168295865414804
+  },
+  "ensemble_50_50_metrics": {
+    "annualized_return": 0.0044352642805514314,
+    "cagr": 0.001004516687534096,
+    "annualized_volatility": 0.08286125743849855,
+    "theoretical_volatility_formula": 0.08286125743849855,
+    "mathematical_invariant_verified": true,
+    "sharpe": 0.053526393608537524,
+    "sortino": 0.01961581569113984,
+    "max_drawdown": -0.2123071306148052,
+    "calmar": 0.004731431698149691
+  },
+  "reconciliation_explanation": "The previous table displayed 'Return Correlation: 1.0000 | 1.0000 | -0.4833' as a confusing column format where 1.0000 represented each asset's self-correlation, while -0.4833 was the actual cross-correlation between CAND-001 and Pairs. The mathematical covariance between CAND-001 and Pairs is negative, confirming genuine cross-strategy diversification."
+}

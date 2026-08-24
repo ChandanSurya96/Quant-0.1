@@ -1,0 +1,227 @@
+{
+  "universe_metadata": {
+    "name": "S&P 100 Representative Liquid Equities",
+    "tickers_count": 100,
+    "total_possible_pairs": 4950,
+    "survivorship_bias_classification": "SURVIVORSHIP-BIASED RESEARCH (Fixed membership panel)"
+  },
+  "results": {
+    "single_stock_distance_t20": {
+      "cagr_net": -0.014539921911587594,
+      "cagr_gross": -0.004387079164223651,
+      "sharpe_net": -0.27210788432722677,
+      "sharpe_gross": -0.06437426423328278,
+      "volatility": 0.049351654174094865,
+      "max_drawdown": -0.27492939934726884,
+      "calmar": 0.05288602072425847,
+      "sortino": -0.4806961291279671,
+      "trade_count": 2664,
+      "win_rate": 0.5559309309309309,
+      "convergence_rate": 0.38813813813813813,
+      "forced_close_rate": 0.6118618618618619,
+      "avg_holding_period_days": 86.43993993993993,
+      "annualized_turnover": 29.863345195729533,
+      "final_nav": 87751.82474669493
+    },
+    "single_stock_distance_t100": {
+      "cagr_net": -0.024267131558256216,
+      "cagr_gross": -0.015403345754120279,
+      "sharpe_net": -0.6530855381453221,
+      "sharpe_gross": -0.4057895008765574,
+      "volatility": 0.036589411886129644,
+      "max_drawdown": -0.22713826259107844,
+      "trade_count": 11754,
+      "win_rate": 0.5478985877148205,
+      "convergence_rate": 0.3335034881742386
+    },
+    "single_stock_cointegration": {
+      "cagr_net": 0.0,
+      "sharpe_net": 0.0,
+      "volatility": 0.0,
+      "max_drawdown": 0.0,
+      "trade_count": 0,
+      "win_rate": 0.0
+    }
+  },
+  "cost_sweep": {
+    "0 bps": {
+      "sharpe_net": 0.6161031244841748,
+      "cagr_net": 0.03204431975748423,
+      "max_drawdown": -0.1297712411714613
+    },
+    "5 bps": {
+      "sharpe_net": 0.5101007045287298,
+      "cagr_net": 0.026208240451503828,
+      "max_drawdown": -0.13751128199613039
+    },
+    "10 bps": {
+      "sharpe_net": 0.4040755442145278,
+      "cagr_net": 0.02040474701004613,
+      "max_drawdown": -0.14528661337864157
+    },
+    "20 bps": {
+      "sharpe_net": 0.19208150032710655,
+      "cagr_net": 0.008894799956058241,
+      "max_drawdown": -0.16516486464388933
+    },
+    "30 bps": {
+      "sharpe_net": -0.019630779326290097,
+      "cagr_net": -0.002486947178319876,
+      "max_drawdown": -0.1882000751749273
+    },
+    "50 bps": {
+      "sharpe_net": -0.4412297268246241,
+      "cagr_net": -0.02487146749314728,
+      "max_drawdown": -0.27480755565938014
+    }
+  },
+  "break_even_bps": 28.15064264715822,
+  "walk_forward": {
+    "TRAIN (60%)": {
+      "sharpe": 0.035818934065604116,
+      "cagr": 0.0005246618751035825,
+      "max_drawdown": -0.13214690234841514
+    },
+    "VALIDATION (20%)": {
+      "sharpe": -1.1269165970478658,
+      "cagr": -0.05144391806460802,
+      "max_drawdown": -0.15086807966163532
+    },
+    "TRUE_OOS (20%)": {
+      "sharpe": -0.2748410285308564,
+      "cagr": -0.014243825880135508,
+      "max_drawdown": -0.10306764403820165
+    }
+  },
+  "permutation_null_gate3": {
+    "permutations_B": 100,
+    "null_exceedances_k": 39,
+    "corrected_p_value": 0.39603960396039606,
+    "formula": "p = (k + 1) / (B + 1)",
+    "passed": false
+  },
+  "top_10_pairs_pnl": [
+    [
+      "XOM-WMT",
+      {
+        "trades": 13,
+        "total_ret": 1.250275917937108,
+        "mean_ret": 0.09617507061054677
+      }
+    ],
+    [
+      "COP-WM",
+      {
+        "trades": 8,
+        "total_ret": 1.249807963405359,
+        "mean_ret": 0.15622599542566987
+      }
+    ],
+    [
+      "DIS-AMGN",
+      {
+        "trades": 9,
+        "total_ret": 1.150492687930124,
+        "mean_ret": 0.1278325208811249
+      }
+    ],
+    [
+      "DHR-ZTS",
+      {
+        "trades": 7,
+        "total_ret": 1.0905819451302565,
+        "mean_ret": 0.1557974207328938
+      }
+    ],
+    [
+      "BMY-NKE",
+      {
+        "trades": 11,
+        "total_ret": 1.06410386245139,
+        "mean_ret": 0.0967367147683082
+      }
+    ],
+    [
+      "MDT-MDLZ",
+      {
+        "trades": 6,
+        "total_ret": 0.882311453064189,
+        "mean_ret": 0.1470519088440315
+      }
+    ],
+    [
+      "AMZN-GE",
+      {
+        "trades": 4,
+        "total_ret": 0.8142666357055894,
+        "mean_ret": 0.20356665892639736
+      }
+    ],
+    [
+      "MDT-NOC",
+      {
+        "trades": 9,
+        "total_ret": 0.8113553021280292,
+        "mean_ret": 0.09015058912533658
+      }
+    ],
+    [
+      "AMZN-GS",
+      {
+        "trades": 5,
+        "total_ret": 0.764767257310787,
+        "mean_ret": 0.15295345146215739
+      }
+    ],
+    [
+      "LLY-TJX",
+      {
+        "trades": 6,
+        "total_ret": 0.751722232061534,
+        "mean_ret": 0.12528703867692234
+      }
+    ]
+  ],
+  "six_factor_diagnostics": {
+    "loadings": {
+      "Intercept": {
+        "beta": -1.993557186730307e-05,
+        "t_stat": -0.21533759226960764,
+        "p_value": 0.8295041226385615
+      },
+      "MKT": {
+        "beta": 0.0013899368838075328,
+        "t_stat": 0.26096097749152386,
+        "p_value": 0.7941226002337407
+      },
+      "SMB": {
+        "beta": 0.01452954750255517,
+        "t_stat": 1.7093882934280016,
+        "p_value": 0.0873790479412695
+      },
+      "HML": {
+        "beta": -0.008892107785235987,
+        "t_stat": -0.8978667530268453,
+        "p_value": 0.3692565914338568
+      },
+      "MOM": {
+        "beta": -0.029788723058559383,
+        "t_stat": -0.4948120905366781,
+        "p_value": 0.6207327690282913
+      },
+      "SRV": {
+        "beta": 0.0030936386137719245,
+        "t_stat": 0.6156440776441268,
+        "p_value": 0.538129453379705
+      },
+      "LRV": {
+        "beta": -0.10614408448478801,
+        "t_stat": -0.7478725328642387,
+        "p_value": 0.4545370465477432
+      }
+    },
+    "r_squared": 0.002328397813747607,
+    "information_ratio": -0.006411399535716157,
+    "residual_std": 0.0031093947204892535
+  }
+}

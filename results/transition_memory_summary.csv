@@ -1,0 +1,6 @@
+metric,value
+Fraction of Universe with 9/9 Cells Covering Base Rate,100.0% (50/50)
+Fraction of Universe with >=8/9 Cells Covering Base Rate,100.0% (50/50)
+Average Overlapping Diagonal Persistence (Biased),84.17%
+Average Stride-20 Diagonal Persistence (Honest),33.49%
+Average Persistence Collapse (Overlap Bias),-50.68 percentage points

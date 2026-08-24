@@ -1,0 +1,371 @@
+{
+  "variants": {
+    "CLEAN_PHYSICAL_SHARE_BASELINE": {
+      "cagr": -0.03507583869096431,
+      "sharpe": -0.08329382491939398,
+      "sortino": -0.2962338610649798,
+      "volatility": 0.19663688912036786,
+      "max_drawdown": -0.624149290220424,
+      "calmar": 0.056197834781766653,
+      "turnover": 4.55152093483471,
+      "total_costs": 3951.734298756814,
+      "final_nav": 76908.7323345732
+    },
+    "RAW_PURE_MOMENTUM (No Hyst, Equal Weight)": {
+      "cagr": 0.04038986745724382,
+      "sharpe": 0.29910382776021766,
+      "sortino": 0.329463103429313,
+      "volatility": 0.19773206865775084,
+      "max_drawdown": -0.4086077636015585,
+      "calmar": 0.09884752825359623,
+      "turnover": 16.298823866885336,
+      "total_costs": 17971.54981383012,
+      "final_nav": 133796.89279635012
+    },
+    "MOMENTUM + HYSTERESIS (Equal Weight)": {
+      "cagr": 0.14205868430228796,
+      "sharpe": 0.7956957596047789,
+      "sortino": 1.235900797879699,
+      "volatility": 0.18953986490087235,
+      "max_drawdown": -0.2939089081805011,
+      "calmar": 0.48334256073328713,
+      "turnover": 8.597019663309771,
+      "total_costs": 12987.204894531662,
+      "final_nav": 265578.57050605054
+    },
+    "MOMENTUM + RISK_PARITY (No Hyst)": {
+      "cagr": 0.04501824210516303,
+      "sharpe": 0.32126117798358317,
+      "sortino": 0.3654827118600162,
+      "volatility": 0.19821706645247378,
+      "max_drawdown": -0.3934627935173093,
+      "calmar": 0.11441549962762255,
+      "turnover": 16.60218175321781,
+      "total_costs": 18625.19494648537,
+      "final_nav": 138236.00283475945
+    },
+    "CAND-001 (Momentum + Risk Parity + Hysteresis)": {
+      "cagr": 0.14562100827651125,
+      "sharpe": 0.8099743318029194,
+      "sortino": 1.2674685003007093,
+      "volatility": 0.1902003249423553,
+      "max_drawdown": -0.2896282497968087,
+      "calmar": 0.5027859277493579,
+      "turnover": 8.943329536325653,
+      "total_costs": 13801.564273678678,
+      "final_nav": 271730.604171656
+    }
+  },
+  "incremental": {
+    "cand_minus_raw_mom": {
+      "delta_cagr": 0.10523114081926743,
+      "delta_sharpe": 0.5108705040427017,
+      "delta_sortino": 0.9380053968713964,
+      "delta_max_dd": 0.1189795138047498,
+      "delta_turnover": -7.355494330559683,
+      "delta_costs": -4169.9855401514415
+    },
+    "cand_minus_baseline": {
+      "delta_cagr": 0.18069684696747557,
+      "delta_sharpe": 0.8932681567223134,
+      "delta_sortino": 1.563702361365689,
+      "delta_max_dd": 0.3345210404236153,
+      "delta_turnover": 4.3918086014909425,
+      "delta_costs": 9849.829974921864
+    }
+  },
+  "walk_forward": {
+    "CLEAN_PHYSICAL_SHARE_BASELINE": {
+      "TRAIN": {
+        "sharpe": 0.7378495208741876,
+        "cagr": 0.13102394696895714,
+        "sortino": 1.1075624749356607,
+        "max_drawdown": -0.20386112220961858
+      },
+      "VALIDATION": {
+        "sharpe": -1.0514621446290286,
+        "cagr": -0.20876885154181613,
+        "sortino": -1.7718745069693291,
+        "max_drawdown": -0.4459530583752781
+      },
+      "TRUE_OOS": {
+        "sharpe": -0.32468871128442833,
+        "cagr": -0.0800179772255204,
+        "sortino": -0.6733604407723145,
+        "max_drawdown": -0.25126049306142045
+      },
+      "FULL": {
+        "sharpe": -0.08329382491939398,
+        "cagr": -0.03507583869096431,
+        "sortino": -0.2962338610649798,
+        "max_drawdown": -0.624149290220424
+      }
+    },
+    "RAW_PURE_MOMENTUM (No Hyst, Equal Weight)": {
+      "TRAIN": {
+        "sharpe": 1.1299824396315337,
+        "cagr": 0.22112678698172283,
+        "sortino": 1.9125475379953383,
+        "max_drawdown": -0.28896041562553915
+      },
+      "VALIDATION": {
+        "sharpe": -0.3343531543786246,
+        "cagr": -0.08407534008347728,
+        "sortino": -0.6529759985938511,
+        "max_drawdown": -0.3058876549161421
+      },
+      "TRUE_OOS": {
+        "sharpe": -0.3062480584490849,
+        "cagr": -0.07802190318371804,
+        "sortino": -0.6194819127104805,
+        "max_drawdown": -0.2172392376375095
+      },
+      "FULL": {
+        "sharpe": 0.29910382776021766,
+        "cagr": 0.04038986745724382,
+        "sortino": 0.329463103429313,
+        "max_drawdown": -0.4086077636015585
+      }
+    },
+    "MOMENTUM + HYSTERESIS (Equal Weight)": {
+      "TRAIN": {
+        "sharpe": 1.5500072515951548,
+        "cagr": 0.3125395797622359,
+        "sortino": 2.896601288944475,
+        "max_drawdown": -0.19852462041586508
+      },
+      "VALIDATION": {
+        "sharpe": -0.15838246899139208,
+        "cagr": -0.04754792891054205,
+        "sortino": -0.3893663613308387,
+        "max_drawdown": -0.23672311473848162
+      },
+      "TRUE_OOS": {
+        "sharpe": 0.6116341480455539,
+        "cagr": 0.10379419273201029,
+        "sortino": 0.8868640216869941,
+        "max_drawdown": -0.21734675128410808
+      },
+      "FULL": {
+        "sharpe": 0.7956957596047789,
+        "cagr": 0.14205868430228796,
+        "sortino": 1.235900797879699,
+        "max_drawdown": -0.2939089081805011
+      }
+    },
+    "MOMENTUM + RISK_PARITY (No Hyst)": {
+      "TRAIN": {
+        "sharpe": 1.1454101916544686,
+        "cagr": 0.22537034662915967,
+        "sortino": 1.9427658317323895,
+        "max_drawdown": -0.2964658086449437
+      },
+      "VALIDATION": {
+        "sharpe": -0.29208195043025387,
+        "cagr": -0.07598616375063671,
+        "sortino": -0.5956596093558083,
+        "max_drawdown": -0.29495034309591167
+      },
+      "TRUE_OOS": {
+        "sharpe": -0.29464858017488066,
+        "cagr": -0.07655699064878407,
+        "sortino": -0.5954019774517069,
+        "max_drawdown": -0.21823236127425436
+      },
+      "FULL": {
+        "sharpe": 0.32126117798358317,
+        "cagr": 0.04501824210516303,
+        "sortino": 0.3654827118600162,
+        "max_drawdown": -0.3934627935173093
+      }
+    },
+    "CAND-001 (Momentum + Risk Parity + Hysteresis)": {
+      "TRAIN": {
+        "sharpe": 1.5795624143538434,
+        "cagr": 0.320108473424775,
+        "sortino": 2.969623093852675,
+        "max_drawdown": -0.1999838430555074
+      },
+      "VALIDATION": {
+        "sharpe": -0.1251065732517609,
+        "cagr": -0.04159658749469475,
+        "sortino": -0.34655720680355373,
+        "max_drawdown": -0.2332124112599797
+      },
+      "TRUE_OOS": {
+        "sharpe": 0.5870086774895723,
+        "cagr": 0.09929429630979825,
+        "sortino": 0.835253529936033,
+        "max_drawdown": -0.22449896024264673
+      },
+      "FULL": {
+        "sharpe": 0.8099743318029194,
+        "cagr": 0.14562100827651125,
+        "sortino": 1.2674685003007093,
+        "max_drawdown": -0.2896282497968087
+      }
+    }
+  },
+  "gates": {
+    "gate1_data_integrity": {
+      "passed": true,
+      "reason": "Zero missing bars, zero lookahead"
+    },
+    "gate2_signal_admissibility": {
+      "passed": true,
+      "signal_std": 0.8852134343414341
+    },
+    "gate3_permutation_null": {
+      "passed": true,
+      "obs_sharpe": 0.8099743318029194,
+      "null_mean": 0.10026958113833326,
+      "null_std": 0.31575795600991075,
+      "null_p95": 0.5644581397165938,
+      "empirical_p": 0.0
+    },
+    "gate4_baseline_control": {
+      "passed": false,
+      "cand_sharpe": 0.8099743318029194,
+      "cand_cagr": 0.14562100827651125,
+      "bm_sharpe": 1.3084644979114515,
+      "bm_cagr": 0.09052286784919206
+    }
+  },
+  "cost_sweep": {
+    "0 bps": {
+      "sharpe": 0.8571921323621124,
+      "cagr": 0.155799437464887,
+      "max_drawdown": -0.27377930093197306,
+      "turnover": 8.948203129753617,
+      "total_costs": 0.0
+    },
+    "5 bps": {
+      "sharpe": 0.8336116735547122,
+      "cagr": 0.15070185996141494,
+      "max_drawdown": -0.2817411163358656,
+      "turnover": 8.945783770451682,
+      "total_costs": 7023.03915070713
+    },
+    "10 bps": {
+      "sharpe": 0.8099743318029194,
+      "cagr": 0.14562100827651125,
+      "max_drawdown": -0.2896282497968087,
+      "turnover": 8.943329536325653,
+      "total_costs": 13801.564273678678
+    },
+    "20 bps": {
+      "sharpe": 0.7625521835848174,
+      "cagr": 0.1355089791281272,
+      "max_drawdown": -0.30518079866226705,
+      "turnover": 8.93839772648608,
+      "total_costs": 26655.104581494877
+    },
+    "30 bps": {
+      "sharpe": 0.7149753630147949,
+      "cagr": 0.1254629768363522,
+      "max_drawdown": -0.3204415669667137,
+      "turnover": 8.933355101117252,
+      "total_costs": 38618.14096012082
+    },
+    "50 bps": {
+      "sharpe": 0.6195505395978143,
+      "cagr": 0.10556634155077993,
+      "max_drawdown": -0.35010595316012905,
+      "turnover": 8.923299564856297,
+      "total_costs": 60088.31580380157
+    }
+  },
+  "break_even_bps": 155.07648357099714,
+  "regimes": {
+    "Risk-On (SPY >= MA50)": {
+      "name": "Risk-On",
+      "n_bars": 1044,
+      "pct_time": 56.34106853750674,
+      "return": 0.11052728502616481,
+      "volatility": 0.19032021572368507,
+      "sharpe": 0.5807437985811922
+    },
+    "Risk-Off (SPY < MA50)": {
+      "name": "Risk-Off",
+      "n_bars": 760,
+      "pct_time": 41.01457096600108,
+      "return": 0.1908981520678048,
+      "volatility": 0.19331621249600878,
+      "sharpe": 0.9874916832014082
+    },
+    "Falling Rates (TLT 50d >= 0)": {
+      "name": "Falling Rates",
+      "n_bars": 1244,
+      "pct_time": 67.1343766864544,
+      "return": 0.16851801887955412,
+      "volatility": 0.1908183420757423,
+      "sharpe": 0.8831332305186027
+    },
+    "Rising Rates (TLT 50d < 0)": {
+      "name": "Rising Rates",
+      "n_bars": 560,
+      "pct_time": 30.22126281705343,
+      "return": 0.09077976009407572,
+      "volatility": 0.19329723203741117,
+      "sharpe": 0.46963817917737183
+    },
+    "High Volatility Regime": {
+      "name": "High Vol",
+      "n_bars": 917,
+      "pct_time": 49.48731786292498,
+      "return": 0.17616681988778868,
+      "volatility": 0.21226891921905572,
+      "sharpe": 0.8299228192988034
+    },
+    "Low Volatility Regime": {
+      "name": "Low Vol",
+      "n_bars": 917,
+      "pct_time": 49.48731786292498,
+      "return": 0.13513997093608707,
+      "volatility": 0.1675672659110123,
+      "sharpe": 0.806481923550952
+    }
+  },
+  "top_drawdowns": [
+    {
+      "start": "2023-10-18",
+      "trough": "2025-09-02",
+      "recovery": "2026-06-05",
+      "duration_days": 961,
+      "peak_loss": -0.2896282497968087
+    },
+    {
+      "start": "2019-09-26",
+      "trough": "2019-12-23",
+      "recovery": "2020-05-06",
+      "duration_days": 223,
+      "peak_loss": -0.19998384305550693
+    },
+    {
+      "start": "2021-08-31",
+      "trough": "2022-01-25",
+      "recovery": "2022-07-14",
+      "duration_days": 317,
+      "peak_loss": -0.1983873212528406
+    },
+    {
+      "start": "2022-08-30",
+      "trough": "2022-11-04",
+      "recovery": "2023-01-11",
+      "duration_days": 134,
+      "peak_loss": -0.14855757715981288
+    },
+    {
+      "start": "2023-03-27",
+      "trough": "2023-07-07",
+      "recovery": "2023-08-04",
+      "duration_days": 130,
+      "peak_loss": -0.09816717704296608
+    }
+  ],
+  "rolling_stability": {
+    "min_rolling_sharpe": -1.2257478826958235,
+    "max_rolling_sharpe": 3.834186421870025,
+    "pct_positive_windows": 70.26443604964922
+  }
+}

@@ -1,0 +1,137 @@
+{
+  "configurations": {
+    "PAIRS-001 (Yale Distance T20)": {
+      "cagr_net": -0.0020249720432702345,
+      "cagr_gross": 0.006625436523062467,
+      "sharpe_net": -0.0359490656910036,
+      "sharpe_gross": 0.196041393247346,
+      "sortino": -0.07932245431049338,
+      "volatility": 0.03718148667151476,
+      "max_drawdown": -0.08830187717914771,
+      "calmar": 0.022932378200317887,
+      "trade_count": 2264,
+      "win_rate": 0.5432862190812721,
+      "convergence_rate": 0.2751766784452297,
+      "forced_close_rate": 0.7248233215547704,
+      "avg_trade_return": 0.002257446345002185,
+      "median_trade_return": 0.004409981680743469,
+      "worst_trade": -0.2925726763597828,
+      "best_trade": 0.18607626359964202,
+      "avg_holding_period_days": 113.38250883392226,
+      "annualized_turnover": 25.244601769911505,
+      "final_nav": 98198.53633886192
+    },
+    "PAIRS-002 (Yale Distance T100 / All Pairs)": {
+      "cagr_net": -0.02387848998865838,
+      "cagr_gross": -0.015615082594719998,
+      "sharpe_net": -0.32565114367523895,
+      "sharpe_gross": -0.20017911916521133,
+      "sortino": -0.53009590758409,
+      "volatility": 0.0672710599579313,
+      "max_drawdown": -0.25360525584048443,
+      "calmar": 0.09415613217289845,
+      "trade_count": 7250,
+      "win_rate": 0.4863448275862069,
+      "convergence_rate": 0.19351724137931034,
+      "forced_close_rate": 0.8064827586206896,
+      "avg_trade_return": -0.008316931743795141,
+      "median_trade_return": -0.0018860212788195385,
+      "worst_trade": -0.4225996671741372,
+      "best_trade": 0.3565270621252068,
+      "avg_holding_period_days": 131.52344827586208,
+      "annualized_turnover": 16.168141592920353,
+      "final_nav": 80513.398317741
+    },
+    "PAIRS-003 (Yale Distance R20 - Same Sector)": {
+      "cagr_net": -0.011887517585457585,
+      "cagr_gross": -0.004196480258957358,
+      "sharpe_net": -0.3039477421004578,
+      "sharpe_gross": -0.0949429070064462,
+      "sortino": -0.5157674650678784,
+      "volatility": 0.03708357400714486,
+      "max_drawdown": -0.17151328801922885,
+      "calmar": 0.06930960115536261,
+      "trade_count": 1831,
+      "win_rate": 0.496996176952485,
+      "convergence_rate": 0.1796832332058984,
+      "forced_close_rate": 0.8203167667941016,
+      "avg_trade_return": -0.00259262552671448,
+      "median_trade_return": -0.0001549911599887377,
+      "worst_trade": -0.3400131127233871,
+      "best_trade": 0.23356679175842765,
+      "avg_holding_period_days": 135.86400873839432,
+      "annualized_turnover": 20.41646017699115,
+      "final_nav": 89830.19593806502
+    },
+    "PAIRS-004 (Yale Distance L50 - Liquid)": {
+      "cagr_net": -0.0020249720432702345,
+      "cagr_gross": 0.006625436523062467,
+      "sharpe_net": -0.0359490656910036,
+      "sharpe_gross": 0.196041393247346,
+      "sortino": -0.07932245431049338,
+      "volatility": 0.03718148667151476,
+      "max_drawdown": -0.08830187717914771,
+      "calmar": 0.022932378200317887,
+      "trade_count": 2264,
+      "win_rate": 0.5432862190812721,
+      "convergence_rate": 0.2751766784452297,
+      "forced_close_rate": 0.7248233215547704,
+      "avg_trade_return": 0.002257446345002185,
+      "median_trade_return": 0.004409981680743469,
+      "worst_trade": -0.2925726763597828,
+      "best_trade": 0.18607626359964202,
+      "avg_holding_period_days": 113.38250883392226,
+      "annualized_turnover": 25.244601769911505,
+      "final_nav": 98198.53633886192
+    }
+  },
+  "cost_sweep": {
+    "0 bps": {
+      "sharpe_net": 0.196041393247346,
+      "cagr_net": 0.006625436523062467,
+      "max_drawdown": -0.0628171298415656
+    },
+    "5 bps": {
+      "sharpe_net": 0.08010413583270955,
+      "cagr_net": 0.0022911154220823793,
+      "max_drawdown": -0.07426618209477188
+    },
+    "10 bps": {
+      "sharpe_net": -0.0359490656910036,
+      "cagr_net": -0.0020249720432702345,
+      "max_drawdown": -0.08830187717914771
+    },
+    "20 bps": {
+      "sharpe_net": -0.268044941660406,
+      "cagr_net": -0.010602745777796074,
+      "max_drawdown": -0.1226595041460029
+    },
+    "30 bps": {
+      "sharpe_net": -0.49953015486484176,
+      "cagr_net": -0.019108481090924778,
+      "max_drawdown": -0.1637846499031883
+    },
+    "50 bps": {
+      "sharpe_net": -0.9578585570903922,
+      "cagr_net": -0.035906198176875126,
+      "max_drawdown": -0.27959326133631734
+    }
+  },
+  "walk_forward": {
+    "TRAIN": {
+      "sharpe": 0.08839521532890114,
+      "cagr": 0.0028087820304982802,
+      "max_drawdown": -0.059880177984941524
+    },
+    "VALIDATION": {
+      "sharpe": -0.34672271650127273,
+      "cagr": -0.012577709817457206,
+      "max_drawdown": -0.07037590785076521
+    },
+    "TRUE_OOS": {
+      "sharpe": -0.11527220014193504,
+      "cagr": -0.00346733965518653,
+      "max_drawdown": -0.04667568336222274
+    }
+  }
+}

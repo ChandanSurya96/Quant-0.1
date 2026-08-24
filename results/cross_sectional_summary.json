@@ -1,0 +1,80 @@
+{
+  "n_stocks": 50,
+  "gate_pass_rates": {
+    "data_integrity": {
+      "passed": 21,
+      "pct": 42.0
+    },
+    "signal_admissibility": {
+      "passed": 48,
+      "pct": 96.0
+    },
+    "permutation_null": {
+      "passed": 2,
+      "pct": 4.0
+    },
+    "baseline_control": {
+      "passed": 10,
+      "pct": 20.0
+    },
+    "all_gates": {
+      "passed": 0,
+      "pct": 0.0
+    }
+  },
+  "markov_alpha_distribution": {
+    "mean": -0.4452866566209898,
+    "median": -0.42573187554712677,
+    "std": 0.5065889872180138,
+    "min": -1.9629196796681878,
+    "max": 0.5578616467800015,
+    "q25": -0.7356086037013543,
+    "q75": -0.09508717281237053,
+    "pct_positive": 20.0,
+    "pct_zero_or_negative": 80.0
+  },
+  "hypothesis_test_h0": {
+    "t_stat": -6.2153979342840175,
+    "bootstrap_mean_diff_95_ci": [
+      -0.5854488134701391,
+      -0.3123714819878186
+    ],
+    "stocks_beating_baseline": "10/50 (20.0%)",
+    "decision": "FAIL TO REJECT H0 (H0 ACCEPTED)"
+  },
+  "null_distribution": {
+    "circular": {
+      "mean": 41.726000000000006,
+      "median": 35.8,
+      "std": 32.25080166698598,
+      "q25": 13.25,
+      "q75": 70.25,
+      "pct_ge_95": 4.0,
+      "pct_ge_99": 0.0
+    },
+    "iid": {
+      "mean": 46.62580622448275,
+      "median": 46.5,
+      "std": 37.35056227969525,
+      "q25": 5.65,
+      "q75": 85.44034477047121,
+      "pct_ge_95": 12.0,
+      "pct_ge_99": 6.0
+    }
+  },
+  "transition_memory": {
+    "pct_all_9_cells_cover": 100.0,
+    "pct_ge_8_cells_cover": 100.0,
+    "mean_cells_covering": 9.0,
+    "avg_overlap_persistence": 84.16862076206405,
+    "avg_stride_persistence": 33.487389263479336,
+    "avg_persistence_collapse": 50.68123149858472
+  },
+  "calibration": {
+    "pct_log_loss_improved": 10.0,
+    "mean_log_loss_delta": -0.01466775777879507,
+    "pct_brier_improved": 12.0,
+    "mean_brier_delta": -0.005917402818665767,
+    "mean_hit_rate": 50.93320681562767
+  }
+}
