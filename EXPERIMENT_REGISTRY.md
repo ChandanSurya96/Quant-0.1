@@ -224,20 +224,34 @@ Every quantitative alpha experiment conducted in this repository must be assigne
 
 ---
 
+### EXP-024: Dynamic Carry Investigation (CAND-010A through CAND-010E)
+- **Date**: 2026-08-24
+- **Hypothesis**: Replacing static carry with point-in-time dynamic yield curve term spreads and currency rate differentials improves macro strategy Sharpe and diversification.
+- **Result**:
+  - CAND-010A (Carry Alone): Net Sharpe = **-0.2651**, Max DD = **-61.00%** (**REJECTED**).
+  - CAND-010B (50/50 Mom + Carry): Net Sharpe = **-0.6336**, Max DD = **-73.66%** (**REJECTED**).
+  - CAND-010C (Skip-Mom + Carry): Net Sharpe = **-1.0601**, Max DD = **-83.51%** (**REJECTED**).
+  - CAND-010D (Asym Short + Carry): Net Sharpe = **-0.5539**, Max DD = **-55.76%** (**REJECTED**).
+  - CAND-010E (Carry Regime Filter): Net Sharpe = **-0.5994**, Max DD = **-67.07%** (**REJECTED**).
+- **Conclusion**: **HYPOTHESIS FORMALLY FALSIFIED & REJECTED**. Cross-asset carry creates structural yield-trap biases that dilute pure trend momentum. The strategy architecture remains strictly **Momentum-Only + Risk Parity + Hysteresis**.
+
+---
+
 ## 3. Candidate Research Register (Ex-Ante Queue)
 
 | Candidate ID | Proposed Research Topic | Target Date | Primary Investigator | Status |
 |---|---|---|---|:---:|
-| `CAND-001` | Momentum-Dominant Architecture (Value & Static Carry Disabled) | Completed | Quantitative Research | **PROMOTED AS PRIMARY SPEC (OOS Sharpe +0.53)** |
-| `CAND-006` | Skip-Month Momentum (6-1d Horizon) | Completed | Quantitative Research | **PROMOTED TO BENCHMARK QUEUE (Sharpe +0.54)** |
+| `CAND-001` | Momentum-Dominant Architecture (Value & Static Carry Disabled) | Completed | Quantitative Research | **CANONICAL FROZEN CONTROL V2 (OOS Sharpe +0.53)** |
+| `CAND-006` | Skip-Month Momentum (6-1d Horizon) | Completed | Quantitative Research | **BENCHMARK SPEC (Sharpe +0.54, CAGR 7.1%)** |
 | `CAND-009` | Asymmetric 50% Short Scale + Skip-Month Momentum | Completed | Quantitative Research | **PROMISING CANDIDATE (Sharpe +0.55, Turn 6.6x)** |
 | `PAIRS-001` | Yale / Gatev Distance Strategy Subsystem (T20) | Completed | Quantitative Research | **RESEARCH BASELINE (Vol 3.7%, MaxDD -8.8%)** |
 | `PAIRS-008` | 50/50 Multi-Strategy Ensemble (CAND-001 + Pairs T20) | Completed | Quantitative Research | **RESEARCH BASELINE (Sharpe 0.84, MaxDD -14.2%)** |
 | `CAND-005` | Macro Volatility-Gated Sizing Engine | Completed | Quantitative Research | **EXPERIMENTAL** |
+| `CAND-010` | Dynamic Macro Yield & Rate Differential Carry | Completed | Quantitative Research | **REJECTED (Degrades Sharpe to -0.63)** |
 | `CAND-003` | Multi-Horizon Volatility-Adjusted Trend Blend (21d, 63d, 126d) | Completed | Quantitative Research | **REJECTED (Whipsaw drag)** |
 | `CAND-004` | Within-Asset-Class Demarcated Ranking (1 L / 1 S per sector) | Completed | Quantitative Research | **REJECTED (Forces bad shorts)** |
-| `CAND-007` | Dynamic FRED Yield Differential Carry via 10Y-2Y Spreads | Future | Quantitative Research | Backlog |
 | `CAND-008` | S&P 500 Single-Stock Dynamic Pairs Expansion | Future | Quantitative Research | Backlog |
+
 
 
 
