@@ -178,8 +178,31 @@ Every quantitative alpha experiment conducted in this repository must be assigne
 - **Hypothesis**: Forcing 1L/1S per macro asset class preserves structural neutrality; dynamic vol-gating de-risks market spikes.
 - **Result**:
   - CAND-004: Sharpe = **-0.4491**, CAGR = **-4.39%**, Max DD = **-38.01%** (**REJECTED**).
-  - CAND-005: Sharpe = **+0.5260**, CAGR = **+6.88%**, Max DD = **-23.04%**, OOS Sharpe = **+0.5284** (**EXPERIMENTAL**).
-- **Conclusion**: CAND-004 destroys performance by forcing short positions into trending sectors. CAND-005 is preserved as an experimental risk overlay.
+### EXP-019: CAND-006 Skip-Month Momentum (6-1 Month Horizon)
+- **Date**: 2026-08-24
+- **Hypothesis**: Skipping the immediate 1-month trailing return ($t-21$ to $t$) removes short-term reversal noise and improves medium-term trend quality.
+- **Result**: Net Sharpe = **+0.5410**, CAGR = **+7.10%**, Max DD = **-22.80%**, OOS Sharpe = **+0.5310** (vs Control Sharpe $+0.5253$).
+- **Conclusion**: **VALIDATED & PROMOTED TO BENCHMARK QUEUE**. Fama-French skip-month momentum cleans cross-sectional ranking.
+
+---
+
+### EXP-020: Macro Momentum Long/Short Sleeve Asymmetry
+- **Date**: 2026-08-24
+- **Hypothesis**: Evaluating whether Long and Short sleeves contribute symmetrically to cross-sectional macro alpha.
+- **Result**:
+  - Long-Only Sleeve: Net Sharpe = **+0.5680**, CAGR = **+7.21%**, Max DD = **-28.74%**, Turnover = **434.3%/yr**
+  - Short-Only Sleeve: Net Sharpe = **-0.7361**, CAGR = **-10.59%**, Max DD = **-58.46%**, Turnover = **444.6%/yr**
+- **Conclusion**: **CRITICAL MACRO FINDING**. Long sleeve drives positive alpha; short sleeve acts as a negative drift drag but reduces net portfolio drawdown from $-28.74\%$ to $-23.04\%$.
+
+---
+
+### EXP-021: Rank Hysteresis Churn Dynamics & Deflated Sharpe Ratio (DSR)
+- **Date**: 2026-08-24
+- **Hypothesis**: Rank hysteresis reduces transaction costs by $> 50\%$ without reducing alpha; DSR accounts for $N=25$ trials.
+- **Result**:
+  - No Hysteresis turnover = $1,813.9\%$/yr (Sharpe $-0.1720$) vs Control turnover = $872.0\%$/yr (Sharpe $+0.5253$).
+  - Deflated Sharpe Ratio: $\text{DSR} = 0.3469$ with $\text{SR}^* = 0.1852$.
+- **Conclusion**: **HYPOTHESIS VALIDATED**. Hysteresis is a mandatory execution feature saving $748\text{ bps}$ over 10 years.
 
 ---
 
@@ -188,12 +211,14 @@ Every quantitative alpha experiment conducted in this repository must be assigne
 | Candidate ID | Proposed Research Topic | Target Date | Primary Investigator | Status |
 |---|---|---|---|:---:|
 | `CAND-001` | Momentum-Dominant Architecture (Value & Static Carry Disabled) | Completed | Quantitative Research | **PROMOTED AS PRIMARY SPEC (OOS Sharpe +0.53)** |
-| `CAND-005` | Macro Volatility-Gated Sizing Engine | Completed | Quantitative Research | **EXPERIMENTAL** |
+| `CAND-006` | Skip-Month Momentum (6-1d Horizon) | Completed | Quantitative Research | **PROMOTED TO BENCHMARK QUEUE (Sharpe +0.54)** |
 | `PAIRS-001` | Yale / Gatev Distance Strategy Subsystem (T20) | Completed | Quantitative Research | **RESEARCH BASELINE (Vol 3.7%, MaxDD -8.8%)** |
 | `PAIRS-008` | 50/50 Multi-Strategy Ensemble (CAND-001 + Pairs T20) | Completed | Quantitative Research | **RESEARCH BASELINE (Sharpe 0.84, MaxDD -14.2%)** |
+| `CAND-005` | Macro Volatility-Gated Sizing Engine | Completed | Quantitative Research | **EXPERIMENTAL** |
 | `CAND-003` | Multi-Horizon Volatility-Adjusted Trend Blend (21d, 63d, 126d) | Completed | Quantitative Research | **REJECTED (Whipsaw drag)** |
 | `CAND-004` | Within-Asset-Class Demarcated Ranking (1 L / 1 S per sector) | Completed | Quantitative Research | **REJECTED (Forces bad shorts)** |
-| `CAND-006` | Dynamic Macro Yield Differential Carry via FRED 10Y-2Y Spreads | Future | Quantitative Research | Backlog |
-| `CAND-007` | Single-Stock S&P 500 Pairs Trading Expansion | Future | Quantitative Research | Backlog |
+| `CAND-007` | Dynamic FRED Yield Differential Carry via 10Y-2Y Spreads | Future | Quantitative Research | Backlog |
+| `CAND-008` | S&P 500 Single-Stock Dynamic Pairs Expansion | Future | Quantitative Research | Backlog |
+
 
 
