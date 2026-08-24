@@ -1,0 +1,371 @@
+{
+  "correlation_audit": {
+    "pearson_correlation": -0.4620720142330413,
+    "spearman_correlation": -0.45139922684050904,
+    "downside_correlation": -0.604715005088694,
+    "high_vol_regime_correlation": -0.46520411894295977,
+    "drawdown_regime_correlation": -0.4380627242319042,
+    "rolling_126d_min": -0.7101887817374596,
+    "rolling_126d_max": -0.19845207027282255,
+    "rolling_126d_mean": -0.4730274477924411,
+    "rolling_252d_min": -0.6633504562393556,
+    "rolling_252d_max": -0.2935988979490798,
+    "rolling_252d_mean": -0.4832301158374192
+  },
+  "candidate_results": {
+    "CAND-006 (Skip-Mom Standalone)": {
+      "metrics": {
+        "sharpe": 0.2265447252938219,
+        "cagr": 0.025398840644177856,
+        "volatility": 0.19238151671198567,
+        "max_drawdown": -0.4024107472893293,
+        "sortino": 0.2161811514482913,
+        "calmar": 0.06311670554344401,
+        "turnover": 8.939122980628621,
+        "cost_dollars": 8078.8806680015405
+      },
+      "walk_forward": {
+        "TRAIN (60%)": {
+          "sharpe": 0.6687057666794697,
+          "cagr": 0.11609440770627955,
+          "volatility": 0.19174964950933765,
+          "max_drawdown": -0.2609436740795268,
+          "sortino": 0.9616680189986981,
+          "calmar": 0.44490217329774356,
+          "turnover": 0.0,
+          "cost_dollars": 0.0
+        },
+        "VALIDATION (20%)": {
+          "sharpe": -0.2510687483211426,
+          "cagr": -0.06552237525840165,
+          "volatility": 0.1945767247130555,
+          "max_drawdown": -0.312266535025985,
+          "sortino": -0.5431531639770377,
+          "calmar": 0.20982836106004527,
+          "turnover": 0.0,
+          "cost_dollars": 0.0
+        },
+        "TRUE_OOS (20%)": {
+          "sharpe": 0.025304331471342888,
+          "cagr": -0.01333160295358593,
+          "volatility": 0.19129979725168747,
+          "max_drawdown": -0.26588231443028754,
+          "sortino": -0.12158503114683748,
+          "calmar": 0.05014099182246055,
+          "turnover": 0.0,
+          "cost_dollars": 0.0
+        }
+      }
+    },
+    "Yale Pairs T20 Standalone": {
+      "metrics": {
+        "sharpe": -0.5261613577287743,
+        "cagr": -0.03486043486675827,
+        "volatility": 0.06359084915880708,
+        "max_drawdown": -0.2793678829399045,
+        "sortino": -0.8847041329418918,
+        "calmar": 0.12478325890545258,
+        "turnover": 24.44089944845142,
+        "cost_dollars": 0.0
+      },
+      "walk_forward": {
+        "TRAIN (60%)": {
+          "sharpe": -0.8849275388040214,
+          "cagr": -0.057991024141875624,
+          "volatility": 0.06510795489766896,
+          "max_drawdown": -0.188126374230908,
+          "sortino": -1.4142398228040958,
+          "calmar": 0.3082556838665105,
+          "turnover": 0.0,
+          "cost_dollars": 0.0
+        },
+        "VALIDATION (20%)": {
+          "sharpe": -0.5379856666231486,
+          "cagr": -0.03475446544361649,
+          "volatility": 0.062163328550538584,
+          "max_drawdown": -0.10093712448432199,
+          "sortino": -0.9617243614445662,
+          "calmar": 0.3443179664684693,
+          "turnover": 0.0,
+          "cost_dollars": 0.0
+        },
+        "TRUE_OOS (20%)": {
+          "sharpe": 0.06324544426924358,
+          "cagr": 0.002004775910581902,
+          "volatility": 0.06266471618511632,
+          "max_drawdown": -0.08347099739079289,
+          "sortino": 0.0500441140499127,
+          "calmar": 0.024017634546715443,
+          "turnover": 0.0,
+          "cost_dollars": 0.0
+        }
+      }
+    },
+    "CAND-011A (50/50 Fixed Ensemble)": {
+      "metrics": {
+        "sharpe": 0.05869709103086165,
+        "cagr": 0.0013453039206503536,
+        "volatility": 0.08623911462051012,
+        "max_drawdown": -0.24044842015123563,
+        "sortino": 0.02484586690864054,
+        "calmar": 0.005594979246709932,
+        "turnover": 16.969561490314312,
+        "cost_dollars": 0.0
+      },
+      "walk_forward": {
+        "TRAIN (60%)": {
+          "sharpe": 0.4092889795596425,
+          "cagr": 0.032089906676174396,
+          "volatility": 0.08625723831786511,
+          "max_drawdown": -0.12202047841837076,
+          "sortino": 0.5754676571067444,
+          "calmar": 0.26298787787200734,
+          "turnover": 0.0,
+          "cost_dollars": 0.0
+        },
+        "VALIDATION (20%)": {
+          "sharpe": -0.48500522095567716,
+          "cagr": -0.043758652792661,
+          "volatility": 0.08483941091783666,
+          "max_drawdown": -0.18601662285886553,
+          "sortino": -0.8188407315070032,
+          "calmar": 0.23524055065692465,
+          "turnover": 0.0,
+          "cost_dollars": 0.0
+        },
+        "TRUE_OOS (20%)": {
+          "sharpe": 0.050210236137369545,
+          "cagr": 0.000565552800898983,
+          "volatility": 0.0876710803660082,
+          "max_drawdown": -0.12884205786552944,
+          "sortino": 0.010769942092620314,
+          "calmar": 0.004389504562937376,
+          "turnover": 0.0,
+          "cost_dollars": 0.0
+        }
+      }
+    },
+    "CAND-011B (Vol-Scaled Ensemble)": {
+      "metrics": {
+        "sharpe": -0.32055100882640125,
+        "cagr": -0.017092645449377497,
+        "volatility": 0.049899067703557835,
+        "max_drawdown": -0.16836280999815004,
+        "sortino": -0.538095564454173,
+        "calmar": 0.10152269048945732,
+        "turnover": 16.969561490314312,
+        "cost_dollars": 0.0
+      },
+      "walk_forward": {
+        "TRAIN (60%)": {
+          "sharpe": -0.2671425265638247,
+          "cagr": -0.014856242005777509,
+          "volatility": 0.05113785231437874,
+          "max_drawdown": -0.10283895224695386,
+          "sortino": -0.44762885057190616,
+          "calmar": 0.14446123459233862,
+          "turnover": 0.0,
+          "cost_dollars": 0.0
+        },
+        "VALIDATION (20%)": {
+          "sharpe": -0.7413317776265714,
+          "cagr": -0.03411764541225093,
+          "volatility": 0.045432606738110205,
+          "max_drawdown": -0.1146610557352859,
+          "sortino": -1.239420617532244,
+          "calmar": 0.2975521653229601,
+          "turnover": 0.0,
+          "cost_dollars": 0.0
+        },
+        "TRUE_OOS (20%)": {
+          "sharpe": -0.036890129413366515,
+          "cagr": -0.0032844425417644096,
+          "volatility": 0.052240747228941925,
+          "max_drawdown": -0.07495676800606188,
+          "sortino": -0.09810480303168732,
+          "calmar": 0.04381782498277929,
+          "turnover": 0.0,
+          "cost_dollars": 0.0
+        }
+      }
+    },
+    "CAND-011C (70/30 Mom-Tilt Ensemble)": {
+      "metrics": {
+        "sharpe": 0.1612044226066133,
+        "cagr": 0.012487347437670326,
+        "volatility": 0.12698409825135315,
+        "max_drawdown": -0.3080370771168196,
+        "sortino": 0.15886811770877185,
+        "calmar": 0.04053845580717103,
+        "turnover": 13.757386086440034,
+        "cost_dollars": 0.0
+      },
+      "walk_forward": {
+        "TRAIN (60%)": {
+          "sharpe": 0.5722954539002307,
+          "cagr": 0.0665766330330908,
+          "volatility": 0.1266341018276721,
+          "max_drawdown": -0.17732307378871942,
+          "sortino": 0.8183637023717065,
+          "calmar": 0.37545386288767424,
+          "turnover": 0.0,
+          "cost_dollars": 0.0
+        },
+        "VALIDATION (20%)": {
+          "sharpe": -0.34767916911726665,
+          "cagr": -0.05096972485369877,
+          "volatility": 0.12721322461026935,
+          "max_drawdown": -0.2376702214787929,
+          "sortino": -0.6500696717410553,
+          "calmar": 0.21445566271013364,
+          "turnover": 0.0,
+          "cost_dollars": 0.0
+        },
+        "TRUE_OOS (20%)": {
+          "sharpe": 0.03592861884561351,
+          "cagr": -0.0035175385292440797,
+          "volatility": 0.12740475219072137,
+          "max_drawdown": -0.18087736185435252,
+          "sortino": -0.047341130075795185,
+          "calmar": 0.019447091074208056,
+          "turnover": 0.0,
+          "cost_dollars": 0.0
+        }
+      }
+    },
+    "CAND-011D (Correlation-Aware Min-Var)": {
+      "metrics": {
+        "sharpe": -0.41375917932543044,
+        "cagr": -0.02075596991263895,
+        "volatility": 0.04791661203079538,
+        "max_drawdown": -0.19645331152878712,
+        "sortino": -0.6928393661318969,
+        "calmar": 0.10565344890914447,
+        "turnover": 16.969561490314312,
+        "cost_dollars": 0.0
+      },
+      "walk_forward": {
+        "TRAIN (60%)": {
+          "sharpe": -0.5022170300699262,
+          "cagr": -0.025552725953881472,
+          "volatility": 0.049137295137584955,
+          "max_drawdown": -0.11115661277006485,
+          "sortino": -0.8236594108659703,
+          "calmar": 0.22988039413128805,
+          "turnover": 0.0,
+          "cost_dollars": 0.0
+        },
+        "VALIDATION (20%)": {
+          "sharpe": -0.7879266994571902,
+          "cagr": -0.03538766657480663,
+          "volatility": 0.04447058429275205,
+          "max_drawdown": -0.11216515937522302,
+          "sortino": -1.3887269041966341,
+          "calmar": 0.3154960664427467,
+          "turnover": 0.0,
+          "cost_dollars": 0.0
+        },
+        "TRUE_OOS (20%)": {
+          "sharpe": 0.0588909504606949,
+          "cagr": 0.001691888201397429,
+          "volatility": 0.049359198063690685,
+          "max_drawdown": -0.06196792500226282,
+          "sortino": 0.05225640127916625,
+          "calmar": 0.02730264409104626,
+          "turnover": 0.0,
+          "cost_dollars": 0.0
+        }
+      }
+    },
+    "CAND-011E (Drawdown-Gated Ensemble)": {
+      "metrics": {
+        "sharpe": -0.16135773508670415,
+        "cagr": -0.018526040427510493,
+        "volatility": 0.09049646713476053,
+        "max_drawdown": -0.2836699534919907,
+        "sortino": -0.28111619580716596,
+        "calmar": 0.06530843397213575,
+        "turnover": 15.363473788377172,
+        "cost_dollars": 0.0
+      },
+      "walk_forward": {
+        "TRAIN (60%)": {
+          "sharpe": 0.3072414300951597,
+          "cagr": 0.027447809196450956,
+          "volatility": 0.1066312817940281,
+          "max_drawdown": -0.12139136854821553,
+          "sortino": 0.36678358076073186,
+          "calmar": 0.22611005646211937,
+          "turnover": 0.0,
+          "cost_dollars": 0.0
+        },
+        "VALIDATION (20%)": {
+          "sharpe": -1.0281937752990424,
+          "cagr": -0.09135803795511,
+          "volatility": 0.08928342913474081,
+          "max_drawdown": -0.24663091414296862,
+          "sortino": -1.3507724334596283,
+          "calmar": 0.3704241144001557,
+          "turnover": 0.0,
+          "cost_dollars": 0.0
+        },
+        "TRUE_OOS (20%)": {
+          "sharpe": -0.1835213731904539,
+          "cagr": -0.012463743558056795,
+          "volatility": 0.058896909336374204,
+          "max_drawdown": -0.09028578041835358,
+          "sortino": -0.3138316611648366,
+          "calmar": 0.13804769145599727,
+          "turnover": 0.0,
+          "cost_dollars": 0.0
+        }
+      }
+    }
+  },
+  "friction_sensitivity": {
+    "0 bps": {
+      "cand_006_sharpe": 0.2736873592101839,
+      "pairs_t20_sharpe": -0.3940051157707233,
+      "ensemble_11a_sharpe": 0.15984876138362586
+    },
+    "5 bps": {
+      "cand_006_sharpe": 0.25011504343903107,
+      "pairs_t20_sharpe": -0.46010822867668155,
+      "ensemble_11a_sharpe": 0.1092557385635018
+    },
+    "10 bps": {
+      "cand_006_sharpe": 0.2265447252938219,
+      "pairs_t20_sharpe": -0.5261613577287743,
+      "ensemble_11a_sharpe": 0.05869709103086165
+    },
+    "20 bps": {
+      "cand_006_sharpe": 0.1794270329813992,
+      "pairs_t20_sharpe": -0.6580654744498178,
+      "ensemble_11a_sharpe": -0.042266604206430386
+    },
+    "30 bps": {
+      "cand_006_sharpe": 0.13237012094626066,
+      "pairs_t20_sharpe": -0.7896137052725112,
+      "ensemble_11a_sharpe": -0.14293978001885932
+    },
+    "50 bps": {
+      "cand_006_sharpe": 0.03858056745025333,
+      "pairs_t20_sharpe": -1.0512342254209741,
+      "ensemble_11a_sharpe": -0.3430119442384746
+    },
+    "100 bps": {
+      "cand_006_sharpe": -0.1924529399078044,
+      "pairs_t20_sharpe": -1.692133901145051,
+      "ensemble_11a_sharpe": -0.8313760371992887
+    }
+  },
+  "deflated_sharpe_ratio": {
+    "observed_sharpe": 0.05869709103086165,
+    "n_trials": 17,
+    "variance_of_trials": 0.08694602179015455,
+    "skewness": -0.06823453295602885,
+    "kurtosis": 0.29911296610676175,
+    "n_observations": 1853,
+    "dsr_p_value": 0.0
+  }
+}
