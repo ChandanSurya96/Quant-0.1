@@ -164,3 +164,38 @@ def test_position_closure_to_zero():
     # Day 2 is rebalance day applying Day 1 target (0.0)
     shares_day2 = res["holdings"]["SPY"].iloc[2]
     assert shares_day2 == 0.0
+
+
+# --------------------------------------------------------- 8. Short Borrow Cost
+def test_short_borrow_cost_deduction():
+    dates = pd.date_range("2026-01-01", periods=10, freq="D")
+    prices_df = pd.DataFrame({"SPY": [100.0] * 10}, index=dates)
+    target_weights_df = pd.DataFrame({"SPY": [-0.50] * 10}, index=dates)
+
+    # Run with 0 borrow cost vs 500 bps borrow cost
+    sim_0 = PortfolioSimulator(initial_cash=100_000.0, cost_bps=0.0, borrow_cost_annual_bps=0.0)
+    res_0 = sim_0.run(target_weights_df, prices_df, rebalance_freq=1, start_idx=0)
+
+    sim_500 = PortfolioSimulator(initial_cash=100_000.0, cost_bps=0.0, borrow_cost_annual_bps=500.0)
+    res_500 = sim_500.run(target_weights_df, prices_df, rebalance_freq=1, start_idx=0)
+
+    nav_0 = res_0["nav"].iloc[-1]
+    nav_500 = res_500["nav"].iloc[-1]
+    # NAV with 500 bps borrow fee must be strictly lower than 0 bps borrow fee
+    assert nav_500 < nav_0
+
+
+# --------------------------------------------------------- 9. Friction Monotonicity
+def test_friction_monotonicity_invariant():
+    dates = pd.date_range("2026-01-01", periods=10, freq="D")
+    prices_df = pd.DataFrame({"SPY": np.linspace(100, 110, 10)}, index=dates)
+    target_weights_df = pd.DataFrame({"SPY": [0.30, -0.30, 0.40, -0.40, 0.20] * 2}, index=dates)
+
+    sim_gross = PortfolioSimulator(initial_cash=100_000.0, cost_bps=0.0)
+    res_gross = sim_gross.run(target_weights_df, prices_df, rebalance_freq=2, start_idx=0)
+
+    sim_net = PortfolioSimulator(initial_cash=100_000.0, cost_bps=20.0)
+    res_net = sim_net.run(target_weights_df, prices_df, rebalance_freq=2, start_idx=0)
+
+    assert res_gross["nav"].iloc[-1] > res_net["nav"].iloc[-1]
+

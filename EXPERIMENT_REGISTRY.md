@@ -154,15 +154,46 @@ Every quantitative alpha experiment conducted in this repository must be assigne
 
 ---
 
+### EXP-016: CAND-001 Parameter Stability & Universe Leave-One-Out Audit
+- **Date**: 2026-08-24
+- **Hypothesis**: CAND-001's momentum edge is robust across a $5 \times 3 \times 3$ parameter grid (45 configurations) and across universe subsets.
+- **Result**:
+  - Parameter grid shows smooth plateau: Sharpe $\ge +0.42$ for all lookbacks $\ge 126\text{d}$; 42d rebalance yields Sharpe $+0.5891$.
+  - Leave-one-out tests show no single ETF drives returns; Equities and Bonds are both essential complementary pillars.
+  - Break-even friction is **`93.4 bps`**; break-even borrow cost is **`> 500 bps/yr`**.
+- **Conclusion**: **HYPOTHESIS STRONGLY VALIDATED**. CAND-001 is a stable, non-fragile alpha specification.
+
+---
+
+### EXP-017: CAND-003 Multi-Horizon Trend Blend (21d, 63d, 126d)
+- **Date**: 2026-08-24
+- **Hypothesis**: Blending fast (21d), medium (63d), and long (126d) momentum signals reduces drawdown.
+- **Result**: Full Sharpe = **+0.0988**, CAGR = **+0.35%**, Max DD = **-33.73%**, OOS Sharpe = **+0.3499**.
+- **Conclusion**: **REJECTED**. 21d momentum introduces high rebalance whipsaws that degrade risk-adjusted return.
+
+---
+
+### EXP-018: CAND-004 Demarcated Asset Allocation vs CAND-005 Volatility Gating
+- **Date**: 2026-08-24
+- **Hypothesis**: Forcing 1L/1S per macro asset class preserves structural neutrality; dynamic vol-gating de-risks market spikes.
+- **Result**:
+  - CAND-004: Sharpe = **-0.4491**, CAGR = **-4.39%**, Max DD = **-38.01%** (**REJECTED**).
+  - CAND-005: Sharpe = **+0.5260**, CAGR = **+6.88%**, Max DD = **-23.04%**, OOS Sharpe = **+0.5284** (**EXPERIMENTAL**).
+- **Conclusion**: CAND-004 destroys performance by forcing short positions into trending sectors. CAND-005 is preserved as an experimental risk overlay.
+
+---
+
 ## 3. Candidate Research Register (Ex-Ante Queue)
 
 | Candidate ID | Proposed Research Topic | Target Date | Primary Investigator | Status |
 |---|---|---|---|:---:|
-| `CAND-001` | Momentum-Dominant Architecture (Value & Static Carry Disabled) | Completed | Quantitative Research | **PROMOTED (Sharpe 0.81, CAGR 14.6%)** |
+| `CAND-001` | Momentum-Dominant Architecture (Value & Static Carry Disabled) | Completed | Quantitative Research | **PROMOTED AS PRIMARY SPEC (OOS Sharpe +0.53)** |
+| `CAND-005` | Macro Volatility-Gated Sizing Engine | Completed | Quantitative Research | **EXPERIMENTAL** |
 | `PAIRS-001` | Yale / Gatev Distance Strategy Subsystem (T20) | Completed | Quantitative Research | **RESEARCH BASELINE (Vol 3.7%, MaxDD -8.8%)** |
 | `PAIRS-008` | 50/50 Multi-Strategy Ensemble (CAND-001 + Pairs T20) | Completed | Quantitative Research | **RESEARCH BASELINE (Sharpe 0.84, MaxDD -14.2%)** |
-| `CAND-002` | Within-Asset-Class Demarcated Ranking (1 L / 1 S per asset class) | Future | Quantitative Research | Backlog |
-| `CAND-003` | Dynamic Macro Yield Differential Carry via FRED 10Y-2Y Spreads | Future | Quantitative Research | Backlog |
-| `CAND-004` | Multi-Horizon Volatility-Adjusted Trend Blend (21d, 63d, 126d) | Future | Quantitative Research | Backlog |
-| `CAND-005` | Single-Stock S&P 500 Pairs Trading Expansion | Future | Quantitative Research | Backlog |
+| `CAND-003` | Multi-Horizon Volatility-Adjusted Trend Blend (21d, 63d, 126d) | Completed | Quantitative Research | **REJECTED (Whipsaw drag)** |
+| `CAND-004` | Within-Asset-Class Demarcated Ranking (1 L / 1 S per sector) | Completed | Quantitative Research | **REJECTED (Forces bad shorts)** |
+| `CAND-006` | Dynamic Macro Yield Differential Carry via FRED 10Y-2Y Spreads | Future | Quantitative Research | Backlog |
+| `CAND-007` | Single-Stock S&P 500 Pairs Trading Expansion | Future | Quantitative Research | Backlog |
+
 

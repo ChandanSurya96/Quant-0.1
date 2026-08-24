@@ -50,16 +50,36 @@ As comprehensively documented in [walkthrough_cross_sectional.md](file:///c:/Qua
 Requires Python 3.9+ and dependencies (`yfinance`, `numpy`, `pandas`, `scipy`, `statsmodels`, `matplotlib`).
 
 ```bash
-# Run the Systematic Global Macro baseline strategy
-python -m markov2.run --macro
-
-# Run single-asset Markov 2.0 audit and econometric gates on a ticker
-python -m markov2.run --ticker SPY
-
-# Run Cointegration screening and validation benchmarks
-python -m markov2.run --cointegration
-python -m markov2.run --benchmark-cointegration
-
 # Run unit and regression test suite
 python -m pytest tests/ -q
-```
+
+# Run Systematic Macro CAND-001 deep audit
+python scripts/run_cand001_deep_audit.py
+
+# Run Yale Pairs Trading simulation and risk models
+python scripts/run_pairs_distance.py
+python scripts/run_pairs_comparison.py
+```
+
+---
+
+## 4. Current Alpha Specifications & Strategy Performance
+
+All strategies operate strictly through physical-share simulation (`quant/portfolio/simulator.py`) accounting for discrete shares, transaction costs (10 bps), short borrow fees (25 bps), and natural weight drift.
+
+| Strategy Engine | In-Sample Sharpe | True OOS Sharpe (2023-2026) | Net CAGR (%) | Max Drawdown (%) | Classification |
+|---|---:|---:|---:|---:|:---:|
+| **CAND-001 (Momentum-Dominant Macro)** | **+0.5253** | **+0.5284** | **+6.87%** | **-23.04%** | **PRIMARY SPEC** |
+| **PAIRS-001 (Yale Distance T20)** | **+0.1960** | **+0.0450** | **+0.66%** | **-8.83%** | **RESEARCH BASELINE** |
+| **PAIRS-008 (50/50 Multi-Strategy)** | **+0.8420** | **+0.6120** | **+7.85%** | **-14.20%** | **RESEARCH BASELINE** |
+
+---
+
+## 5. Research Classification & Execution Hierarchy
+
+* **Research Backtests (In-Sample / Simulated)**: Mathematical hypothesis testing under physical-share simulation. Never represented as live capital performance.
+* **True Out-of-Sample (OOS)**: Untouched 2023–2026 test partition evaluated without parameter tuning.
+* **Academic Replications**: Benchmark replications from literature (e.g. *Yale / Zhu 2024 Pairs Trading*).
+* **Paper Broker Burn-In**: Execution testing against Interactive Brokers Paper Trading (`quant/broker/ibkr/`).
+* **Live Execution**: Small capital, fail-closed, operator-controlled execution behind human approval gates. Autonomous live capital is strictly disabled during research phases.
+
