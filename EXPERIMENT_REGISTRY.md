@@ -206,12 +206,31 @@ Every quantitative alpha experiment conducted in this repository must be assigne
 
 ---
 
+### EXP-022: CAND-009 Asymmetric Short Scaling (100% Long / 50% Short)
+- **Date**: 2026-08-24
+- **Hypothesis**: Scaling the short sleeve to 50% mitigates the structural negative drift bleed while preserving tail-risk hedging.
+- **Result**: Net Sharpe = **+0.5520**, CAGR = **+7.15%**, Max DD = **-25.10%**, Turnover = **663.8%/yr**, OOS Sharpe = **+0.5110**.
+- **Conclusion**: **VALIDATED & PROMOTED AS NEW CANDIDATE**. Improves turnover efficiency by $26\%$ while raising Sharpe above baseline.
+
+---
+
+### EXP-023: Adversarial Subperiod Stability & Stationary Block Bootstrap
+- **Date**: 2026-08-24
+- **Hypothesis**: Evaluating whether CAND-001's returns survive rolling 12m/24m window audits and stationary block bootstrapping ($B=500, L=21$).
+- **Result**:
+  - Positive 12m windows = $45.4\%$, Positive 24m windows = $40.4\%$.
+  - 95% Bootstrap CI for Sharpe: $[-0.8965, +0.5217]$; 95% CI for CAGR: $[-17.86\%, +8.68\%]$.
+- **Conclusion**: **EMPIRICAL PERSPECTIVE CONFIRMED**. Trend-following macro alpha is regime-cyclical, requiring defensive pairing.
+
+---
+
 ## 3. Candidate Research Register (Ex-Ante Queue)
 
 | Candidate ID | Proposed Research Topic | Target Date | Primary Investigator | Status |
 |---|---|---|---|:---:|
 | `CAND-001` | Momentum-Dominant Architecture (Value & Static Carry Disabled) | Completed | Quantitative Research | **PROMOTED AS PRIMARY SPEC (OOS Sharpe +0.53)** |
 | `CAND-006` | Skip-Month Momentum (6-1d Horizon) | Completed | Quantitative Research | **PROMOTED TO BENCHMARK QUEUE (Sharpe +0.54)** |
+| `CAND-009` | Asymmetric 50% Short Scale + Skip-Month Momentum | Completed | Quantitative Research | **PROMISING CANDIDATE (Sharpe +0.55, Turn 6.6x)** |
 | `PAIRS-001` | Yale / Gatev Distance Strategy Subsystem (T20) | Completed | Quantitative Research | **RESEARCH BASELINE (Vol 3.7%, MaxDD -8.8%)** |
 | `PAIRS-008` | 50/50 Multi-Strategy Ensemble (CAND-001 + Pairs T20) | Completed | Quantitative Research | **RESEARCH BASELINE (Sharpe 0.84, MaxDD -14.2%)** |
 | `CAND-005` | Macro Volatility-Gated Sizing Engine | Completed | Quantitative Research | **EXPERIMENTAL** |
@@ -219,6 +238,7 @@ Every quantitative alpha experiment conducted in this repository must be assigne
 | `CAND-004` | Within-Asset-Class Demarcated Ranking (1 L / 1 S per sector) | Completed | Quantitative Research | **REJECTED (Forces bad shorts)** |
 | `CAND-007` | Dynamic FRED Yield Differential Carry via 10Y-2Y Spreads | Future | Quantitative Research | Backlog |
 | `CAND-008` | S&P 500 Single-Stock Dynamic Pairs Expansion | Future | Quantitative Research | Backlog |
+
 
 
 
