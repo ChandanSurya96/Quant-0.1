@@ -1,0 +1,479 @@
+{
+  "verdict": "REJECT",
+  "success_criteria": {
+    "criteria_1_oos_sharpe_ge_065": false,
+    "criteria_2_oos_cagr_ge_control": false,
+    "criteria_3_max_dd_no_worse": true,
+    "criteria_4_cost_resilience": true,
+    "criteria_5_no_turnover_explosion": true,
+    "criteria_6_dsr_significant": false,
+    "criteria_7_regime_stability": true,
+    "criteria_8_null_rejected": true,
+    "criteria_9_no_lookahead": true,
+    "criteria_10_not_mere_cash_drag": false
+  },
+  "hypothesis_results": {
+    "CONTROL_A_CAND006": {
+      "name": "CAND-006 Momentum (Unconstrained Control)",
+      "hypothesis_desc": "Constant 1.0x unconstrained exposure",
+      "full_metrics": {
+        "sharpe": 0.32794107655494015,
+        "cagr": 0.03682592746964297,
+        "volatility": 0.14027079000366072,
+        "max_drawdown": -0.31509888468680813,
+        "sortino": 0.4176028939032732,
+        "calmar": 0.11687101814481515,
+        "turnover": 10.189752671486305,
+        "cost_dollars": 0.0
+      },
+      "walk_forward": {
+        "TRAIN (60%)": {
+          "sharpe": 0.28349624088750747,
+          "cagr": 0.029237765354259482,
+          "volatility": 0.13263257576290857,
+          "max_drawdown": -0.1992614769582502,
+          "sortino": 0.3555852083288801,
+          "calmar": 0.14673064658847962,
+          "turnover": 10.189752671486305,
+          "cost_dollars": 0.0
+        },
+        "VALIDATION (20%)": {
+          "sharpe": 0.3292618916553079,
+          "cagr": 0.03848711353406431,
+          "volatility": 0.1478704915182876,
+          "max_drawdown": -0.2821838485077592,
+          "sortino": 0.40905490456330373,
+          "calmar": 0.13639020708517283,
+          "turnover": 10.189752671486305,
+          "cost_dollars": 0.0
+        },
+        "TRUE_OOS (20%)": {
+          "sharpe": 0.38821968959663394,
+          "cagr": 0.046544037826825146,
+          "volatility": 0.14376336582099442,
+          "max_drawdown": -0.15977574580068418,
+          "sortino": 0.5162808584743694,
+          "calmar": 0.2913085311764875,
+          "turnover": 10.189752671486305,
+          "cost_dollars": 0.0
+        }
+      }
+    },
+    "CONTROL_B_ENS8020": {
+      "name": "ENS-80/20 Multi-Strategy (Frozen Control)",
+      "hypothesis_desc": "80% CAND-006 + 20% Robust Pairs",
+      "full_metrics": {
+        "sharpe": 0.3045031773175656,
+        "cagr": 0.028246652178080645,
+        "volatility": 0.11211047151192866,
+        "max_drawdown": -0.25823962381972004,
+        "sortino": 0.40464698785514985,
+        "calmar": 0.10938155717652356,
+        "turnover": 14.19173096281182,
+        "cost_dollars": 0.0
+      },
+      "walk_forward": {
+        "TRAIN (60%)": {
+          "sharpe": 0.2654610853047965,
+          "cagr": 0.022837079046556852,
+          "volatility": 0.10632241018615274,
+          "max_drawdown": -0.16362294461699742,
+          "sortino": 0.3478886400508313,
+          "calmar": 0.13957137307370338,
+          "turnover": 14.19173096281182,
+          "cost_dollars": 0.0
+        },
+        "VALIDATION (20%)": {
+          "sharpe": 0.35246132356573584,
+          "cagr": 0.03545731453256162,
+          "volatility": 0.11888699078011723,
+          "max_drawdown": -0.23575418578340587,
+          "sortino": 0.47811994529338836,
+          "calmar": 0.15039951216449354,
+          "turnover": 14.19173096281182,
+          "cost_dollars": 0.0
+        },
+        "TRUE_OOS (20%)": {
+          "sharpe": 0.3092451523682012,
+          "cagr": 0.02913222936650106,
+          "volatility": 0.11373584797495484,
+          "max_drawdown": -0.13878306490010192,
+          "sortino": 0.4116198809808774,
+          "calmar": 0.2099119902523472,
+          "turnover": 14.19173096281182,
+          "cost_dollars": 0.0
+        }
+      }
+    },
+    "H1_TREND": {
+      "name": "Trend-Gated Momentum (SMA200)",
+      "hypothesis_desc": "Conditioned exposure via H1_TREND",
+      "avg_exposure": 0.7049885321100917,
+      "full_metrics": {
+        "sharpe": 0.1572456041914075,
+        "cagr": 0.010957813057844934,
+        "volatility": 0.10314404287439302,
+        "max_drawdown": -0.2562053664861348,
+        "sortino": 0.15339144906315147,
+        "calmar": 0.042769646897454605,
+        "turnover": 9.729257331460479,
+        "cost_dollars": 0.0
+      },
+      "walk_forward": {
+        "TRAIN (60%)": {
+          "sharpe": 0.028206980686429246,
+          "cagr": -0.0021042600411473877,
+          "volatility": 0.09904720760537822,
+          "max_drawdown": -0.1338383251751401,
+          "sortino": -0.03115429885984378,
+          "calmar": 0.015722402670488925,
+          "turnover": 9.729257331460479,
+          "cost_dollars": 0.0
+        },
+        "VALIDATION (20%)": {
+          "sharpe": 0.20030937758213763,
+          "cagr": 0.014644060329897846,
+          "volatility": 0.09519106173103714,
+          "max_drawdown": -0.22046002184790964,
+          "sortino": 0.21753969101945236,
+          "calmar": 0.06642501532545637,
+          "turnover": 9.729257331460479,
+          "cost_dollars": 0.0
+        },
+        "TRUE_OOS (20%)": {
+          "sharpe": 0.2871120882797838,
+          "cagr": 0.026966721893643575,
+          "volatility": 0.11614564214603725,
+          "max_drawdown": -0.12856331036538834,
+          "sortino": 0.3372236919672746,
+          "calmar": 0.20975441451376567,
+          "turnover": 9.729257331460479,
+          "cost_dollars": 0.0
+        }
+      }
+    },
+    "H2_BREADTH": {
+      "name": "Breadth-Gated Momentum (>50% Positive)",
+      "hypothesis_desc": "Conditioned exposure via H2_BREADTH",
+      "avg_exposure": 0.8431766055045872,
+      "full_metrics": {
+        "sharpe": 0.20034398395802117,
+        "cagr": 0.017100365513519122,
+        "volatility": 0.12140782633883711,
+        "max_drawdown": -0.2961479979563636,
+        "sortino": 0.21271561562739014,
+        "calmar": 0.05774263419480825,
+        "turnover": 10.254723220115705,
+        "cost_dollars": 0.0
+      },
+      "walk_forward": {
+        "TRAIN (60%)": {
+          "sharpe": 0.24193621968431733,
+          "cagr": 0.022840982113526476,
+          "volatility": 0.12622659579957213,
+          "max_drawdown": -0.19813893034610672,
+          "sortino": 0.28234351151164705,
+          "calmar": 0.11527760886579998,
+          "turnover": 10.254723220115705,
+          "cost_dollars": 0.0
+        },
+        "VALIDATION (20%)": {
+          "sharpe": 0.12864228086625903,
+          "cagr": 0.00811002316542786,
+          "volatility": 0.10830871032736247,
+          "max_drawdown": -0.2623222184474954,
+          "sortino": 0.10997390568462041,
+          "calmar": 0.030916264788493717,
+          "turnover": 10.254723220115705,
+          "cost_dollars": 0.0
+        },
+        "TRUE_OOS (20%)": {
+          "sharpe": 0.20112624564492493,
+          "cagr": 0.017612784506124024,
+          "volatility": 0.12661189196917602,
+          "max_drawdown": -0.15977581734965587,
+          "sortino": 0.20627276027191702,
+          "calmar": 0.11023435710286453,
+          "turnover": 10.254723220115705,
+          "cost_dollars": 0.0
+        }
+      }
+    },
+    "H3_VOL_REGIME": {
+      "name": "Volatility-Percentile Gated Momentum (<=80th pct)",
+      "hypothesis_desc": "Conditioned exposure via H3_VOL_REGIME",
+      "avg_exposure": 0.8856077981651376,
+      "full_metrics": {
+        "sharpe": 0.2925403067945516,
+        "cagr": 0.029624486666999017,
+        "volatility": 0.127634559957588,
+        "max_drawdown": -0.30038943690846626,
+        "sortino": 0.3538813765665231,
+        "calmar": 0.0986202676495116,
+        "turnover": 12.68880996636624,
+        "cost_dollars": 0.0
+      },
+      "walk_forward": {
+        "TRAIN (60%)": {
+          "sharpe": 0.05110705775944256,
+          "cagr": -0.0011878372621224598,
+          "volatility": 0.1218865275616499,
+          "max_drawdown": -0.23129070038119892,
+          "sortino": -0.014720916826345744,
+          "calmar": 0.005135689676086156,
+          "turnover": 12.68880996636624,
+          "cost_dollars": 0.0
+        },
+        "VALIDATION (20%)": {
+          "sharpe": 0.3695966204186524,
+          "cagr": 0.04073826758880328,
+          "volatility": 0.13138741642880133,
+          "max_drawdown": -0.25560371604281684,
+          "sortino": 0.46204155506536276,
+          "calmar": 0.15938057638402686,
+          "turnover": 12.68880996636624,
+          "cost_dollars": 0.0
+        },
+        "TRUE_OOS (20%)": {
+          "sharpe": 0.5472113704145326,
+          "cagr": 0.06573792604006878,
+          "volatility": 0.1323187800529262,
+          "max_drawdown": -0.10826863993328763,
+          "sortino": 0.7868011038790138,
+          "calmar": 0.6071742111157471,
+          "turnover": 12.68880996636624,
+          "cost_dollars": 0.0
+        }
+      }
+    },
+    "H4_DISPERSION": {
+      "name": "Dispersion-Gated Momentum (>Median)",
+      "hypothesis_desc": "Conditioned exposure via H4_DISPERSION",
+      "avg_exposure": 0.7588876146788991,
+      "full_metrics": {
+        "sharpe": 0.09079501052284658,
+        "cagr": 0.003908094543924712,
+        "volatility": 0.11183480390841048,
+        "max_drawdown": -0.28288546450096974,
+        "sortino": 0.05052082454025614,
+        "calmar": 0.01381511259625471,
+        "turnover": 11.932754995726178,
+        "cost_dollars": 0.0
+      },
+      "walk_forward": {
+        "TRAIN (60%)": {
+          "sharpe": 0.07396544092543628,
+          "cagr": 0.0022360511815329165,
+          "volatility": 0.10584527747134431,
+          "max_drawdown": -0.16297217007649026,
+          "sortino": 0.031284858712960745,
+          "calmar": 0.013720447978838571,
+          "turnover": 11.932754995726178,
+          "cost_dollars": 0.0
+        },
+        "VALIDATION (20%)": {
+          "sharpe": -0.10966786305719446,
+          "cagr": -0.020974218485573126,
+          "volatility": 0.12363620449737243,
+          "max_drawdown": -0.24721081226445166,
+          "sortino": -0.23716450989043125,
+          "calmar": 0.0848434511963665,
+          "turnover": 11.932754995726178,
+          "cost_dollars": 0.0
+        },
+        "TRUE_OOS (20%)": {
+          "sharpe": 0.34487459417981375,
+          "cagr": 0.03197933125752961,
+          "volatility": 0.10823303874376755,
+          "max_drawdown": -0.13674542405407367,
+          "sortino": 0.4377326287430682,
+          "calmar": 0.2338603392306855,
+          "turnover": 11.932754995726178,
+          "cost_dollars": 0.0
+        }
+      }
+    },
+    "H5_COMPOSITE": {
+      "name": "Composite Macro Regime Momentum (Multi-Tier)",
+      "hypothesis_desc": "Conditioned exposure via H5_COMPOSITE",
+      "avg_exposure": 0.8192373853211009,
+      "full_metrics": {
+        "sharpe": 0.12517351725581177,
+        "cagr": 0.007828121355150763,
+        "volatility": 0.11674542278601167,
+        "max_drawdown": -0.29614382205883427,
+        "sortino": 0.10006420783710325,
+        "calmar": 0.02643351227362618,
+        "turnover": 10.657934309912534,
+        "cost_dollars": 0.0
+      },
+      "walk_forward": {
+        "TRAIN (60%)": {
+          "sharpe": 0.054443117258047485,
+          "cagr": -0.0004626202960319459,
+          "volatility": 0.11691052516985474,
+          "max_drawdown": -0.19674576178166905,
+          "sortino": -0.0060006206329886935,
+          "calmar": 0.002351360923064359,
+          "turnover": 10.657934309912534,
+          "cost_dollars": 0.0
+        },
+        "VALIDATION (20%)": {
+          "sharpe": 0.06500116686613018,
+          "cagr": 0.0011221026029912817,
+          "volatility": 0.10958364695673309,
+          "max_drawdown": -0.2623178424346419,
+          "sortino": 0.01474592557463212,
+          "calmar": 0.004277644984331786,
+          "turnover": 10.657934309912534,
+          "cost_dollars": 0.0
+        },
+        "TRUE_OOS (20%)": {
+          "sharpe": 0.2784228071784741,
+          "cagr": 0.027126641183351508,
+          "volatility": 0.12347234379809743,
+          "max_drawdown": -0.14978883168159268,
+          "sortino": 0.33068284187446756,
+          "calmar": 0.18109922401300804,
+          "turnover": 10.657934309912534,
+          "cost_dollars": 0.0
+        }
+      }
+    },
+    "H6_ENSEMBLE_COMPOSITE": {
+      "name": "CAND-014 Preferred: Composite Macro Regime + ENS-80/20",
+      "hypothesis_desc": "80% Composite-Gated Momentum + 20% Robust Pairs",
+      "avg_exposure": 0.8192373853211009,
+      "full_metrics": {
+        "sharpe": 0.09676537077091153,
+        "cagr": 0.004686843445413036,
+        "volatility": 0.0933009377479721,
+        "max_drawdown": -0.23602209851386952,
+        "sortino": 0.07578771503286773,
+        "calmar": 0.019857646698864598,
+        "turnover": 14.566276273552802,
+        "cost_dollars": 0.0
+      },
+      "walk_forward": {
+        "TRAIN (60%)": {
+          "sharpe": 0.034477737283884084,
+          "cagr": -0.0011634162746536614,
+          "volatility": 0.09385104943526851,
+          "max_drawdown": -0.15991952052116332,
+          "sortino": -0.018841584492817868,
+          "calmar": 0.00727501102343349,
+          "turnover": 14.566276273552802,
+          "cost_dollars": 0.0
+        },
+        "VALIDATION (20%)": {
+          "sharpe": 0.09801970427460915,
+          "cagr": 0.004770793515506133,
+          "volatility": 0.08825800812792542,
+          "max_drawdown": -0.21286316746734968,
+          "sortino": 0.08014951802023267,
+          "calmar": 0.022412489545604024,
+          "turnover": 14.566276273552802,
+          "cost_dollars": 0.0
+        },
+        "TRUE_OOS (20%)": {
+          "sharpe": 0.18491433739187316,
+          "cagr": 0.013370842332320887,
+          "volatility": 0.0974767978664925,
+          "max_drawdown": -0.13083722586212615,
+          "sortino": 0.20774717591512784,
+          "calmar": 0.1021944805403535,
+          "turnover": 14.566276273552802,
+          "cost_dollars": 0.0
+        }
+      }
+    }
+  },
+  "sharpe_decomposition": {
+    "delta_sharpe_total": -0.20773780654665408,
+    "delta_cagr_total": -0.02355980873266761,
+    "delta_volatility_total": -0.018809533763956554,
+    "delta_max_drawdown_total": 0.022217525305850527,
+    "delta_turnover_total": 0.37454531074098263,
+    "attribution": {
+      "signal_expectancy_effect": "Downside preservation during bad regimes",
+      "volatility_reduction_effect": "Vol reduced by 1.88 percentage points",
+      "cost_effect": "Turnover reduced by -0.37x",
+      "diversification_effect": "Orthogonal pairs dampening preserved"
+    }
+  },
+  "yearly_stability": {
+    "2019": {
+      "cand006_return": 0.026572981521026717,
+      "ens8020_return": 0.03167674045489366,
+      "cand014_return": -0.0035274323604737035,
+      "regime_multiplier_avg": 0.8994252873563219
+    },
+    "2020": {
+      "cand006_return": -0.0727228954199175,
+      "ens8020_return": -0.05513008699093791,
+      "cand014_return": -0.042917861746695096,
+      "regime_multiplier_avg": 0.7194656488549618
+    },
+    "2021": {
+      "cand006_return": 0.49028352793343877,
+      "ens8020_return": 0.3649982873146782,
+      "cand014_return": 0.24758844658245915,
+      "regime_multiplier_avg": 0.6695402298850575
+    },
+    "2022": {
+      "cand006_return": -0.09836027983613171,
+      "ens8020_return": -0.09169429789598382,
+      "cand014_return": -0.09574085016964495,
+      "regime_multiplier_avg": 0.948076923076923
+    },
+    "2023": {
+      "cand006_return": 0.060361590359222506,
+      "ens8020_return": 0.04898097214557873,
+      "cand014_return": 0.039843884741835645,
+      "regime_multiplier_avg": 0.6875
+    }
+  },
+  "null_tests": {
+    "Observed CAND-014": {
+      "sharpe": 0.09676537077091153,
+      "cagr": 0.004686843445413036,
+      "volatility": 0.0933009377479721,
+      "max_drawdown": -0.23602209851386952,
+      "sortino": 0.07578771503286773,
+      "calmar": 0.019857646698864598,
+      "turnover": 14.566276273552802,
+      "cost_dollars": 0.0
+    },
+    "Circular Block Permutation Null": {
+      "sharpe": 0.09728394044326626,
+      "cagr": 0.0047355605951653335,
+      "volatility": 0.09332761732706553,
+      "max_drawdown": -0.19707414857856664,
+      "sortino": 0.07658433043197957,
+      "calmar": 0.0240293342851989,
+      "turnover": 0.0,
+      "cost_dollars": 0.0
+    },
+    "Randomized Regime Labels Null": {
+      "sharpe": 0.3192911477692796,
+      "cagr": 0.025901180269763513,
+      "volatility": 0.09388648446627051,
+      "max_drawdown": -0.23089843813074604,
+      "sortino": 0.4336140359965155,
+      "calmar": 0.11217564085512347,
+      "turnover": 0.0,
+      "cost_dollars": 0.0
+    },
+    "Block Permutation p-value": 0.0048,
+    "Random Label Null p-value": 0.0035
+  },
+  "deflated_sharpe_ratio": {
+    "observed_sharpe": 0.09676537077091153,
+    "n_trials": 8,
+    "variance_of_trials": 0.009408709617607638,
+    "skewness": -0.1314773305521548,
+    "kurtosis": 0.7334640201525091,
+    "n_observations": 1744,
+    "dsr_p_value": 0.03162992720206137
+  }
+}

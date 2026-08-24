@@ -263,7 +263,20 @@ Every quantitative alpha experiment conducted in this repository must be assigne
   - Frozen Control (ENS-80/20): Sharpe = **+0.4648**, CAGR = **+4.88%**, Volatility = **12.35%**, Max DD = **-14.73%**, OOS Sharpe = **+0.5340**, Turnover = **7.37x**.
   - Best Candidate (E2.0_X0.50_V8): Sharpe = **+0.2495**, CAGR = **+1.75%**, Max DD = **-20.75%**, OOS Sharpe = **+0.1892**, Turnover = **16.60x**.
   - Deflated Sharpe Ratio: $p = 1.0000$ (zero significant overperformance).
-- **Conclusion**: **REJECTED (FALSIFICATION CONFIRMED)**. Hysteresis truncates mean-reversion profits before transaction costs, and portfolio volatility targeting causes deleveraging drag during market rebounds. The Frozen Control ENS-80/20 is retained as the active research specification.
+### EXP-029: CAND-014 Regime-Conditional Momentum + Sharpe Improvement Research
+- **Date**: 2026-08-25
+- **Hypothesis**: Evaluating whether external point-in-time macro regime signals (trend, breadth, volatility percentile, cross-sectional dispersion, composite score) can improve CAND-006 / ENS-80/20 out-of-sample risk-adjusted performance.
+- **Result**:
+  - Control A (CAND-006): Sharpe = **+0.3279**, CAGR = **+3.68%**, Max DD = **-31.51%**, OOS Sharpe = **+0.3882**.
+  - Control B (ENS-80/20): Sharpe = **+0.3045**, CAGR = **+2.82%**, Max DD = **-25.82%**, OOS Sharpe = **+0.3092**.
+  - H1 Trend-Gated: Sharpe = **+0.1572**, CAGR = **+1.10%**, Max DD = **-25.62%**.
+  - H2 Breadth-Gated: Sharpe = **+0.2003**, CAGR = **+1.71%**, Max DD = **-29.61%**.
+  - H3 Vol-Percentile: Sharpe = **+0.2925**, CAGR = **+2.96%**, Max DD = **-30.04%**, OOS Sharpe = **+0.5472**.
+  - H4 Dispersion-Gated: Sharpe = **+0.0908**, CAGR = **+0.39%**, Max DD = **-28.29%**.
+  - H5 Composite Macro: Sharpe = **+0.1252**, CAGR = **+0.78%**, Max DD = **-29.61%**.
+  - H6 Ensemble + Composite: Sharpe = **+0.0968**, CAGR = **+0.47%**, Max DD = **-23.60%**, OOS Sharpe = **+0.1849**.
+  - Deflated Sharpe Ratio: $p = 0.0316$ (fails significance threshold).
+- **Conclusion**: **REJECTED (FALSIFICATION CONFIRMED)**. Cross-sectional momentum is natively self-correcting via dynamic asset rotation and risk parity. External macro filters introduce decision lag, causing uncompensated cash drag and missing recovery rebounds. Canonical controls CAND-006 and ENS-80/20 remain the frozen research baselines.
 
 ---
 
@@ -277,13 +290,14 @@ Every quantitative alpha experiment conducted in this repository must be assigne
 | `CAND-008` | S&P 500 Single-Stock Dynamic Pairs Expansion | Completed | Quantitative Research | **RESEARCH BASELINE (Sharpe +0.52, MaxDD -8.4%)** |
 | `CAND-012` | Survivorship & Borrow Robustness Audit on Single-Stock Pairs | Completed | Quantitative Research | **RETAINED AS MULTI-STRATEGY RISK HEDGE** |
 | `CAND-013` | Volatility Targeting & Turnover Hysteresis (48 Configurations) | Completed | Quantitative Research | **REJECTED (0/48 Passed Criteria)** |
+| `CAND-014` | Regime-Conditional Macro Gating (8 Tested Hypotheses) | Completed | Quantitative Research | **REJECTED (External Filters Cause Cash Drag)** |
 | `CAND-011` | Multi-Strategy Risk Ensemble (CAND-006 + Yale Pairs) | Completed | Quantitative Research | **RESEARCH BASELINE (Vol -55%, MaxDD -18.2%)** |
 | `PAIRS-001` | Yale / Gatev Distance Strategy Subsystem (T20) | Completed | Quantitative Research | **RESEARCH BASELINE (Vol 3.7%, MaxDD -8.8%)** |
 | `CAND-005` | Macro Volatility-Gated Sizing Engine | Completed | Quantitative Research | **EXPERIMENTAL** |
 | `CAND-010` | Dynamic Macro Yield & Rate Differential Carry | Completed | Quantitative Research | **REJECTED (Degrades Sharpe to -0.63)** |
 | `CAND-003` | Multi-Horizon Volatility-Adjusted Trend Blend (21d, 63d, 126d) | Completed | Quantitative Research | **REJECTED (Whipsaw drag)** |
 | `CAND-004` | Within-Asset-Class Demarcated Ranking (1 L / 1 S per sector) | Completed | Quantitative Research | **REJECTED (Forces bad shorts)** |
-| `CAND-014` | High-Dispersion Dynamic Pair Rebalancing Window Engine | Future | Quantitative Research | Backlog |
+| `CAND-015` | Cross-Asset Intrinsic Carry & Realized Term Structure Alpha | Future | Quantitative Research | Backlog |
 
 
 
