@@ -20,8 +20,8 @@ def test_macro_factor_signals_parity():
     # Legacy
     legacy_factors = cross_sectional_signals(df, min_train=756, mom_window=126, val_window=756)
 
-    # New
-    strat = SystematicMacroStrategy(min_train=756, mom_window=126, val_window=756)
+    # New (with all 3 factors enabled for 3-factor parity)
+    strat = SystematicMacroStrategy(min_train=756, mom_window=126, val_window=756, use_value=True, use_carry=True)
     new_factors = strat.compute_factors(df)
 
     # Compare non-NaN elements
@@ -34,8 +34,17 @@ def test_macro_strategy_target_weight_parity():
     """Asserts bit-exact parity of Target Weights between legacy and new macro strategy."""
     df = pd.read_csv(FIXTURE_PATH, index_col=0, parse_dates=True)
 
-    # New Strategy Target Weights
-    strat = SystematicMacroStrategy(min_train=756, mom_window=126, val_window=756, rebalance_freq=21)
+    # New Strategy Target Weights with legacy 2.0x Mom+Val+Car parameters
+    strat = SystematicMacroStrategy(
+        min_train=756,
+        mom_window=126,
+        val_window=756,
+        rebalance_freq=21,
+        target_sleeve_gross=1.0,
+        max_single_position_weight=1.0,
+        use_value=True,
+        use_carry=True,
+    )
     new_weights = strat.generate_target_weights(df)
 
     # Reconstruct Legacy Target Weights exactly as in markov2.macro.walk_forward_macro

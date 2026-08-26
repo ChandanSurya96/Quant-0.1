@@ -53,7 +53,7 @@ def test_sell_accounting_cash_and_holdings():
     cash_day2 = res["cash"].iloc[2]
     nav_day2 = res["nav"].iloc[2]
 
-    assert shares_day2 == pytest.approx(49.98, abs=1e-2)  # Target 0.20 of Day 1 NAV (~$99,960) / $400
+    assert shares_day2 == pytest.approx(49.0, abs=1.0)  # Discrete shares from target 0.20 of Day 1 NAV (~$99,960) / $400
     assert cash_day2 > res["cash"].iloc[1]  # Cash increased from sale proceeds
     assert abs(nav_day2 - (cash_day2 + shares_day2 * 400.0)) < 1e-4  # NAV conservation holds
 

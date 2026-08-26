@@ -24,7 +24,8 @@ class PortfolioSimulator:
         borrow_cost_annual_bps: float = 0.0,
         risk_free_rate_annual: float | pd.Series = 0.0,
         margin_debit_spread_bps: float = 150.0,
-        discrete_shares: bool = False,
+        short_proceeds_credit_pct: float = 0.0,
+        discrete_shares: bool = True,
         min_tradeable_notional: float = 10.0,
     ) -> None:
         self.initial_cash = float(initial_cash)
@@ -34,6 +35,7 @@ class PortfolioSimulator:
         self.borrow_cost_annual_bps = float(borrow_cost_annual_bps)
         self.risk_free_rate_annual = risk_free_rate_annual
         self.margin_debit_spread_bps = float(margin_debit_spread_bps)
+        self.short_proceeds_credit_pct = float(short_proceeds_credit_pct)
         self.discrete_shares = discrete_shares
         self.min_tradeable_notional = float(min_tradeable_notional)
 
@@ -91,8 +93,11 @@ class PortfolioSimulator:
 
             rf_daily = rf_ann / 252.0
             if cash > 0 and rf_daily > 0:
-                # Credit cash yield
-                cash += cash * rf_daily
+                short_notional = sum(abs(q) * current_prices[s] for s, q in holdings.items() if q < 0)
+                unencumbered_cash = max(0.0, cash - short_notional)
+                short_proceeds = min(cash, short_notional)
+                credit_basis = unencumbered_cash + (self.short_proceeds_credit_pct * short_proceeds)
+                cash += credit_basis * rf_daily
             elif cash < 0:
                 # Charge margin financing (RF + margin debit spread)
                 margin_rate_daily = (rf_ann + (self.margin_debit_spread_bps / 10_000.0)) / 252.0
@@ -171,6 +176,14 @@ class PortfolioSimulator:
         active_nav = nav_series.loc[active_idx]
         daily_returns = active_nav.pct_change().fillna(0.0)
 
+        # Build aligned daily risk-free series for statistics engine
+        if isinstance(self.risk_free_rate_annual, pd.Series):
+            rf_daily_active = self.risk_free_rate_annual.reindex(active_idx).fillna(0.0) / 252.0
+        elif rf_series is not None:
+            rf_daily_active = rf_series.reindex(active_idx).fillna(0.0) / 252.0
+        else:
+            rf_daily_active = float(self.risk_free_rate_annual) / 252.0
+
         # Compute summary metrics & statistical uncertainty
         total_ret = (active_nav.iloc[-1] / active_nav.iloc[0]) - 1.0 if len(active_nav) else 0.0
         n_years = len(active_nav) / 252.0 if len(active_nav) else 1.0
@@ -178,7 +191,7 @@ class PortfolioSimulator:
 
         stats_dict = calculate_sharpe_statistics(
             daily_returns,
-            rf_daily=(self.risk_free_rate_annual / 252.0) if isinstance(self.risk_free_rate_annual, (int, float)) else 0.0,
+            rf_daily=rf_daily_active,
             periods_per_year=252,
         )
 

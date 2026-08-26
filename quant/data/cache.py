@@ -32,18 +32,35 @@ class MarketDataCache:
     def get(self, universe: list[str], start_date: str, end_date: str, provider: str) -> pd.DataFrame | None:
         """Retrieves cached DataFrame if present."""
         key = self._compute_key(universe, start_date, end_date, provider)
-        file_path = self.cache_dir / f"{key}.parquet"
-        if file_path.exists():
+        csv_path = self.cache_dir / f"{key}.csv"
+        parquet_path = self.cache_dir / f"{key}.parquet"
+
+        if csv_path.exists():
             try:
-                df = pd.read_parquet(file_path)
+                df = pd.read_csv(csv_path, index_col=0, parse_dates=True)
                 return df
             except Exception:
-                return None
+                pass
+
+        if parquet_path.exists():
+            try:
+                df = pd.read_parquet(parquet_path)
+                return df
+            except Exception:
+                pass
+
         return None
 
     def put(self, df: pd.DataFrame, universe: list[str], start_date: str, end_date: str, provider: str) -> Path:
-        """Saves DataFrame to on-disk parquet cache."""
+        """Saves DataFrame to on-disk cache (CSV and Parquet if available)."""
         key = self._compute_key(universe, start_date, end_date, provider)
-        file_path = self.cache_dir / f"{key}.parquet"
-        df.to_parquet(file_path)
-        return file_path
+        csv_path = self.cache_dir / f"{key}.csv"
+        df.to_csv(csv_path)
+
+        try:
+            parquet_path = self.cache_dir / f"{key}.parquet"
+            df.to_parquet(parquet_path)
+        except Exception:
+            pass
+
+        return csv_path

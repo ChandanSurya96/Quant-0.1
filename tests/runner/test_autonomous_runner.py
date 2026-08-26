@@ -326,8 +326,8 @@ def test_autonomous_short_borrow_unavailable_rejected(auto_env):
     window_df = df.iloc[:800]
     as_of_date = window_df.index[-1]
 
-    # Mark all shorts as UNAVAILABLE in mock client
-    mock_client._short_availability_map = {sym: ShortAvailability.UNAVAILABLE for sym in ("FXE", "FXB", "FXY")}
+    # Mark all universe shorts as UNAVAILABLE in mock client
+    mock_client._short_availability_map = {sym: ShortAvailability.UNAVAILABLE for sym in df.columns}
 
     auto_cfg = AutonomousExecutionConfig(
         autonomous_execution_enabled=True,

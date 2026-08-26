@@ -1,8 +1,8 @@
 """Master Remediation + Adversarial Alpha Research Audit Engine.
 
-Real Market Data Implementation (Cached YFinanceProvider + 3M T-Bill Data).
+Real Market Data Implementation (Cached YFinanceProvider + 3M Treasury Yield Data).
 Executes Phase 8 Adversarial Audit across:
-1. Baseline Reproduction (CAND-001, CAND-006, ENS-80/20, Yale Pairs T20)
+1. Baseline Reproduction (CAND-001 Gross 1.0, CLEAN_BASELINE, Factor Ablations)
 2. Factor Decomposition & Ablation (Momentum alone, Value alone, Carry alone, No Hysteresis, Equal Weight vs Risk Parity)
 3. Walk-Forward Partitioning (Train 60%, Validation 20%, True OOS 20% [2024-2026])
 4. Friction Matrix (0, 2.5, 5, 10, 20, 30, 50 bps)
@@ -28,10 +28,10 @@ from markov2.universe_data import DEFAULT_UNIVERSE, approximate_carry, get_ticke
 from quant.core.enums import ExecutionMode
 from quant.data.cache import MarketDataCache
 from quant.data.providers.yfinance_provider import YFinanceProvider
-from quant.pairs.backtest import YalePairsBacktester
 from quant.portfolio.simulator import PortfolioSimulator
 from quant.provenance import build_provenance_record
 from quant.statistics.sharpe import calculate_sharpe_statistics, compute_deflated_sharpe_ratio
+from quant.strategies.macro import size_sleeve
 
 
 def compute_factor_weights(
@@ -47,13 +47,15 @@ def compute_factor_weights(
     use_car: bool = True,
     use_hysteresis: bool = True,
     use_risk_parity: bool = True,
+    target_sleeve_gross: float = 0.50,
+    max_single_position: float = 0.25,
     start_idx: int = 756,
 ) -> pd.DataFrame:
-    """Computes configurable factor weights for ablation testing."""
+    """Computes configurable factor weights with gross 1.0 (long 0.5 / short 0.5) and 25% position cap."""
     n = len(close_df)
     rets = close_df.pct_change().fillna(0.0)
     mom = close_df.pct_change(mom_window)
-    
+
     mean_val = close_df.rolling(val_window).mean()
     std_val = close_df.rolling(val_window).std()
     val = -(close_df - mean_val) / (std_val + 1e-8)
@@ -114,26 +116,26 @@ def compute_factor_weights(
                 prev_long_assets = long_selected
                 prev_short_assets = short_selected
 
-                new_w = pd.Series(0.0, index=close_df.columns)
-                if long_selected:
-                    if use_risk_parity:
-                        inv_v = 1.0 / (vols[long_selected] + 1e-8)
-                        w_long = inv_v / inv_v.sum()
-                        for a, w in w_long.items():
-                            new_w[a] = float(w)
-                    else:
-                        for a in long_selected:
-                            new_w[a] = 1.0 / len(long_selected)
+                long_w = size_sleeve(
+                    long_selected,
+                    vols,
+                    target_gross=target_sleeve_gross,
+                    max_single=max_single_position,
+                    use_risk_parity=use_risk_parity,
+                )
+                short_w = size_sleeve(
+                    short_selected,
+                    vols,
+                    target_gross=target_sleeve_gross,
+                    max_single=max_single_position,
+                    use_risk_parity=use_risk_parity,
+                )
 
-                if short_selected:
-                    if use_risk_parity:
-                        inv_v = 1.0 / (vols[short_selected] + 1e-8)
-                        w_short = inv_v / inv_v.sum()
-                        for a, w in w_short.items():
-                            new_w[a] = -float(w)
-                    else:
-                        for a in short_selected:
-                            new_w[a] = -1.0 / len(short_selected)
+                new_w = pd.Series(0.0, index=close_df.columns)
+                for a, w in long_w.items():
+                    new_w[a] = float(w)
+                for a, w in short_w.items():
+                    new_w[a] = -float(w)
 
                 current_weights = new_w
 
@@ -142,25 +144,26 @@ def compute_factor_weights(
     return target_weights
 
 
-def load_real_market_data(cache_dir: Path | None = None) -> tuple[pd.DataFrame, pd.Series]:
-    """Loads real cached historical market data and 3M Treasury Bill yield series."""
+def load_real_market_data(cache_dir: Path | None = None) -> tuple[pd.DataFrame, pd.Series, str]:
+    """Loads real cached historical market data and 3M Treasury yield series (no silent fallbacks)."""
     cache = MarketDataCache(cache_dir=cache_dir)
     tickers = get_tickers(DEFAULT_UNIVERSE)
     provider = YFinanceProvider(cache=cache, allow_synthetic_fallback=False)
 
     # 1. Fetch multi-asset Close price matrix (10 years)
     df_prices = provider.fetch_daily_bars(universe=tickers, lookback_years=10, mode=ExecutionMode.RESEARCH)
+    if df_prices.empty or len(df_prices.columns) < len(tickers):
+        raise ValueError(f"Incomplete price panel: got {len(df_prices.columns)} tickers, expected {len(tickers)}")
 
-    # 2. Fetch real 3M Treasury Bill yield series (^IRX or DGS3MO equivalent)
-    # ^IRX quote is in percent (e.g. 4.5 = 4.5% annual rate). Convert to decimal.
-    try:
-        df_irx = provider.fetch_daily_bars(universe=["^IRX"], lookback_years=10, mode=ExecutionMode.RESEARCH)
-        rf_annual_series = (df_irx["^IRX"] / 100.0).reindex(df_prices.index).ffill().bfill()
-    except Exception:
-        # Fallback to SOFR / Treasury Cash yield series in cache or safe 3M T-bill rate
-        rf_annual_series = pd.Series(0.02, index=df_prices.index)
+    # 2. Fetch real 3M Treasury Bill yield series (^IRX)
+    df_irx = provider.fetch_daily_bars(universe=["^IRX"], lookback_years=10, mode=ExecutionMode.RESEARCH)
+    if df_irx.empty or "^IRX" not in df_irx.columns:
+        raise ValueError("Missing ^IRX 3M Treasury yield series from data provider.")
 
-    return df_prices, rf_annual_series
+    # ^IRX quote is in percent (e.g. 5.25 = 5.25% annual rate). Convert to decimal.
+    rf_annual_series = (df_irx["^IRX"] / 100.0).reindex(df_prices.index).ffill().bfill()
+
+    return df_prices, rf_annual_series, provider.provider_name
 
 
 def validate_self_checks(
@@ -196,15 +199,19 @@ def validate_self_checks(
         )
 
 
-def run_master_adversarial_audit(slippage_bps: float = 2.5, discrete_shares: bool = True) -> dict:
-    """Executes master adversarial audit on real market data."""
-    # 1. Load real cached market data
-    df_macro_close, rf_annual_series = load_real_market_data()
+def run_master_adversarial_audit(
+    slippage_bps: float,
+    discrete_shares: bool = True,
+    short_proceeds_credit_pct: float = 0.0,
+) -> dict:
+    """Executes master adversarial audit on real market data (all friction arguments required)."""
+    # 1. Load real cached market data (no silent fallbacks)
+    df_macro_close, rf_annual_series, provider_name = load_real_market_data()
     tickers_macro = list(df_macro_close.columns)
     n_bars = len(df_macro_close)
     start_idx = min(756, n_bars // 3)
 
-    # 2. Baseline Model Weights
+    # 2. Baseline Model Weights (Gross 1.0 Dollar-Neutral Mandate)
     w_cand001 = compute_factor_weights(df_macro_close, use_mom=True, use_val=False, use_car=False, use_hysteresis=True, use_risk_parity=True, start_idx=start_idx)
     w_clean_baseline = compute_factor_weights(df_macro_close, use_mom=True, use_val=True, use_car=True, use_hysteresis=True, use_risk_parity=True, start_idx=start_idx)
     w_mom_alone = compute_factor_weights(df_macro_close, use_mom=True, use_val=False, use_car=False, use_hysteresis=False, use_risk_parity=False, start_idx=start_idx)
@@ -220,6 +227,7 @@ def run_master_adversarial_audit(slippage_bps: float = 2.5, discrete_shares: boo
             slippage_bps=slippage,
             borrow_cost_annual_bps=25.0,
             discrete_shares=discrete_shares,
+            short_proceeds_credit_pct=short_proceeds_credit_pct,
             risk_free_rate_annual=rf_annual_series,
         )
         return sim.run(target_w, df_macro_close, rebalance_freq=21, rebalance_dates=rebalance_dates, start_idx=start_idx, rf_series=rf_annual_series)
@@ -234,7 +242,7 @@ def run_master_adversarial_audit(slippage_bps: float = 2.5, discrete_shares: boo
 
     # 3. Walk-Forward Partitioning (Train 60%, Validation 20%, True OOS 20%)
     splits = get_splits(df_macro_close, train_pct=0.60, val_pct=0.20)
-    
+
     def eval_splits(r_s: pd.Series) -> dict:
         out = {}
         for split_name, idx in splits.items():
@@ -248,7 +256,7 @@ def run_master_adversarial_audit(slippage_bps: float = 2.5, discrete_shares: boo
 
     wf_cand001 = eval_splits(r_cand001)
 
-    # 4. Friction Sensitivity Matrix
+    # 4. Friction Sensitivity Matrix (0 to 50 bps)
     friction_matrix = {}
     for slip in [0.0, 2.5, 5.0, 10.0, 20.0, 30.0, 50.0]:
         res_slip = run_sim(w_cand001, slippage=slip, cost=10.0)
@@ -271,8 +279,8 @@ def run_master_adversarial_audit(slippage_bps: float = 2.5, discrete_shares: boo
     perm_stats = calculate_sharpe_statistics(perm_r, rf_daily=rf_annual_series.loc[perm_r.index] / 252.0)
 
     # 6. Deflated Sharpe Ratio (DSR)
-    # n_trials=29 represents the 29 candidate strategy variants recorded across EXP-001 to EXP-029.
-    # var_trials=0.0125 represents the empirical variance of annualized Sharpe ratios across historical candidate trials.
+    # n_trials=29 represents the 29 candidate strategy trials recorded across EXPERIMENT_REGISTRY.md (EXP-001 to EXP-029).
+    # var_trials=0.0125 is the empirical variance of historical trial Sharpe ratios across candidate backtests.
     observed_sr = float(res_cand001["metrics"]["excess_sharpe"])
     dsr = compute_deflated_sharpe_ratio(
         observed_sharpe=observed_sr,
@@ -297,8 +305,11 @@ def run_master_adversarial_audit(slippage_bps: float = 2.5, discrete_shares: boo
             "slippage_bps": slippage_bps,
             "borrow_cost_annual_bps": 25.0,
             "discrete_shares": discrete_shares,
+            "short_proceeds_credit_pct": short_proceeds_credit_pct,
+            "target_gross_exposure": 1.0,
+            "max_single_position_weight": 0.25,
         },
-        dataset_provider="YFinanceProvider",
+        dataset_provider=provider_name,
         universe=tickers_macro,
         prices_df=df_macro_close,
         execution_mode="RESEARCH",
@@ -324,6 +335,7 @@ def run_master_adversarial_audit(slippage_bps: float = 2.5, discrete_shares: boo
         "deflated_sharpe_ratio": {
             "observed_sharpe": observed_sr,
             "n_trials": 29,
+            "var_trials": 0.0125,
             "dsr_p_value": dsr,
         },
     }
@@ -332,5 +344,5 @@ def run_master_adversarial_audit(slippage_bps: float = 2.5, discrete_shares: boo
 
 
 if __name__ == "__main__":
-    audit = run_master_adversarial_audit()
-    print("Master audit script ready.")
+    audit = run_master_adversarial_audit(slippage_bps=5.0, discrete_shares=True, short_proceeds_credit_pct=0.0)
+    print("Master audit script executed successfully.")

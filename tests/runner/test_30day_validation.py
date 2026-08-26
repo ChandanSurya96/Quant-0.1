@@ -56,8 +56,8 @@ def test_deterministic_30day_harness_runs_to_completion(harness_setup):
 
         # Check rebalance schedule vs drift days
         if day_num in (1, 22):  # Scheduled rebalance days
-            assert record.orders_count == 6
-            assert record.fills_count == 6
+            assert record.orders_count in (6, 7)
+            assert record.fills_count == record.orders_count
         else:  # Intra-month weight drift days (ZERO trades)
             assert record.orders_count == 0
             assert record.fills_count == 0

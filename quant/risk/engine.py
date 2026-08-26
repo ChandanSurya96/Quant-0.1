@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from datetime import datetime, timezone
+import logging
 import math
 from typing import Any
 import uuid
@@ -10,6 +11,7 @@ import numpy as np
 import pandas as pd
 
 from ..core.interfaces import PortfolioState, RiskDecision, TargetPortfolio
+from ..observability.logging import StructuredLogger
 from .config import RiskConfig
 from .rules import (
     BorrowAvailabilityChecker,
@@ -24,8 +26,9 @@ from .rules import (
 class RiskEngine:
     """Pre-trade risk engine enforcing mandatory portfolio risk controls."""
 
-    def __init__(self, config: RiskConfig | None = None) -> None:
+    def __init__(self, config: RiskConfig | None = None, logger: StructuredLogger | None = None) -> None:
         self.config = config or RiskConfig()
+        self.logger = logger or StructuredLogger("RiskEngine")
         self._leverage_rule = GrossLeverageRule()
         self._concentration_rule = ConcentrationRule()
         self._cash_rule = CashBufferRule()
@@ -38,15 +41,15 @@ class RiskEngine:
         portfolio_state: PortfolioState,
         historical_returns: pd.Series | np.ndarray | None = None,
         peak_nav: float | None = None,
-        portfolio_id: str | None = None,
-        decision_id: str | None = None,
-        config_override: RiskConfig | None = None,
         borrow_checker: BorrowAvailabilityChecker | None = None,
         available_borrows: set[str] | dict[str, bool] | None = None,
         current_prices: dict[str, float] | None = None,
+        config_override: RiskConfig | None = None,
+        decision_id: str | None = None,
+        portfolio_id: str | None = None,
         context: dict[str, Any] | None = None,
     ) -> RiskDecision:
-        """Evaluates a TargetPortfolio against portfolio-level risk limits.
+        """Evaluates all configured pre-trade risk rules against the target portfolio.
 
         Returns a frozen RiskDecision with structured violation reporting.
         """
@@ -85,6 +88,7 @@ class RiskEngine:
         # 2. Rule Evaluations
         working_weights = dict(weights)
         was_scaled = False
+        scale_factor = 1.0
 
         # Leverage & Scaling
         lev_pass, lev_viols, lev_mets, scaled_w = self._leverage_rule.evaluate(
@@ -95,6 +99,23 @@ class RiskEngine:
             violations.extend(lev_viols)
         elif scaled_w is not None:
             was_scaled = True
+            raw_gross = sum(abs(w) for w in weights.values())
+            scaled_gross = sum(abs(w) for w in scaled_w.values())
+            scale_factor = scaled_gross / max(1e-8, raw_gross)
+            rule_metrics["gross_scale_factor"] = scale_factor
+
+            self.logger.warning(
+                "LOUD_LEVERAGE_SCALING_APPLIED",
+                extra={
+                    "decision_id": d_id,
+                    "strategy_id": target_portfolio.strategy_id,
+                    "raw_gross_exposure": raw_gross,
+                    "scaled_gross_exposure": scaled_gross,
+                    "scale_factor": scale_factor,
+                    "max_gross_exposure_limit": cfg.max_gross_exposure,
+                },
+            )
+
             working_weights = scaled_w
             # Reconstruct target portfolio for downstream rule checks if scaled
             target_portfolio = TargetPortfolio(
@@ -137,9 +158,9 @@ class RiskEngine:
         if not dd_pass:
             violations.extend(dd_viols)
 
-        # Additional Metric Calculations
+        # 3. Aggregated Exposure & Metric Verification
         gross_exp = float(sum(abs(w) for w in working_weights.values()))
-        net_exp = float(sum(w for w in working_weights.values()))
+        net_exp = float(sum(working_weights.values()))
         long_exp = float(sum(w for w in working_weights.values() if w > 0))
         short_exp = float(sum(abs(w) for w in working_weights.values() if w < 0))
         max_pos_w = float(max((abs(w) for w in working_weights.values()), default=0.0))
@@ -197,5 +218,6 @@ class RiskEngine:
                 "evaluated_by": "RiskEngine_v1",
                 "decision_status": decision_status,
                 "was_scaled": was_scaled,
+                "scale_factor": scale_factor,
             },
         )

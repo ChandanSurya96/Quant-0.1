@@ -113,7 +113,7 @@ def test_execution_lag_1_bar():
     assert len(trades) == 1
     assert trades.iloc[0]["date"] == dates[2]
     assert trades.iloc[0]["fill_price"] == 150.0
-    assert trades.iloc[0]["delta_shares"] == pytest.approx(100_000 * 0.50 / 150.0, abs=1e-4)
+    assert trades.iloc[0]["delta_shares"] == pytest.approx(int(100_000 * 0.50 / 150.0), abs=1e-4)
 
 
 # --------------------------------------------- 5. Deterministic Repeatability

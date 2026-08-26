@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from datetime import datetime, timezone
 import sqlite3
+from typing import Any
 
 from ...core.interfaces import Holding
 from ..database import DatabaseManager
@@ -53,14 +54,60 @@ class HoldingRepository:
 
     def save_holdings(
         self,
-        holdings: dict[str, Holding],
+        holdings: dict[str, Any],
         portfolio_id: str = "default",
         updated_at: datetime | None = None,
         conn: sqlite3.Connection | None = None,
     ) -> None:
-        """Upserts a dictionary of holdings."""
-        for h in holdings.values():
-            self.save_holding(h, portfolio_id=portfolio_id, updated_at=updated_at, conn=conn)
+        """Synchronizes holdings by clearing closed positions and upserting active holdings."""
+        updated_iso = (updated_at or datetime.now(timezone.utc)).isoformat()
+
+        def _execute_sync(c: sqlite3.Connection) -> None:
+            active_symbols: list[str] = []
+            for sym, h in holdings.items():
+                if hasattr(h, "shares"):
+                    shares = float(h.shares)
+                    cost_basis = float(getattr(h, "cost_basis", 0.0))
+                    last_price = float(getattr(h, "current_price", 0.0))
+                    market_value = float(getattr(h, "market_value", shares * last_price))
+                else:
+                    shares = float(h)
+                    cost_basis = 0.0
+                    last_price = 0.0
+                    market_value = 0.0
+
+                if abs(shares) > 1e-6:
+                    active_symbols.append(sym)
+                    c.execute(
+                        """
+                        INSERT INTO physical_holdings (
+                            symbol, portfolio_id, shares, cost_basis, last_price, market_value, updated_at
+                        )
+                        VALUES (?, ?, ?, ?, ?, ?, ?)
+                        ON CONFLICT(symbol, portfolio_id) DO UPDATE SET
+                            shares = excluded.shares,
+                            cost_basis = excluded.cost_basis,
+                            last_price = excluded.last_price,
+                            market_value = excluded.market_value,
+                            updated_at = excluded.updated_at;
+                        """,
+                        (sym, portfolio_id, shares, cost_basis, last_price, market_value, updated_iso),
+                    )
+
+            if active_symbols:
+                placeholders = ",".join("?" for _ in active_symbols)
+                c.execute(
+                    f"DELETE FROM physical_holdings WHERE portfolio_id = ? AND symbol NOT IN ({placeholders});",
+                    [portfolio_id] + active_symbols,
+                )
+            else:
+                c.execute("DELETE FROM physical_holdings WHERE portfolio_id = ?;", (portfolio_id,))
+
+        if conn is not None:
+            _execute_sync(conn)
+        else:
+            with self._db.get_connection() as c:
+                _execute_sync(c)
 
     def get_holding(
         self,
