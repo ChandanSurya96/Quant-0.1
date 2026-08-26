@@ -146,9 +146,8 @@ def compute_factor_weights(
 
 def load_real_market_data(cache_dir: Path | None = None) -> tuple[pd.DataFrame, pd.Series, str]:
     """Loads real cached historical market data and 3M Treasury yield series (no silent fallbacks)."""
-    cache = MarketDataCache(cache_dir=cache_dir)
     tickers = get_tickers(DEFAULT_UNIVERSE)
-    provider = YFinanceProvider(cache=cache, allow_synthetic_fallback=False)
+    provider = YFinanceProvider(allow_synthetic_fallback=False, use_cache=True)
 
     # 1. Fetch multi-asset Close price matrix (10 years)
     df_prices = provider.fetch_daily_bars(universe=tickers, lookback_years=10, mode=ExecutionMode.RESEARCH)
