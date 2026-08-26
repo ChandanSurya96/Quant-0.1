@@ -24,8 +24,8 @@ def get_git_commit_sha() -> str:
         return "UNKNOWN_COMMIT"
 
 
-def get_git_dirty_flag() -> bool:
-    """Checks if current git working tree is dirty."""
+def get_git_dirty_flag(ignore_results: bool = True) -> bool:
+    """Checks if current git working tree is dirty (ignoring output results/ artifacts by default)."""
     try:
         res = subprocess.run(
             ["git", "status", "--porcelain"],
@@ -33,7 +33,10 @@ def get_git_dirty_flag() -> bool:
             text=True,
             check=True,
         )
-        return bool(res.stdout.strip())
+        lines = [line.strip() for line in res.stdout.splitlines() if line.strip()]
+        if ignore_results:
+            lines = [line for line in lines if not ("results/" in line or line.endswith(".json"))]
+        return bool(lines)
     except Exception:
         return True
 
