@@ -32,3 +32,18 @@ class RiskConfig:
             raise ValueError(f"max_single_position_weight must be positive, got {self.max_single_position_weight}")
         if self.min_cash_buffer_pct < 0:
             raise ValueError(f"min_cash_buffer_pct cannot be negative, got {self.min_cash_buffer_pct}")
+
+    @classmethod
+    def macro_mandate(cls) -> RiskConfig:
+        """Returns risk configuration aligned with 200% gross dollar-neutral macro mandate."""
+        return cls(
+            max_gross_exposure=2.0,
+            max_net_exposure=0.5,
+            max_single_position_weight=0.60,
+            max_long_exposure=1.0,
+            max_short_exposure=1.0,
+            max_leverage=2.0,
+            max_drawdown_pct=0.35,
+            max_volatility_annualized=0.35,
+            scale_gross_leverage=False,
+        )
