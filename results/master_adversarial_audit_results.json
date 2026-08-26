@@ -1,8 +1,8 @@
 {
   "provenance": {
-    "git_commit_sha": "309bb3d3495df5d77960ee5f4ec18c9b752f25e0",
-    "is_dirty": true,
-    "utc_timestamp": "2026-08-26T17:25:07.408068+00:00",
+    "git_commit_sha": "04a30e5fe810ebace1dc2c609466b52cff7f6868",
+    "is_dirty": false,
+    "utc_timestamp": "2026-08-26T18:01:18.629888+00:00",
     "strategy_id": "CAND-001-CANONICAL-REAL-DATA",
     "execution_mode": "RESEARCH",
     "parameters": {
@@ -45,6 +45,7 @@
     "price_panel_sha256": "ee04069aa3ec6c45e789d988d5b02e4e850d740dd89956c3dd9e943f0abc24e1",
     "metadata": {}
   },
+  "derived_verdict": "REJECTED",
   "models": {
     "CAND-001_Canonical_Remediated": {
       "initial_cash": 100000.0,
@@ -166,7 +167,10 @@
         "skewness": -0.28910332409796574,
         "kurtosis": 8.192342082467848,
         "n_observations": 751,
-        "cagr": 0.03670243284163788
+        "cagr": 0.03670243284163788,
+        "start_date": "2019-08-29",
+        "end_date": "2022-08-22",
+        "n_bars": 751
       },
       "VALIDATION": {
         "gross_sharpe": 0.708109847524159,
@@ -180,7 +184,10 @@
         "skewness": -0.7184485985899285,
         "kurtosis": 1.8918806936385288,
         "n_observations": 502,
-        "cagr": 0.04487819487288691
+        "cagr": 0.04487819487288691,
+        "start_date": "2022-08-23",
+        "end_date": "2024-08-21",
+        "n_bars": 502
       },
       "TRUE_OOS": {
         "gross_sharpe": 0.6869758870704386,
@@ -194,7 +201,10 @@
         "skewness": -0.19651088198931643,
         "kurtosis": 3.067117006583283,
         "n_observations": 503,
-        "cagr": 0.04714190700772947
+        "cagr": 0.04714190700772947,
+        "start_date": "2024-08-22",
+        "end_date": "2026-08-25",
+        "n_bars": 503
       }
     }
   },
