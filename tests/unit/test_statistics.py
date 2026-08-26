@@ -1,9 +1,11 @@
 """Unit tests for quant.statistics uncertainty engine."""
 
 import math
+
 import numpy as np
 import pandas as pd
 import pytest
+
 from quant.statistics.sharpe import (
     calculate_sharpe_statistics,
     compute_deflated_sharpe_ratio,

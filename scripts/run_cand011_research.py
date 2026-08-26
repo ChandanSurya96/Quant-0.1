@@ -68,7 +68,6 @@ def get_cand006_target_weights(
     """Generates target weights for CAND-006 (Skip-Month Momentum 6-1)."""
     rets = df_close.pct_change().fillna(0.0)
     n_bars, n_assets = df_close.shape
-    p_now = df_close
     p_21 = df_close.shift(21)
     p_126 = df_close.shift(126)
 

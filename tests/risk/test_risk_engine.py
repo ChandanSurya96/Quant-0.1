@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from datetime import datetime, timezone
 from pathlib import Path
+
 import numpy as np
 import pytest
 
@@ -208,7 +209,7 @@ def test_single_asset_concentration_boundary(base_portfolio_state: PortfolioStat
     """Single asset exactly 25% -> pass. Single asset > 25% -> rejected."""
     engine = RiskEngine(RiskConfig(max_single_position_weight=0.25))
     now = datetime.now(timezone.utc)
-    
+
     tp_exact = TargetPortfolio(now, "macro_v1", {"SPY": 0.25}, 21)
     dec_exact = engine.evaluate(tp_exact, base_portfolio_state)
     assert dec_exact.approved is True

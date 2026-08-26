@@ -44,14 +44,14 @@ def newey_west_ols(
         x_t = X_mat[t:t+1, :]
         S += (u[t] ** 2) * (x_t.T @ x_t)
 
-    for l in range(1, lags + 1):
-        weight = 1.0 - l / (lags + 1.0)
-        gamma_l = np.zeros((K, K), dtype=float)
-        for t in range(l, T):
+    for lag_idx in range(1, lags + 1):
+        weight = 1.0 - lag_idx / (lags + 1.0)
+        gamma_lag = np.zeros((K, K), dtype=float)
+        for t in range(lag_idx, T):
             x_t = X_mat[t:t+1, :]
-            x_tl = X_mat[t-l:t-l+1, :]
-            gamma_l += (u[t] * u[t-l]) * (x_t.T @ x_tl)
-        S += weight * (gamma_l + gamma_l.T)
+            x_tl = X_mat[t-lag_idx:t-lag_idx+1, :]
+            gamma_lag += (u[t] * u[t-lag_idx]) * (x_t.T @ x_tl)
+        S += weight * (gamma_lag + gamma_lag.T)
 
     V = T * (XtX_inv @ S @ XtX_inv)
     se = np.sqrt(np.maximum(1e-12, np.diag(V) / T))

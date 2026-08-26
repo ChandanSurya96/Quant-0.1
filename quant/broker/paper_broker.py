@@ -2,9 +2,9 @@
 
 from __future__ import annotations
 
+import uuid
 from dataclasses import replace
 from datetime import datetime, timezone
-import uuid
 
 from ..core.enums import OrderSide, OrderStatus
 from ..core.exceptions import OMSError

@@ -2,8 +2,8 @@
 
 from __future__ import annotations
 
-from datetime import datetime, timezone
 import sqlite3
+from datetime import datetime, timezone
 
 from ...core.enums import ExecutionMode, OrderSide, OrderStatus, OrderType
 from ...core.interfaces import Order

@@ -2,23 +2,18 @@
 
 from __future__ import annotations
 
-from dataclasses import dataclass, field
-from datetime import datetime, timezone
 import uuid
-from typing import Any
-import pandas as pd
+from dataclasses import dataclass
+from datetime import datetime, timezone
 
 from ..broker.base import BrokerAdapter
-from ..broker.ibkr.adapter import IBKRBrokerAdapter
 from ..broker.ibkr.client import MockIBKRClient
 from ..core.enums import AssetClass, ExecutionMode, OrderSide, OrderStatus, OrderType
-from ..core.exceptions import ModeViolationError, OMSError, RiskViolationError
-from ..core.interfaces import Holding, Instrument, Order, OrderBatch, PortfolioState, RiskDecision, TargetPortfolio
+from ..core.exceptions import ModeViolationError
+from ..core.interfaces import Instrument, Order, OrderBatch, TargetPortfolio
 from ..observability.alerts import AlertDispatcher
 from ..observability.logging import StructuredLogger
-from ..oms.approval import ApprovalStatus, ApprovalToken, ManualApprovalGate
-from ..oms.engine import OrderManagementSystem
-from ..oms.preview import OrderPreview, OrderPreviewBuilder
+from ..oms.approval import ApprovalToken, ManualApprovalGate
 from ..oms.revalidation import PreSubmissionValidator
 from ..persistence.database import DatabaseManager
 from ..persistence.repositories import (
@@ -329,7 +324,6 @@ class IBKRPaperBurnInRunner:
 
         # 7. Ingest Broker Executions & Persist Fills
         fills = self.broker.get_fills()
-        broker_order_id = order_id
         broker_exec_id = "N/A"
         executed_px = px
         total_comm = 0.0
@@ -378,7 +372,7 @@ class IBKRPaperBurnInRunner:
             success=is_success,
             failure_reason=None if is_success else f"Post-reconciliation issues: {[i.message for i in post_rec.issues]}",
         )
-        seq = self.burnin_repo.record_order(rec)
+        self.burnin_repo.record_order(rec)
         return rec
 
     def run_10_order_burnin_suite(self, current_prices: dict[str, float]) -> tuple[list[BurnInRecord], BurnInSummary]:

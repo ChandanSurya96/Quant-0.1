@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from abc import ABC, abstractmethod
+
 import pandas as pd
 
 from ..core.enums import ExecutionMode
@@ -25,7 +26,7 @@ class AbstractMarketDataProvider(ABC):
         mode: ExecutionMode = ExecutionMode.RESEARCH,
     ) -> pd.DataFrame:
         """Fetch aligned daily Close price matrix for a list of tickers.
-        
+
         Must return a DataFrame with DateTime index and ticker columns.
         In PAPER and LIVE modes, implementations MUST fail closed on errors.
         """

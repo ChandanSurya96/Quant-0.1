@@ -1,8 +1,10 @@
 """Unit tests asserting fail-closed data behavior on missing or rate-limited market data."""
 
 from unittest.mock import patch
+
 import pandas as pd
 import pytest
+
 from markov2.universe_data import fetch_universe
 from quant.core.exceptions import FailClosedDataError
 

@@ -13,15 +13,15 @@ Provides:
 
 from __future__ import annotations
 
-from .distance import calculate_pairwise_distances, calculate_spread_variance
-from .formation import PairFormationEngine, select_top_pairs
-from .normalization import normalize_price_series
-from .signals import PairSignalEngine
-from .execution import PairTrade, PairExecutionEngine
+from .backtest import YalePairsBacktester
 from .cohorts import OverlappingCohortManager
 from .cointegration import CointegrationPairEngine
 from .diagnostics import PairsRiskDiagnostics
-from .backtest import YalePairsBacktester
+from .distance import calculate_pairwise_distances, calculate_spread_variance
+from .execution import PairExecutionEngine, PairTrade
+from .formation import PairFormationEngine, select_top_pairs
+from .normalization import normalize_price_series
+from .signals import PairSignalEngine
 
 __all__ = [
     "normalize_price_series",

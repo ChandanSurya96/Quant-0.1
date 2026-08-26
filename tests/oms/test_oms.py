@@ -3,19 +3,19 @@
 from __future__ import annotations
 
 from datetime import datetime, timezone
+
 import pytest
 
 from quant.core.enums import (
-    ExecutionMode,
     OrderSide,
     OrderStatus,
     OrderType,
 )
-from quant.core.exceptions import InvalidStateTransitionError, OMSError
+from quant.core.exceptions import InvalidStateTransitionError
 from quant.core.interfaces import Holding, Order, TargetPortfolio
 from quant.oms.approval import AutoApproveGate
 from quant.oms.engine import OrderManagementSystem
-from quant.oms.lifecycle import transition_order, validate_transition
+from quant.oms.lifecycle import transition_order
 
 
 # -------------------------------------------------------- 1. Target -> Order Deltas
@@ -209,8 +209,6 @@ def test_order_lifecycle_invalid_transitions_rejected():
 
 # ----------------------------------------------------- 3. Execution Approval Gate
 def test_auto_approve_gate():
-    o1 = Order("ord_1", "run_1", "macro_v1", "SPY", OrderSide.BUY, OrderType.MARKET, 10.0, status=OrderStatus.CREATED)
-    o2 = Order("ord_2", "run_1", "macro_v1", "TLT", OrderSide.SELL, OrderType.MARKET, 20.0, status=OrderStatus.CREATED)
     batch = OrderManagementSystem.generate_order_batch({}, TargetPortfolio(datetime.now(timezone.utc), "m", {"SPY": 0.5}, 21), {"SPY": 100.0}, 10000.0, "run_1")
 
     gate = AutoApproveGate()

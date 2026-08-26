@@ -4,22 +4,20 @@ from __future__ import annotations
 
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
-import pytest
-import pandas as pd
 
-from quant.broker.ibkr import IBKRBrokerAdapter, IBKRConfig, MockIBKRClient, ShortAvailability
-from quant.core.enums import AssetClass, ExecutionMode, OrderSide, OrderStatus, OrderType
-from quant.core.exceptions import ModeViolationError, OMSError, ReconciliationError, RiskViolationError
-from quant.core.interfaces import Fill, Holding, Instrument, Order, OrderBatch, PortfolioState, TargetPortfolio
-from quant.oms.approval import ApprovalStatus, AutonomousApprovalGate
+import pytest
+
+from quant.broker.ibkr import IBKRBrokerAdapter, IBKRConfig, MockIBKRClient
+from quant.core.enums import AssetClass, ExecutionMode, OrderSide, OrderType
+from quant.core.exceptions import ModeViolationError
+from quant.core.interfaces import Fill, Instrument, Order, OrderBatch
+from quant.oms.approval import AutonomousApprovalGate
 from quant.persistence.database import DatabaseManager
 from quant.persistence.repositories import (
     FillRepository,
-    HoldingRepository,
     InstrumentRepository,
     OrderRepository,
     RunRepository,
-    SnapshotRepository,
 )
 from quant.runner.autonomous_config import AutonomousExecutionConfig
 from quant.runner.canary_ledger import CanaryLedgerRepository, CanaryRecord

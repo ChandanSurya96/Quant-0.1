@@ -2,13 +2,12 @@
 
 import numpy as np
 import pandas as pd
-import pytest
+
+from quant.pairs.backtest import YalePairsBacktester
 from scripts.run_cand013_research import (
     apply_volatility_targeting,
-    compute_metrics,
     generate_sp500_robust_panel,
 )
-from quant.pairs.backtest import YalePairsBacktester
 
 
 def test_apply_volatility_targeting_no_leverage_above_1():
@@ -17,7 +16,7 @@ def test_apply_volatility_targeting_no_leverage_above_1():
     # Low-volatility return series (approx 4% vol)
     rets = pd.Series(np.random.normal(0.0002, 0.0025, size=100), index=dates)
     targeted_rets, scaling = apply_volatility_targeting(rets, target_vol=0.10, lookback=21)
-    
+
     assert len(targeted_rets) == 100
     assert (scaling <= 1.0).all()  # Strict constraint: No leverage above 1.0x
     assert (scaling >= 0.0).all()

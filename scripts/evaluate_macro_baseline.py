@@ -13,7 +13,7 @@ import pandas as pd
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-from markov2.backtest import metrics, turnover
+from markov2.backtest import metrics
 from markov2.data import filter_vendor_artifacts
 from markov2.macro import walk_forward_macro
 from markov2.splits import get_splits
@@ -47,22 +47,22 @@ def evaluate_macro_variant(df_close: pd.DataFrame, use_hysteresis: bool, use_ris
         common_idx = net_rets.index.intersection(part_idx)
         if len(common_idx) == 0:
             return {"name": name, "sharpe": float("nan"), "cagr": float("nan"), "volatility": float("nan"), "max_drawdown": float("nan"), "turnover": float("nan")}
-        
+
         r_part = net_rets.reindex(common_idx).fillna(0.0).to_numpy()
         pos_part = positions.reindex(common_idx).fillna(0.0).to_numpy()
-        
+
         total_gross = np.abs(pos_part).sum(axis=1)
         held_days = (total_gross > 0).astype(float)
-        
+
         m = metrics(r_part, held_days)
-        
+
         deltas = np.abs(np.diff(np.vstack((np.zeros(pos_part.shape[1]), pos_part)), axis=0))
         tno_sum = float(deltas.sum())
         tno_ann = (tno_sum / len(r_part)) * 252.0 if len(r_part) else 0.0
-        
+
         sd = np.std(r_part, ddof=1)
         vol = float(sd * np.sqrt(252)) if sd > 0 else float("nan")
-        
+
         return {
             "name": name,
             "sharpe": m["sharpe"],
@@ -119,7 +119,7 @@ def main():
         new_p = opt_res[part_key]
         tno_diff = old_p["turnover"] - new_p["turnover"]
         tno_pct = (tno_diff / old_p["turnover"] * 100.0) if old_p["turnover"] > 0 else 0.0
-        
+
         print(f"  {old_p['name']:<18s} | {old_p['sharpe']:10.4f} | {new_p['sharpe']:10.4f} | {old_p['turnover']*100:12.2f}% | {new_p['turnover']*100:12.2f}% | {-tno_pct:+17.1f}%", flush=True)
 
     print("-" * 95, flush=True)

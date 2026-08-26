@@ -2,22 +2,19 @@
 
 from __future__ import annotations
 
-from dataclasses import dataclass, field
-from datetime import datetime, timezone
 import uuid
-from typing import Any
+from datetime import datetime, timezone
+
 import pandas as pd
 
 from ..broker.base import BrokerAdapter
-from ..core.enums import AssetClass, ExecutionMode, OrderSide, OrderStatus, OrderType
-from ..core.exceptions import ModeViolationError, OMSError, RiskViolationError
-from ..core.interfaces import Holding, Instrument, Order, OrderBatch, PortfolioState, RiskDecision, TargetPortfolio
+from ..core.enums import AssetClass, ExecutionMode, OrderSide, OrderStatus
+from ..core.interfaces import Instrument
 from ..data.validation import DataValidationGate
 from ..observability.alerts import AlertDispatcher
 from ..observability.logging import StructuredLogger
-from ..oms.approval import ApprovalStatus, ApprovalToken, AutonomousApprovalGate
+from ..oms.approval import AutonomousApprovalGate
 from ..oms.engine import OrderManagementSystem
-from ..oms.preview import OrderPreview, OrderPreviewBuilder
 from ..oms.revalidation import PreSubmissionValidator
 from ..persistence.database import DatabaseManager
 from ..persistence.repositories import (
@@ -37,7 +34,7 @@ from ..risk.engine import RiskEngine
 from ..strategies.base import AbstractStrategy
 from .autonomous_config import AutonomousExecutionConfig
 from .autonomous_ledger import AutonomousLedgerRepository, AutonomousRunRecord
-from .models import DailyPaperReport, PaperRunRecord, RunStatus
+from .models import DailyPaperReport, RunStatus
 
 
 class AutonomousTradingRunner:

@@ -21,7 +21,6 @@ from markov2 import data as D
 from markov2 import gates as G
 from markov2 import matrix as M
 from markov2 import nulls as N
-from markov2 import report as R
 from markov2 import states as S
 from markov2 import stats as ST
 from markov2 import verify as V
@@ -40,7 +39,6 @@ def log_loss_multiclass(y_true: np.ndarray, y_prob: np.ndarray, eps: float = 1e-
 
 def brier_score_multiclass(y_true: np.ndarray, y_prob: np.ndarray) -> float:
     """Multiclass Brier score: mean squared error across all state probabilities."""
-    n_classes = y_prob.shape[1]
     y_onehot = np.zeros_like(y_prob)
     y_onehot[np.arange(len(y_true)), y_true] = 1.0
     return float(np.mean(np.sum((y_prob - y_onehot) ** 2, axis=1)))
@@ -434,14 +432,14 @@ def main():
         else:
             verdict_str = "MODEL FAILURE"
 
-    print(f"\n  ========================================================")
+    print("\n  ========================================================")
     print(f"   HARD VERDICT:  {verdict_str}")
-    print(f"  ========================================================\n")
+    print("  ========================================================\n")
 
     print("Summary of Failure Causes:")
     print(f"1. Control Baseline Gate Failure: The 20-bar discrete Markov model (Net Sharpe {nm_fixed['sharpe']:.4f}) does NOT add incremental value over the matrix-free trailing-return control (Net Sharpe {nm_base['sharpe']:.4f}). On SUZLON.NS, both strategies achieve IDENTICAL trading decisions and equity curves because the Markov filter collapse reduces to the exact same momentum/volatility position rule.")
     print(f"2. Permutation Null Failure: Real Net Sharpe ({nm_fixed['sharpe']:.4f}) sits at the {sum_rot['sharpe']['percentile']:.1f}th percentile of 1,000 circular rotations (p = {sum_rot['sharpe']['p_one_sided']:.4f}). It fails to exceed the 95th percentile requirement, proving that the returns are statistically indistinguishable from a label-decoupled surrogate.")
-    print(f"3. Zero Predictive Information: 9 out of 9 transition cells in P_stride have 95% Wilson Score confidence intervals that cover the unconditional destination state base rates. The transition matrix provides zero incremental predictive information over the static state distribution.")
+    print("3. Zero Predictive Information: 9 out of 9 transition cells in P_stride have 95% Wilson Score confidence intervals that cover the unconditional destination state base rates. The transition matrix provides zero incremental predictive information over the static state distribution.")
 
     print("\n" + "=" * 80)
     return 0

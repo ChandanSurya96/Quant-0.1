@@ -2,15 +2,13 @@
 
 from __future__ import annotations
 
-from datetime import datetime, timezone
-import math
-from typing import Any
 import uuid
-import pandas as pd
+from datetime import datetime, timezone
+from typing import Any
 
 from ..core.enums import ExecutionMode, OrderSide, OrderStatus, OrderType
 from ..core.exceptions import OMSError, RiskViolationError
-from ..core.interfaces import Holding, Order, OrderBatch, RiskDecision, TargetPortfolio
+from ..core.interfaces import Order, OrderBatch, RiskDecision, TargetPortfolio
 from ..portfolio.sizer import target_weights_to_shares
 
 

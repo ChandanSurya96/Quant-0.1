@@ -2,12 +2,11 @@
 
 from __future__ import annotations
 
-import numpy as np
 import pandas as pd
 
-from .pipeline import walk_forward_cointegration
 from ..backtest import apply_costs, metrics, turnover, walk_forward_signals
 from ..states import label_threshold
+from .pipeline import walk_forward_cointegration
 
 
 def run_cointegration_markov_hybrid(
@@ -78,7 +77,7 @@ def run_cointegration_markov_hybrid(
     # 5. Compute returns and apply costs
     # Approximate spread daily change return
     spread_diff = spread.diff().fillna(0.0)
-    
+
     # Strategy return = position_{t-1} * delta_spread_t
     effective_pos = positions.shift(1).fillna(0.0)
     effective_raw = raw_positions.shift(1).fillna(0.0)
@@ -87,7 +86,7 @@ def run_cointegration_markov_hybrid(
     raw_ret = effective_raw * spread_diff
 
     net_strat_ret = apply_costs(strat_ret.to_numpy(), effective_pos.to_numpy(), cost_bps)
-    net_raw_ret = apply_costs(raw_ret.to_numpy(), effective_raw.to_numpy(), cost_bps)
+    _net_raw_ret = apply_costs(raw_ret.to_numpy(), effective_raw.to_numpy(), cost_bps)
 
     return {
         "index": active_idx,

@@ -17,7 +17,7 @@ def target_weights_to_shares(
 
     Target Dollar Allocation: D_i = w_i * NAV
     Target Shares: Q_i = D_i / P_i (rounded to discrete integer shares if discrete_shares=True)
-    
+
     Supports negative target weights for direct ETF shorting.
     """
     target_shares: dict[str, float] = {}

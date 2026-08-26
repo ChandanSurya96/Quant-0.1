@@ -14,7 +14,7 @@ from __future__ import annotations
 
 import numpy as np
 
-from .gates import NOT_VALIDATED, VALIDATED
+from .gates import VALIDATED
 from .states import N_STATES, STATE_NAMES
 
 RULE = "=" * 78
@@ -51,7 +51,7 @@ def render_data(ticker: str, close, bars: int, corp: list[dict], spliced: list[d
         L.append("\n  splice status       none applied")
 
     if not corp:
-        L.append(f"\n  suspicious bars     none (no single bar beyond +/-25%)")
+        L.append("\n  suspicious bars     none (no single bar beyond +/-25%)")
     else:
         handled = {a["date"] for a in spliced if a.get("ok")}
         L.append(f"\n  suspicious bars     {len(corp)} DETECTED")
@@ -74,7 +74,7 @@ def render_regime(dist, cells: list[dict], counts, stride: int, stride_mode: str
         f"{STATE_NAMES[s]} {dist[s]*100:.2f}%" for s in range(N_STATES)))
 
     L.append(f"\n  Corrected transition matrix (stride={stride}, mode={stride_mode})")
-    L.append(f"  Every cell carries its own interval. n_eff deflates the raw count by")
+    L.append("  Every cell carries its own interval. n_eff deflates the raw count by")
     L.append(f"  {stride} because the (t, t+{stride}) pairs overlap each other.\n")
     L.append(f"    {'transition':<22s}{'count':>11s}{'p':>9s}{'n_eff':>8s}"
              f"{'base':>8s}{'lift':>9s}{'95% CI':>18s}   verdict")
@@ -89,12 +89,12 @@ def render_regime(dist, cells: list[dict], counts, stride: int, stride_mode: str
     thin = sorted({c["from"] for c in cells if c["thin"]})
     n_contains = sum(1 for c in cells if c["contains_base"])
     L.append(f"\n  {n_contains} of {len(cells)} cells have a 95% CI containing the unconditional")
-    L.append(f"  base rate: those cells are not distinguishable from the state mix alone.")
+    L.append("  base rate: those cells are not distinguishable from the state mix alone.")
     if thin:
         L.append(f"  THIN ROWS (n_eff < 30, percentages far less precise than they look): "
                  f"{', '.join(thin)}")
 
-    L.append(f"\n  Signal magnitude  (P(BULL next) - P(BEAR next))")
+    L.append("\n  Signal magnitude  (P(BULL next) - P(BEAR next))")
     for s in range(N_STATES):
         L.append(f"    {STATE_NAMES[s]:>10s} {signal_vec[s]:+.4f}")
     a = admissibility
@@ -106,7 +106,7 @@ def render_regime(dist, cells: list[dict], counts, stride: int, stride_mode: str
         L.append(f"    *** {a['status']} ***")
         L.append(f"    {a['detail']}.")
         L.append(f"    A strategy gated at +/-{a['signal_threshold']:.2f} can never act on this")
-        L.append(f"    matrix; any backtest below is the flat-position path plus noise.")
+        L.append("    matrix; any backtest below is the flat-position path plus noise.")
 
     if decay:
         L.append(f"\n  Forecast decay        {'horizon':>8s} {'max|signal|':>13s} {'TV to pi':>11s}")
@@ -128,7 +128,7 @@ def render_strategy(rows: list[dict], cost_bps: float, baseline_verdict: dict) -
                  f"{r['cagr']*100:8.2f}%{r['max_drawdown']*100:8.2f}%"
                  f"{_pf(r['profit_factor']):>6s}{r['exposure']*100:6.1f}%"
                  f"{r['turnover_annualised']:9.2f}")
-    L.append(f"\n  MANDATORY CONTROL")
+    L.append("\n  MANDATORY CONTROL")
     L.append(f"    Markov {baseline_verdict['markov']:.4f}  vs  label-only baseline "
              f"{baseline_verdict['baseline']:.4f}   (delta {baseline_verdict['delta']:+.4f})")
     L.append(f"    {baseline_verdict['verdict']}")

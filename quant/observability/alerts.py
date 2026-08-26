@@ -2,11 +2,11 @@
 
 from __future__ import annotations
 
+import json
+import logging
 from abc import ABC, abstractmethod
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
-import json
-import logging
 
 from .events import AlertSeverity, EventType
 from .logging import redact_secrets

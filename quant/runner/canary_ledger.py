@@ -2,10 +2,10 @@
 
 from __future__ import annotations
 
-from dataclasses import dataclass, field
-from datetime import datetime, timezone
 import json
 import sqlite3
+from dataclasses import dataclass, field
+from datetime import datetime
 from typing import Any
 
 from ..persistence.database import DatabaseManager

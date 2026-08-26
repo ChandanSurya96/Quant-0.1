@@ -23,7 +23,6 @@ import numpy as np
 import pandas as pd
 
 from markov2.data import filter_vendor_artifacts
-from markov2.macro import cross_sectional_signals
 from markov2.splits import get_splits
 from markov2.universe_data import DEFAULT_UNIVERSE, approximate_carry, fetch_universe, get_tickers
 from quant.portfolio.simulator import PortfolioSimulator
@@ -43,7 +42,6 @@ def run_attribution_analysis() -> dict:
     rets = df_close.pct_change().fillna(0.0)
     n_bars, n_assets = df_close.shape
     start_idx = 756
-    cost_bps = 10.0
 
     # -------------------------------------------------------------
     # 1. Generate Signal Frames & Target Weights for Any Configuration

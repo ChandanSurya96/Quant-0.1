@@ -2,16 +2,16 @@
 
 from __future__ import annotations
 
-from datetime import datetime, timezone
 from pathlib import Path
+
 import pandas as pd
 import pytest
 
 from quant.broker.paper_broker import PaperBroker
-from quant.core.enums import AssetClass, ExecutionMode, OrderStatus
+from quant.core.enums import AssetClass
 from quant.core.interfaces import Holding, Instrument
 from quant.persistence.database import DatabaseManager
-from quant.persistence.repositories import HoldingRepository, InstrumentRepository, SnapshotRepository
+from quant.persistence.repositories import HoldingRepository, InstrumentRepository
 from quant.runner.models import RunStatus
 from quant.runner.runner import PaperTradingRunner
 from quant.strategies.macro import SystematicMacroStrategy

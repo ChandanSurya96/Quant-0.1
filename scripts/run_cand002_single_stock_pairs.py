@@ -23,14 +23,11 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 import numpy as np
 import pandas as pd
 
-from markov2.data import filter_vendor_artifacts
 from markov2.splits import get_splits
-from markov2.universe_data import fetch_universe
 from quant.pairs.backtest import YalePairsBacktester
-from quant.pairs.cointegration import CointegrationPairEngine
 from quant.pairs.cohorts import OverlappingCohortManager
+from quant.pairs.cointegration import CointegrationPairEngine
 from quant.pairs.diagnostics import PairsRiskDiagnostics
-
 
 # S&P 100 Representative Liquid US Equities
 SP100_TICKERS = [

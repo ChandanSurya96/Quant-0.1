@@ -1,6 +1,6 @@
 """Operational state persistence layer."""
 
-from .database import DatabaseManager, SCHEMA_VERSION
+from .database import SCHEMA_VERSION, DatabaseManager
 from .repositories import (
     FillRepository,
     HoldingRepository,

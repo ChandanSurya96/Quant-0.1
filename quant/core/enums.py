@@ -5,7 +5,7 @@ from enum import Enum
 
 class ExecutionMode(str, Enum):
     """Execution environment mode.
-    
+
     RESEARCH: Permitted to use historical fixtures, research snapshots, or synthetic benchmarks.
     PAPER: Uses real live market data and simulated execution. Synthetic data is strictly forbidden.
     LIVE: Uses real live market data and live broker execution. Synthetic data is strictly forbidden.

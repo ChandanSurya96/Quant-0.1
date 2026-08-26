@@ -4,11 +4,10 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
-import sqlite3
+from typing import Any
 
 from ..broker.base import BrokerAdapter
 from ..core.enums import ExecutionMode
-from ..core.interfaces import RiskDecision
 from ..persistence.database import DatabaseManager
 from .events import HealthState, SystemStatus
 

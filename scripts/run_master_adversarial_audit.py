@@ -14,10 +14,9 @@ Executes Phase 8 Adversarial Audit across:
 
 from __future__ import annotations
 
-import json
-import math
-from pathlib import Path
 import sys
+from pathlib import Path
+
 import numpy as np
 import pandas as pd
 
@@ -26,7 +25,6 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 from markov2.splits import get_splits
 from markov2.universe_data import DEFAULT_UNIVERSE, approximate_carry, get_tickers
 from quant.core.enums import ExecutionMode
-from quant.data.cache import MarketDataCache
 from quant.data.providers.yfinance_provider import YFinanceProvider
 from quant.portfolio.simulator import PortfolioSimulator
 from quant.provenance import build_provenance_record
@@ -151,16 +149,19 @@ def load_real_market_data(cache_dir: Path | None = None) -> tuple[pd.DataFrame, 
 
     # 1. Fetch multi-asset Close price matrix (10 years)
     df_prices = provider.fetch_daily_bars(universe=tickers, lookback_years=10, mode=ExecutionMode.RESEARCH)
-    if df_prices.empty or len(df_prices.columns) < len(tickers):
-        raise ValueError(f"Incomplete price panel: got {len(df_prices.columns)} tickers, expected {len(tickers)}")
+    if df_prices is None or df_prices.empty or df_prices.isna().all().all():
+        raise RuntimeError("Failed to load real market data from YFinanceProvider: empty or all-NaN matrix.")
 
-    # 2. Fetch real 3M Treasury Bill yield series (^IRX)
+    # 2. Fetch CBOE 3M Treasury Bill Yield (^IRX)
     df_irx = provider.fetch_daily_bars(universe=["^IRX"], lookback_years=10, mode=ExecutionMode.RESEARCH)
-    if df_irx.empty or "^IRX" not in df_irx.columns:
-        raise ValueError("Missing ^IRX 3M Treasury yield series from data provider.")
+    if df_irx is None or df_irx.empty or df_irx["^IRX"].isna().all():
+        raise RuntimeError("Failed to load real ^IRX 3M Treasury yields: empty or all-NaN series.")
 
-    # ^IRX quote is in percent (e.g. 5.25 = 5.25% annual rate). Convert to decimal.
-    rf_annual_series = (df_irx["^IRX"] / 100.0).reindex(df_prices.index).ffill().bfill()
+    # Convert IRX index percentage to decimal annual rate (e.g. 5.25 -> 0.0525)
+    rf_raw = df_irx["^IRX"].ffill().bfill() / 100.0
+    rf_annual_series = rf_raw.reindex(df_prices.index).ffill().bfill()
+    if rf_annual_series.isna().any():
+        raise RuntimeError("Failed to cleanly align risk-free series with price matrix dates.")
 
     return df_prices, rf_annual_series, provider.provider_name
 
@@ -223,13 +224,19 @@ def run_master_adversarial_audit(
         sim = PortfolioSimulator(
             initial_cash=100_000.0,
             cost_bps=cost,
-            slippage_bps=slippage,
             borrow_cost_annual_bps=25.0,
             discrete_shares=discrete_shares,
             short_proceeds_credit_pct=short_proceeds_credit_pct,
-            risk_free_rate_annual=rf_annual_series,
+            slippage_bps=slippage,
         )
-        return sim.run(target_w, df_macro_close, rebalance_freq=21, rebalance_dates=rebalance_dates, start_idx=start_idx, rf_series=rf_annual_series)
+        return sim.run(
+            target_weights_df=target_w,
+            prices_df=df_macro_close,
+            rebalance_freq=21,
+            rebalance_dates=rebalance_dates,
+            start_idx=start_idx,
+            rf_daily=rf_annual_series / 252.0,
+        )
 
     res_cand001 = run_sim(w_cand001)
     res_clean_baseline = run_sim(w_clean_baseline)
@@ -245,12 +252,18 @@ def run_master_adversarial_audit(
     def eval_splits(r_s: pd.Series) -> dict:
         out = {}
         for split_name, idx in splits.items():
-            sub_r = r_s.loc[idx.intersection(r_s.index)]
-            out[split_name] = calculate_sharpe_statistics(sub_r, rf_daily=rf_annual_series.loc[sub_r.index] / 252.0 if not sub_r.empty else 0.0)
+            matched_idx = idx.intersection(r_s.index)
+            sub_r = r_s.loc[matched_idx]
+            out[split_name] = calculate_sharpe_statistics(
+                sub_r, rf_daily=rf_annual_series.loc[sub_r.index] / 252.0 if not sub_r.empty else 0.0
+            )
             cum = (1.0 + sub_r).cumprod()
             n_y = max(1e-4, len(sub_r) / 252.0)
             cagr = (cum.iloc[-1] ** (1.0 / n_y)) - 1.0 if not cum.empty and cum.iloc[-1] > 0 else 0.0
             out[split_name]["cagr"] = float(cagr)
+            out[split_name]["start_date"] = str(sub_r.index[0].date()) if not sub_r.empty else "N/A"
+            out[split_name]["end_date"] = str(sub_r.index[-1].date()) if not sub_r.empty else "N/A"
+            out[split_name]["n_bars"] = len(sub_r)
         return out
 
     wf_cand001 = eval_splits(r_cand001)
@@ -290,7 +303,34 @@ def run_master_adversarial_audit(
         n_observations=len(r_cand001),
     )
 
-    # 7. Provenance Record
+    # 7. Derive Research Verdict & Execute Mandatory Rule 4 Self-Checks
+    cand_m = res_cand001["metrics"]
+    ci_lower = cand_m["sharpe_ci_lower_95"]
+    ci_upper = cand_m["sharpe_ci_upper_95"]
+    t_stat = cand_m["sharpe_t_stat"]
+    oos_excess_sr = wf_cand001["TRUE_OOS"]["excess_sharpe"]
+    full_excess_sr = cand_m["excess_sharpe"]
+    gross_sr = cand_m["gross_sharpe"]
+
+    # The verdict is strictly derived from statistical evidence:
+    # If the 95% CI spans zero, or DSR is not statistically significant (DSR < 0.95 / p > 0.05), or t < 2.0:
+    if ci_lower < 0.0 < ci_upper or dsr < 0.95 or t_stat < 2.0:
+        derived_verdict = "REJECTED"
+    else:
+        derived_verdict = "CONFIRMED"
+
+    validate_self_checks(
+        dsr_p_value=dsr,
+        gross_sharpe=gross_sr,
+        excess_sharpe=full_excess_sr,
+        oos_sharpe=oos_excess_sr,
+        full_sharpe=full_excess_sr,
+        ci_lower=ci_lower,
+        ci_upper=ci_upper,
+        verdict=derived_verdict,
+    )
+
+    # 8. Provenance Record
     provenance = build_provenance_record(
         strategy_id="CAND-001-CANONICAL-REAL-DATA",
         parameters={
@@ -316,6 +356,7 @@ def run_master_adversarial_audit(
 
     audit_payload = {
         "provenance": provenance,
+        "derived_verdict": derived_verdict,
         "models": {
             "CAND-001_Canonical_Remediated": res_cand001["metrics"],
             "CLEAN_BASELINE_Mom_Val_Car": res_clean_baseline["metrics"],
@@ -344,4 +385,4 @@ def run_master_adversarial_audit(
 
 if __name__ == "__main__":
     audit = run_master_adversarial_audit(slippage_bps=5.0, discrete_shares=True, short_proceeds_credit_pct=0.0)
-    print("Master audit script executed successfully.")
+    print("Master audit script executed successfully with derived verdict:", audit["derived_verdict"])

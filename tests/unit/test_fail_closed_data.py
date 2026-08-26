@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from unittest.mock import patch
+
 import numpy as np
 import pandas as pd
 import pytest
@@ -62,7 +63,7 @@ def test_validate_matrix_paper_mode_unhandled_gap_fails_closed():
     prices = np.linspace(100, 105, 20)
     prices[10] = 50.0  # -50% unadjusted price gap anomaly
     df = pd.DataFrame({"SPY": prices}, index=dates)
-    
+
     with pytest.raises(AnomalyGapError, match=r"Unhandled price anomaly gap"):
         DataValidationGate.validate_matrix(
             df, universe=["SPY"], mode=ExecutionMode.PAPER, threshold=0.15

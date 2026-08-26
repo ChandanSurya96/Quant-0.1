@@ -34,7 +34,6 @@ happened to start counting.
 from __future__ import annotations
 
 import numpy as np
-import pandas as pd
 
 from .states import N_STATES
 

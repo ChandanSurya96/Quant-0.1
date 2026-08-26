@@ -18,11 +18,9 @@ Covers the 13 required deterministic accounting tests:
 
 from __future__ import annotations
 
-import numpy as np
 import pandas as pd
 import pytest
 
-from quant.portfolio.drift import calculate_market_values, calculate_portfolio_nav, calculate_realized_weights
 from quant.portfolio.simulator import PortfolioSimulator
 from quant.portfolio.sizer import target_weights_to_shares
 from quant.strategies.macro import SystematicMacroStrategy

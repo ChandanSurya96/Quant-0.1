@@ -2,11 +2,10 @@
 
 from __future__ import annotations
 
+import os
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from enum import Enum
-import os
-from typing import Any
 
 
 class ShortAvailability(str, Enum):

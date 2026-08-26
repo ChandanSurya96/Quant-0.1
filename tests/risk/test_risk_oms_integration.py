@@ -3,9 +3,10 @@
 from __future__ import annotations
 
 from datetime import datetime, timezone
+
 import pytest
 
-from quant.core.enums import ExecutionMode, OrderSide
+from quant.core.enums import OrderSide
 from quant.core.exceptions import RiskViolationError
 from quant.core.interfaces import Holding, PortfolioState, RiskDecision, TargetPortfolio
 from quant.oms.engine import OrderManagementSystem

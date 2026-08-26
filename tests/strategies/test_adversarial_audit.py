@@ -2,7 +2,7 @@
 
 import numpy as np
 import pandas as pd
-import pytest
+
 from scripts.run_adversarial_cand001_audit import run_simulation_engine
 
 

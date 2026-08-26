@@ -8,7 +8,6 @@ information beyond unconditional state frequencies and a simple trailing-return 
 from __future__ import annotations
 
 import json
-import os
 import sys
 import warnings
 from pathlib import Path
@@ -28,7 +27,6 @@ from markov2 import matrix as M
 from markov2 import nulls as N
 from markov2 import states as S
 from markov2 import stats as ST
-from markov2 import verify as V
 
 RESULTS_DIR = ROOT_DIR / "results"
 FIXTURES_DIR = ROOT_DIR / "tests" / "fixtures" / "universe"
@@ -131,7 +129,7 @@ def evaluate_stock(item: dict, n_perm: int = 1000) -> dict:
 
     # Data cleaning & vendor artifacts
     df_clean, dropped_artifacts = D.filter_vendor_artifacts(df_raw)
-    
+
     # Manifest corporate actions adjustment
     df_clean = D.apply_manifest_adjustments(df_clean, ticker)
 
@@ -345,7 +343,7 @@ def main():
     # CROSS-SECTIONAL AGGREGATION & STATISTICS
     # =========================================================================
     n_stocks = len(df_results)
-    
+
     # 1. Gate Pass Rates
     data_pass = (df_results["data_integrity"] == "PASS").sum()
     sig_pass = (df_results["signal_admissible"] == "PASS").sum()
@@ -375,7 +373,7 @@ def main():
     t_stat_alpha = float(diff_sharpe.mean() / (diff_sharpe.std() / np.sqrt(n_stocks)))
     # One-sample Wilcoxon signed-rank / sign test
     pos_count = int((diff_sharpe > 0).sum())
-    
+
     # Bootstrap 95% confidence interval for mean Sharpe difference
     np.random.seed(20260813)
     boot_means = [np.random.choice(diff_sharpe, size=n_stocks, replace=True).mean() for _ in range(10000)]
@@ -530,10 +528,10 @@ def main():
     print(f"   - Signal Admissibility Gate:  {sig_pass:2d} / {n_stocks} ({sig_pass/n_stocks*100:5.1f}%)")
     print(f"   - Permutation Null Gate:      {null_pass:2d} / {n_stocks} ({null_pass/n_stocks*100:5.1f}%)")
     print(f"   - Baseline Control Gate:      {base_pass:2d} / {n_stocks} ({base_pass/n_stocks*100:5.1f}%)")
-    print(f"   -----------------------------------------------------")
+    print("   -----------------------------------------------------")
     print(f"   - ALL GATES PASSED:           {all_pass:2d} / {n_stocks} ({all_pass/n_stocks*100:5.1f}%)")
 
-    print(f"\n2. Markov Alpha Distribution (Markov Net Sharpe - Baseline Net Sharpe):")
+    print("\n2. Markov Alpha Distribution (Markov Net Sharpe - Baseline Net Sharpe):")
     print(f"   - Mean Difference:   {alpha_stats['mean']:+.4f} (95% Bootstrap CI: [{boot_ci_lo:+.4f}, {boot_ci_hi:+.4f}])")
     print(f"   - Median Difference: {alpha_stats['median']:+.4f}")
     print(f"   - Std Deviation:     {alpha_stats['std']:.4f}")
@@ -541,19 +539,19 @@ def main():
     print(f"   - % Positive:        {alpha_stats['pct_positive']:.1f}% ({pos_count}/{n_stocks})")
     print(f"   - One-Sample t-stat: t = {t_stat_alpha:+.4f}")
 
-    print(f"\n3. Transition Memory & The 9/9 Phenomenon:")
+    print("\n3. Transition Memory & The 9/9 Phenomenon:")
     print(f"   - Stocks with 9/9 CIs covering base rate:  {mem_stats['pct_all_9_cells_cover']:.1f}% ({int((cells_cov==9).sum())}/{n_stocks})")
     print(f"   - Stocks with >=8/9 CIs covering base rate:{mem_stats['pct_ge_8_cells_cover']:.1f}% ({int((cells_cov>=8).sum())}/{n_stocks})")
     print(f"   - Avg Overlap Persistence:                {mem_stats['avg_overlap_persistence']:.2f}% (BIASED)")
     print(f"   - Avg Stride-20 Persistence:              {mem_stats['avg_stride_persistence']:.2f}% (HONEST)")
     print(f"   - Avg Persistence Collapse:               -{mem_stats['avg_persistence_collapse']:.2f} percentage points")
 
-    print(f"\n4. Probability Calibration (20-bar Horizon):")
+    print("\n4. Probability Calibration (20-bar Horizon):")
     print(f"   - Stocks where Markov improved Log Loss:    {calib_stats['pct_log_loss_improved']:.1f}% (Mean delta = {calib_stats['mean_log_loss_delta']:+.5f})")
     print(f"   - Stocks where Markov improved Brier Score: {calib_stats['pct_brier_improved']:.1f}% (Mean delta = {calib_stats['mean_brier_delta']:+.5f})")
     print(f"   - Directional Hit Rate (Active Bars):       {calib_stats['mean_hit_rate']:.2f}%")
 
-    print(f"\n5. Permutation Null Distribution (Circular Rotations):")
+    print("\n5. Permutation Null Distribution (Circular Rotations):")
     print(f"   - Mean Percentile Rank:   {null_stats['circular']['mean']:.2f}th percentile")
     print(f"   - Median Percentile Rank: {null_stats['circular']['median']:.2f}th percentile")
     print(f"   - % Stocks >= 95th Pct:   {null_stats['circular']['pct_ge_95']:.1f}% ({null_pass}/{n_stocks})")
@@ -562,10 +560,10 @@ def main():
     print(" FINAL CROSS-SECTIONAL RESEARCH VERDICT")
     print("=" * 80)
     verdict_summary = "NO EVIDENCE OF EDGE" if all_pass == 0 else ("WEAK / INCONCLUSIVE" if all_pass <= 2 else "VALID EDGE")
-    print(f"\n  ========================================================")
+    print("\n  ========================================================")
     print(f"   HARD CROSS-SECTIONAL VERDICT:  {verdict_summary}")
-    print(f"  ========================================================")
-    print(f"\nH0 STATUS: SUPPORTED / CANNOT BE REJECTED.")
+    print("  ========================================================")
+    print("\nH0 STATUS: SUPPORTED / CANNOT BE REJECTED.")
     print("The 20-bar discrete Markov regime framework provides NO statistically or economically")
     print("meaningful alpha over unconditional base rates or simple trailing-return baselines")
     print("across liquid Indian equities.\n")

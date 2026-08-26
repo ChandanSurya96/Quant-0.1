@@ -2,9 +2,10 @@
 
 from __future__ import annotations
 
+import sqlite3
 from datetime import datetime, timezone
 from pathlib import Path
-import sqlite3
+
 import pytest
 
 from quant.core.enums import (
@@ -22,7 +23,7 @@ from quant.core.interfaces import (
     PortfolioState,
     TargetPortfolio,
 )
-from quant.persistence.database import DatabaseManager, SCHEMA_VERSION
+from quant.persistence.database import SCHEMA_VERSION, DatabaseManager
 from quant.persistence.repositories import (
     FillRepository,
     HoldingRepository,
@@ -351,8 +352,8 @@ def test_process_restart_state_hydration(tmp_path: Path):
 # -------------------------------- 13. Domain Isolation from SQLite
 def test_domain_isolation_from_sqlite():
     """Verifies that quant.core domain contracts have zero dependency on sqlite3."""
-    import quant.core.interfaces as core_interfaces
     import quant.core.enums as core_enums
+    import quant.core.interfaces as core_interfaces
 
     assert "sqlite3" not in dir(core_interfaces)
     assert "sqlite3" not in dir(core_enums)

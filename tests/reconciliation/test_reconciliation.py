@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from datetime import datetime, timezone
 from pathlib import Path
+
 import pytest
 
 from quant.broker.paper_broker import PaperBroker
@@ -11,7 +12,6 @@ from quant.core.enums import AssetClass, ExecutionMode, OrderSide, OrderStatus, 
 from quant.core.interfaces import Fill, Holding, Instrument, Order, PortfolioState
 from quant.persistence.database import DatabaseManager
 from quant.persistence.repositories import (
-    FillRepository,
     HoldingRepository,
     InstrumentRepository,
     OrderRepository,

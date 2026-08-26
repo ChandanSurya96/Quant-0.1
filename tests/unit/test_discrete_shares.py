@@ -1,6 +1,7 @@
 """Unit tests for discrete physical share sizing in quant.portfolio.sizer."""
 
 import pytest
+
 from quant.portfolio.sizer import target_weights_to_shares
 
 

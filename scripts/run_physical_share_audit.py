@@ -19,7 +19,6 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 import numpy as np
 import pandas as pd
 
-from markov2.backtest import metrics
 from markov2.data import filter_vendor_artifacts
 from markov2.macro import walk_forward_macro
 from markov2.splits import get_splits

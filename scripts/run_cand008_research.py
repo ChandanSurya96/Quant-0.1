@@ -28,7 +28,6 @@ from markov2.data import filter_vendor_artifacts
 from markov2.splits import get_splits
 from markov2.universe_data import DEFAULT_UNIVERSE, fetch_universe, get_tickers
 from quant.pairs.backtest import YalePairsBacktester
-from quant.pairs.formation import PairFormationEngine
 from quant.portfolio.simulator import PortfolioSimulator
 
 _NORMAL_DIST = statistics.NormalDist()

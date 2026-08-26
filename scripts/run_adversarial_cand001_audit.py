@@ -81,10 +81,10 @@ def run_simulation_engine(
     start_idx: int = 756,
 ) -> dict:
     rets = df_close.pct_change().fillna(0.0)
+    p_now = df_close
     n_bars, n_assets = df_close.shape
     rebalance_dates = [df_close.index[i] for i in range(start_idx, n_bars) if (i - start_idx) % rebalance_freq == 0]
 
-    p_now = df_close
     p_21 = df_close.shift(21)
     p_mom = df_close.shift(mom_lookback)
     sma_200 = df_close.rolling(200).mean()
@@ -247,7 +247,7 @@ def run_full_adversarial_audit() -> dict:
 
     # 2. Subperiod Stability (Calendar Years & Rolling Statistics)
     daily_rets = res_base["returns"]
-    nav_series = res_base["nav"]
+    _nav_series = res_base["nav"]
 
     yearly_pnl = {}
     for yr, group in daily_rets.groupby(daily_rets.index.year):
@@ -280,7 +280,7 @@ def run_full_adversarial_audit() -> dict:
     trades = res_base["trades"]
     if not trades.empty:
         total_trades = len(trades)
-        pos_trades = trades[trades["cost"] > 0]  # trades with transaction cost
+        _pos_trades = trades[trades["cost"] > 0]  # trades with transaction cost
         avg_trade_notional = float(trades["traded_notional"].mean())
         total_costs = float(trades["cost"].sum())
     else:

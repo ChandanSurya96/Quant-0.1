@@ -336,7 +336,7 @@ def run_cand012_research_suite() -> dict:
     # 11. Deflated Sharpe Ratio
     all_sharpes = [survivorship_stress[k]["sharpe"] for k in survivorship_stress] + [top_m_sweep[k]["metrics"]["sharpe"] for k in top_m_sweep] + [ensemble_matrix[k]["metrics"]["sharpe"] for k in ensemble_matrix]
     var_trials = float(np.var(all_sharpes, ddof=1)) if len(all_sharpes) > 1 else 0.05
-    cand_daily = ensemble_matrix["ENS-70-30"]["metrics"]
+    _cand_daily = ensemble_matrix["ENS-70-30"]["metrics"]
     cand_r_70_30 = (0.70 * r1 + 0.30 * r2).to_numpy()
     skew_val = float(pd.Series(cand_r_70_30).skew())
     kurt_val = float(pd.Series(cand_r_70_30).kurtosis())

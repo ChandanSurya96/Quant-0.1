@@ -6,16 +6,13 @@ import numpy as np
 import pandas as pd
 import pytest
 
-from quant.pairs.normalization import normalize_price_series
-from quant.pairs.distance import calculate_pairwise_distances, calculate_spread_variance
-from quant.pairs.universe import filter_universe_liquidity, filter_same_sector_pairs
-from quant.pairs.formation import select_top_pairs, PairFormationEngine
-from quant.pairs.signals import PairSignalEngine, PairTradeRecord
-from quant.pairs.execution import PairExecutionEngine
-from quant.pairs.cohorts import OverlappingCohortManager
-from quant.pairs.cointegration import CointegrationPairEngine, estimate_half_life
-from quant.pairs.diagnostics import newey_west_ols, PairsRiskDiagnostics
 from quant.pairs.backtest import YalePairsBacktester
+from quant.pairs.cointegration import CointegrationPairEngine
+from quant.pairs.diagnostics import newey_west_ols
+from quant.pairs.distance import calculate_pairwise_distances, calculate_spread_variance
+from quant.pairs.normalization import normalize_price_series
+from quant.pairs.signals import PairSignalEngine
+from quant.pairs.universe import filter_same_sector_pairs, filter_universe_liquidity
 
 
 @pytest.fixture
@@ -143,7 +140,6 @@ def test_vectorized_pairwise_distance_invariant(sample_price_data):
 
     cols = list(norm.columns)
     vals = norm.to_numpy()
-    T = len(vals)
 
     for i in range(len(cols)):
         for j in range(i + 1, len(cols)):

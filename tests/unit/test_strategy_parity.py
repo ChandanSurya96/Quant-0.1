@@ -3,9 +3,9 @@
 from __future__ import annotations
 
 from pathlib import Path
+
 import numpy as np
 import pandas as pd
-import pytest
 
 from markov2.macro import cross_sectional_signals
 from quant.strategies.macro import SystematicMacroStrategy

@@ -2,11 +2,11 @@
 
 from __future__ import annotations
 
+import os
+import sqlite3
 from contextlib import contextmanager
 from datetime import datetime, timezone
-import os
 from pathlib import Path
-import sqlite3
 from typing import Generator
 
 SCHEMA_VERSION = 1

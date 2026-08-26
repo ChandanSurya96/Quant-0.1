@@ -1,15 +1,10 @@
 """Unit tests for CAND-012 Survivorship & Borrow Robustness Research Engine."""
 
-import numpy as np
-import pandas as pd
-import pytest
+from quant.pairs.backtest import YalePairsBacktester
 from scripts.run_cand012_research import (
     SECTOR_MAP,
-    HISTORICAL_SAFE_TICKERS,
-    compute_metrics,
     generate_sp500_robust_panel,
 )
-from quant.pairs.backtest import YalePairsBacktester
 
 
 def test_sp500_robust_panel_and_sector_coverage():

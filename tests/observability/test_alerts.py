@@ -2,9 +2,6 @@
 
 from __future__ import annotations
 
-from datetime import datetime, timezone
-import pytest
-
 from quant.observability.alerts import Alert, AlertDispatcher, AlertSink, LoggingAlertSink
 from quant.observability.events import AlertSeverity, EventType
 

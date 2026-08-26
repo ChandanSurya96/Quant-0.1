@@ -26,7 +26,7 @@ def filter_vendor_artifacts(df: pd.DataFrame) -> tuple[pd.DataFrame, list[str]]:
         return df, []
 
     vol_zero = df["Volume"] == 0 if "Volume" in df.columns else pd.Series(True, index=df.index)
-    
+
     # Check Open == High == Low == Close
     cols_check = [c for c in ("Open", "High", "Low", "Close") if c in df.columns]
     if len(cols_check) >= 2:

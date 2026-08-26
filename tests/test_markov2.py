@@ -21,7 +21,6 @@ import pytest
 
 from markov2.backtest import (
     apply_costs,
-    metrics,
     turnover,
     walk_forward,
     walk_forward_signals,

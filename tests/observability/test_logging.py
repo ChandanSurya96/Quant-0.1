@@ -2,11 +2,6 @@
 
 from __future__ import annotations
 
-from datetime import datetime, timezone
-import json
-import logging
-import pytest
-
 from quant.core.enums import ExecutionMode
 from quant.observability.context import RunContext
 from quant.observability.events import EventType

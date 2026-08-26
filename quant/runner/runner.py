@@ -2,21 +2,20 @@
 
 from __future__ import annotations
 
-from datetime import datetime, timezone
-import math
 import uuid
+from datetime import datetime, timezone
+from typing import Any
+
 import pandas as pd
 
 from ..broker.base import BrokerAdapter
-from ..broker.paper_broker import PaperBroker
 from ..core.enums import AssetClass, ExecutionMode, OrderStatus
-from ..core.exceptions import FailClosedDataError, ReconciliationError, RiskViolationError
-from ..core.interfaces import Holding, Instrument, Order, PortfolioState, TargetPortfolio
+from ..core.interfaces import Instrument, TargetPortfolio
 from ..data.base import MarketDataProvider
 from ..data.validation import DataValidationGate
 from ..observability.alerts import Alert, AlertDispatcher
 from ..observability.events import AlertSeverity, EventType
-from ..observability.health import check_broker_health, check_data_health, check_persistence_health, check_risk_health
+from ..observability.health import check_broker_health, check_persistence_health, check_risk_health
 from ..observability.logging import StructuredLogger
 from ..oms.approval import AutoApproveGate, ExecutionApprovalGate
 from ..oms.engine import OrderManagementSystem
@@ -32,7 +31,7 @@ from ..persistence.repositories import (
     TargetPortfolioRepository,
 )
 from ..reconciliation.engine import ReconciliationEngine
-from ..reconciliation.types import ReconciliationConfig, ReconciliationStatus
+from ..reconciliation.types import ReconciliationConfig
 from ..risk.config import RiskConfig
 from ..risk.engine import RiskEngine
 from ..strategies.base import BaseStrategy
@@ -121,6 +120,8 @@ class PaperTradingRunner:
         persistence_h = check_persistence_health(self.db)
         broker_h = check_broker_health(self.broker)
         risk_h = check_risk_health(self.risk_engine)
+        if not (persistence_h.is_healthy and broker_h.is_healthy and risk_h.is_healthy):
+            self.logger.warning("Unhealthy system components detected during run pre-check.")
 
         # Bootstrap initial snapshot if database is brand new (Day 1 initial state)
         if self.snap_repo.get_latest_snapshot() is None and not self.holding_repo.get_holdings():

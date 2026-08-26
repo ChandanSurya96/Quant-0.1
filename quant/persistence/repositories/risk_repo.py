@@ -2,9 +2,9 @@
 
 from __future__ import annotations
 
-from datetime import datetime
 import json
 import sqlite3
+from datetime import datetime
 
 from ...core.interfaces import RiskDecision
 from ..database import DatabaseManager

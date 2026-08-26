@@ -2,11 +2,11 @@
 
 from __future__ import annotations
 
-from datetime import datetime, timezone
 import uuid
+from datetime import datetime, timezone
 
 from ..broker.base import BrokerAdapter
-from ..core.enums import ExecutionMode, OrderSide, OrderStatus
+from ..core.enums import ExecutionMode, OrderStatus
 from ..persistence.database import DatabaseManager
 from ..persistence.repositories.fill_repo import FillRepository
 from ..persistence.repositories.holding_repo import HoldingRepository

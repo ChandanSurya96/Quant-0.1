@@ -21,7 +21,6 @@ import pandas as pd
 from . import matrix as M
 from . import report as R
 from . import verify as V
-from .backtest import metrics as bt_metrics
 from .backtest import walk_forward
 from .baseline import LABEL_ONLY_NAME, markov_adds_value, run_label_only
 from .data import fetch
@@ -33,8 +32,8 @@ from .gates import (
     tradeability,
 )
 from .nulls import DEFAULT_N_PERM, PRIMARY_NULL, permutation_null, summarise
-from .stats import cell_stats
 from .states import N_STATES, STATE_NAMES, label_threshold, state_distribution, window_return
+from .stats import cell_stats
 
 OUT_DIR = Path(__file__).resolve().parent.parent / "output"
 DEFAULT_COST_BPS = 10.0
@@ -98,13 +97,13 @@ def main(argv: list[str] | None = None) -> int:
         print("  " + "!" * 72)
 
     if args.macro:
-        from .universe_data import fetch_universe, get_tickers
         from .macro import walk_forward_macro
-        print(R.header(f"MARKOV 2.0 MACRO STRATEGY"))
+        from .universe_data import fetch_universe, get_tickers
+        print(R.header("MARKOV 2.0 MACRO STRATEGY"))
         tickers = get_tickers()
         print(f"Fetching data for {len(tickers)} assets...")
         df_close = fetch_universe(tickers, years=args.years)
-        
+
         print("\nRunning Baseline Macro Strategy (No Markov Gating)...")
         res_base = walk_forward_macro(
             df_close, window=args.window, threshold=args.threshold,
@@ -112,7 +111,7 @@ def main(argv: list[str] | None = None) -> int:
             min_train=args.min_train, signal_threshold=args.signal_threshold,
             cost_bps=args.cost_bps, apply_markov_gate=False
         )
-        
+
         print("Running Markov-Gated Macro Strategy...")
         res_markov = walk_forward_macro(
             df_close, window=args.window, threshold=args.threshold,
@@ -120,19 +119,19 @@ def main(argv: list[str] | None = None) -> int:
             min_train=args.min_train, signal_threshold=args.signal_threshold,
             cost_bps=args.cost_bps, apply_markov_gate=True
         )
-        
+
         rows = [
             _row("Baseline Macro", res_base),
             _row("Markov-Gated Macro", res_markov),
         ]
         verdict = markov_adds_value(res_markov["net_metrics"], res_base["net_metrics"])
         print(R.render_strategy(rows, args.cost_bps, verdict))
-        
+
         if not args.no_plot:
             try:
                 from .plot import plot_equity
                 OUT_DIR.mkdir(exist_ok=True)
-                out = OUT_DIR / f"macro_strategy_equity.png"
+                out = OUT_DIR / "macro_strategy_equity.png"
                 plot_equity({
                     "Baseline Macro": res_base["net_returns"],
                     "Markov-Gated Macro": res_markov["net_returns"],
@@ -140,16 +139,16 @@ def main(argv: list[str] | None = None) -> int:
                 print(f"\n  equity curve -> {out}")
             except Exception as exc:
                 print(f"\n  ! plot skipped: {exc}")
-                
+
     if args.benchmark_cointegration:
         from .cointegration.benchmark import (
-            run_synthetic_validation,
             benchmark_condition_number_estimator,
             benchmark_precision_scaling,
             benchmark_scaling,
+            run_synthetic_validation,
         )
         print(R.header("COINTEGRATION BENCHMARK & SYNTHETIC VALIDATION SUITE"))
-        
+
         print("\n1. Synthetic Test Cases (Cases A-E):")
         df_syn = run_synthetic_validation()
         print(df_syn.to_string(index=False))
@@ -170,9 +169,9 @@ def main(argv: list[str] | None = None) -> int:
         return 0
 
     if args.cointegration:
-        from .universe_data import fetch_universe, get_tickers
-        from .cointegration.pipeline import scan_cointegrated_pairs
         from .cointegration.integration import run_cointegration_markov_hybrid
+        from .cointegration.pipeline import scan_cointegrated_pairs
+        from .universe_data import fetch_universe, get_tickers
         print(R.header("MARKOV 2.0 COINTEGRATION SUBSYSTEM"))
 
         tickers = get_tickers()

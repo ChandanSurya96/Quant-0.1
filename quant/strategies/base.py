@@ -3,12 +3,14 @@
 from __future__ import annotations
 
 from abc import ABC, abstractmethod
+from typing import Any
+
 import pandas as pd
 
 
 class AbstractStrategy(ABC):
     """Abstract strategy interface.
-    
+
     A strategy answers strictly: 'What should I own?'
     It outputs target portfolio weights and has zero order-placement authority.
     """

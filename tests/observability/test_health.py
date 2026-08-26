@@ -4,7 +4,6 @@ from __future__ import annotations
 
 from datetime import datetime, timezone
 from pathlib import Path
-import pytest
 
 from quant.broker.paper_broker import PaperBroker
 from quant.core.enums import ExecutionMode
@@ -77,7 +76,6 @@ def test_system_health_snapshot_execution_blocking_policy():
     now = datetime.now(timezone.utc)
     h_ok = ComponentHealth("ok", HealthState.HEALTHY, "OK")
     h_deg = ComponentHealth("deg", HealthState.DEGRADED, "Degraded")
-    h_fail = ComponentHealth("fail", HealthState.FAILED, "Failed")
     h_unk = ComponentHealth("unk", HealthState.UNKNOWN, "Unknown")
 
     # 1. PAPER Mode: All Healthy -> Execution Permitted

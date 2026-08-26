@@ -5,6 +5,7 @@ from __future__ import annotations
 import hashlib
 import time
 import warnings
+
 import numpy as np
 import pandas as pd
 import yfinance as yf
@@ -87,13 +88,13 @@ def fetch_universe(
             series_dict[t] = pd.Series(prices, index=dates)
 
     df = pd.DataFrame(series_dict)
-            
+
     # Forward fill to handle non-overlapping holidays (e.g. US vs Japan holidays)
     df = df.ffill()
-    
+
     # Drop rows where all tickers are NaN
     df = df.dropna(how='all')
-    
+
     return df
 
 

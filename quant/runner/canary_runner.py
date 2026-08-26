@@ -2,21 +2,18 @@
 
 from __future__ import annotations
 
-from dataclasses import dataclass
-from datetime import datetime, timezone
 import uuid
-from typing import Any
+from datetime import datetime, timezone
+
 import pandas as pd
 
 from ..broker.base import BrokerAdapter
-from ..broker.ibkr import IBKRBrokerAdapter
-from ..core.enums import AssetClass, ExecutionMode, OrderSide, OrderStatus, OrderType
+from ..core.enums import AssetClass, ExecutionMode, OrderStatus, OrderType
 from ..core.exceptions import ModeViolationError, OMSError, ReconciliationError, RiskViolationError
-from ..core.interfaces import Instrument, Order, OrderBatch, PortfolioState, RiskDecision, TargetPortfolio
-from ..data.validation import DataValidationGate
+from ..core.interfaces import Instrument, Order, OrderBatch, TargetPortfolio
 from ..observability.alerts import AlertDispatcher
 from ..observability.logging import StructuredLogger
-from ..oms.approval import ApprovalToken, AutonomousApprovalGate
+from ..oms.approval import AutonomousApprovalGate
 from ..oms.engine import OrderManagementSystem
 from ..oms.revalidation import PreSubmissionValidator
 from ..persistence.database import DatabaseManager
@@ -36,7 +33,7 @@ from ..risk.config import RiskConfig
 from ..risk.engine import RiskEngine
 from ..strategies.base import AbstractStrategy
 from .autonomous_config import AutonomousExecutionConfig
-from .canary_ledger import CanaryLedgerRepository, CanaryRecord, CanarySummary
+from .canary_ledger import CanaryLedgerRepository, CanaryRecord
 
 
 class IBKRAutonomousCanaryRunner:
@@ -93,7 +90,6 @@ class IBKRAutonomousCanaryRunner:
         """Executes a single canary order under complete autonomous pre-trade, risk, and reconciliation controls."""
         now = datetime.now(timezone.utc)
         strat_id = getattr(self.strategy, "strategy_id", "systematic_macro_v1")
-        trading_date = str(as_of_date.date() if hasattr(as_of_date, "date") else as_of_date)[:10]
         exec_mode = ExecutionMode.LIVE if self.config.broker_env == "LIVE" else ExecutionMode.PAPER
 
         # Safety Gate Verification

@@ -2,10 +2,9 @@
 
 from __future__ import annotations
 
-from datetime import datetime, timezone
 import json
 import sqlite3
-from typing import Any
+from datetime import datetime
 
 from ..core.enums import ExecutionMode
 from ..persistence.database import DatabaseManager

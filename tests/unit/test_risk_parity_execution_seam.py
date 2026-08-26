@@ -1,9 +1,11 @@
 """Unit tests verifying SystematicMacroStrategy targets pass RiskEngine with production defaults."""
 
 from datetime import datetime, timezone
+
 import numpy as np
 import pandas as pd
 import pytest
+
 from quant.core.interfaces import PortfolioState
 from quant.risk.config import RiskConfig
 from quant.risk.engine import RiskEngine

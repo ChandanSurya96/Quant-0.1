@@ -5,6 +5,7 @@ from __future__ import annotations
 from dataclasses import replace
 from datetime import datetime, timezone
 from pathlib import Path
+
 import pytest
 
 from quant.broker.paper_broker import PaperBroker

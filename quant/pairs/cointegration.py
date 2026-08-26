@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-import itertools
 import numpy as np
 import pandas as pd
 
@@ -61,8 +60,8 @@ class CointegrationPairEngine:
             return []
 
         # Rad et al. (2015) Euclidean pre-screening
-        from .normalization import normalize_price_series
         from .distance import calculate_pairwise_distances
+        from .normalization import normalize_price_series
 
         norm_p = normalize_price_series(formation_prices)
         distances = calculate_pairwise_distances(norm_p)

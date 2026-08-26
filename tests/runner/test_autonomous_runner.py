@@ -4,29 +4,23 @@ from __future__ import annotations
 
 from datetime import datetime, timezone
 from pathlib import Path
-import pytest
+
 import pandas as pd
+import pytest
 
 from quant.broker.ibkr import IBKRBrokerAdapter, IBKRConfig, MockIBKRClient, ShortAvailability
-from quant.broker.ibkr.models import IBKROrderRecord
-from quant.core.enums import AssetClass, ExecutionMode, OrderSide, OrderStatus, OrderType
-from quant.core.exceptions import ModeViolationError, OMSError, RiskViolationError
-from quant.core.interfaces import Fill, Holding, Instrument, Order, PortfolioState, TargetPortfolio
-from quant.oms.approval import AutonomousApprovalGate
+from quant.core.enums import AssetClass, ExecutionMode, OrderSide, OrderType
+from quant.core.exceptions import ModeViolationError
+from quant.core.interfaces import Holding, Instrument, Order, PortfolioState
 from quant.persistence.database import DatabaseManager
 from quant.persistence.repositories import (
-    FillRepository,
     HoldingRepository,
     InstrumentRepository,
     OrderRepository,
     RunRepository,
     SnapshotRepository,
 )
-from quant.reconciliation.engine import ReconciliationEngine
-from quant.risk.config import RiskConfig
-from quant.risk.engine import RiskEngine
 from quant.runner.autonomous_config import AutonomousExecutionConfig
-from quant.runner.autonomous_ledger import AutonomousLedgerRepository, AutonomousRunRecord
 from quant.runner.autonomous_runner import AutonomousTradingRunner
 from quant.runner.models import RunStatus
 from quant.strategies.macro import SystematicMacroStrategy
@@ -110,9 +104,7 @@ def test_wrong_strategy_rejected_fail_closed(auto_env):
 
 def test_kill_switch_active_blocks_autonomous_run(auto_env):
     """Active Emergency Stop / Kill switch halts autonomous execution immediately."""
-    db, mock_client, adapter, strategy, df = auto_env
-    window_df = df.iloc[:800]
-    as_of_date = window_df.index[-1]
+    _db, _mock_client, _adapter, _strategy, _df = auto_env
 
     auto_cfg = AutonomousExecutionConfig(
         autonomous_execution_enabled=True,

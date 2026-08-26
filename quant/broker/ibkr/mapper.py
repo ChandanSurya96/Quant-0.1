@@ -3,11 +3,10 @@
 from __future__ import annotations
 
 from datetime import datetime, timezone
-from typing import Any
 
-from ...core.enums import OrderSide, OrderStatus, OrderType
-from ...core.interfaces import Fill, Holding, Order, PortfolioState
-from .models import IBKRExecutionRecord, IBKROrderRecord
+from ...core.enums import OrderSide, OrderStatus
+from ...core.interfaces import Fill, Holding, PortfolioState
+from .models import IBKRExecutionRecord
 
 
 class IBKRMapper:

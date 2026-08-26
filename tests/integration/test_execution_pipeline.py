@@ -4,11 +4,12 @@ from __future__ import annotations
 
 from datetime import datetime, timezone
 from pathlib import Path
+
 import pytest
 
 from quant.broker.paper_broker import PaperBroker
-from quant.core.enums import AssetClass, ExecutionMode, OrderSide, OrderStatus
-from quant.core.interfaces import Holding, Instrument, TargetPortfolio
+from quant.core.enums import AssetClass, ExecutionMode, OrderStatus
+from quant.core.interfaces import Instrument, TargetPortfolio
 from quant.oms.approval import AutoApproveGate
 from quant.oms.engine import OrderManagementSystem
 from quant.persistence.database import DatabaseManager

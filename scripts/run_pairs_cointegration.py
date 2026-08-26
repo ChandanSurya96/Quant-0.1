@@ -14,8 +14,8 @@ import pandas as pd
 from markov2.data import filter_vendor_artifacts
 from markov2.universe_data import DEFAULT_UNIVERSE, fetch_universe, get_tickers
 from quant.pairs.backtest import YalePairsBacktester
-from quant.pairs.cointegration import CointegrationPairEngine
 from quant.pairs.cohorts import OverlappingCohortManager
+from quant.pairs.cointegration import CointegrationPairEngine
 
 
 def run_cointegration_experiments() -> dict:

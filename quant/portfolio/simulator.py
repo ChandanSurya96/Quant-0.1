@@ -2,13 +2,13 @@
 
 from __future__ import annotations
 
-import math
 from typing import Any
+
 import numpy as np
 import pandas as pd
 
 from ..statistics.sharpe import calculate_sharpe_statistics
-from .drift import calculate_market_values, calculate_portfolio_nav, calculate_realized_weights
+from .drift import calculate_portfolio_nav, calculate_realized_weights
 from .sizer import target_weights_to_shares
 
 

@@ -9,6 +9,7 @@ import sys
 from pathlib import Path
 
 import matplotlib
+
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import numpy as np
@@ -66,12 +67,12 @@ def main():
 
     print("\n[2/4] Executing Strategy with Production Parameters...", flush=True)
     print("      Parameters: Mom=126 (6M), Val=756 (3Y), Hysteresis=True, RiskParity=True, MarkovGate=False", flush=True)
-    
+
     res = walk_forward_macro(df_close)
-    
+
     net_rets = res["net_returns"]
-    strat_rets = res["strategy_returns"]
-    positions = res["positions"]
+    _strat_rets = res["strategy_returns"]
+    _positions = res["positions"]
     active_idx = net_rets.index
 
     # Calculate Benchmark: Equal-weighted daily return of all 12 ETFs over active period
@@ -84,17 +85,17 @@ def main():
 
     # Drawdown series
     strat_dd = calculate_drawdown_series(strat_cum)
-    bm_dd = calculate_drawdown_series(bm_cum)
+    _bm_dd = calculate_drawdown_series(bm_cum)
 
     # Calculate institutional metrics
     m_strat = res["net_metrics"]
     cagr = m_strat["cagr"]
     sharpe = m_strat["sharpe"]
     max_dd = m_strat["max_drawdown"]
-    
+
     sd = np.std(net_rets.to_numpy(), ddof=1)
     vol = float(sd * np.sqrt(252)) if sd > 0 else 0.0
-    
+
     calmar = abs(cagr / max_dd) if max_dd < 0 else float("inf")
     monthly_win_rate = calculate_monthly_win_rate(net_rets)
     turnover_ann = res["turnover"]["annualised"]

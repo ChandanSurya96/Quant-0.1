@@ -4,10 +4,12 @@ from __future__ import annotations
 
 from datetime import datetime, timezone
 from typing import Any
+
 import numpy as np
 import pandas as pd
 
 from markov2.universe_data import approximate_carry
+
 from ..core.interfaces import TargetPortfolio
 from .base import BaseStrategy
 
@@ -48,7 +50,7 @@ def size_sleeve(
 
 class SystematicMacroStrategy(BaseStrategy):
     """Systematic Macro multi-asset cross-sectional momentum strategy.
-    
+
     Canonical Gross 1.0 Dollar-Neutral Mandate:
     - Long Sleeve: 50% NAV across top n_long assets (max single position 25%)
     - Short Sleeve: -50% NAV across bottom n_short assets (max single position 25%)

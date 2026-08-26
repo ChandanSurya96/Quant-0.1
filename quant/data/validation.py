@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import warnings
+
 import numpy as np
 import pandas as pd
 
@@ -58,10 +59,10 @@ class DataValidationGate:
         """Detect single-bar price returns exceeding threshold."""
         if close_series.empty or len(close_series) < 2:
             return []
-        
+
         returns = close_series.pct_change()
         hits = returns[returns.abs() >= threshold]
-        
+
         anomalies = []
         for dt, ret in hits.items():
             anomalies.append({
@@ -80,7 +81,7 @@ class DataValidationGate:
         threshold: float = CORP_ACTION_THRESHOLD,
     ) -> pd.DataFrame:
         """Validates aligned close price matrix for a multi-asset universe.
-        
+
         Enforces fail-closed rules:
         - Must not be empty.
         - Must contain all requested universe columns.
@@ -111,7 +112,7 @@ class DataValidationGate:
             series = clean_df[col].dropna()
             if len(series) < 10:
                 raise FailClosedDataError(f"Insufficient history for ticker {col!r}: {len(series)} bars.")
-            
+
             # Check for anomalies if in PAPER or LIVE
             if mode in (ExecutionMode.PAPER, ExecutionMode.LIVE):
                 anomalies = cls.detect_anomalies(series, threshold=threshold)

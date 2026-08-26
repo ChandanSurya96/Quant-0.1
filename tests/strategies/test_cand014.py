@@ -2,7 +2,7 @@
 
 import numpy as np
 import pandas as pd
-import pytest
+
 from scripts.run_cand014_research import (
     compute_metrics,
     compute_point_in_time_regime_multipliers,
@@ -13,7 +13,7 @@ def test_regime_multipliers_point_in_time_and_bounded():
     dates = pd.date_range("2014-01-01", periods=1000, freq="B")
     tickers = ["SPY", "TLT", "IEF", "FXE", "UUP", "EWJ"]
     rng = np.random.default_rng(42)
-    
+
     # Generate synthetic price series
     prices = {}
     for t in tickers:
@@ -22,7 +22,7 @@ def test_regime_multipliers_point_in_time_and_bounded():
     df_macro = pd.DataFrame(prices, index=dates)
 
     mult_dict = compute_point_in_time_regime_multipliers(df_macro, start_idx=300, rebalance_freq=21)
-    
+
     assert "H1_TREND" in mult_dict
     assert "H2_BREADTH" in mult_dict
     assert "H3_VOL_REGIME" in mult_dict
@@ -41,7 +41,7 @@ def test_compute_metrics_accuracy():
     # Constant 10 bps daily return series
     rets = pd.Series(0.0010, index=dates)
     m = compute_metrics(rets, turnover=5.0)
-    
+
     assert m["sharpe"] > 0
     assert m["cagr"] > 0
     assert m["max_drawdown"] == 0.0

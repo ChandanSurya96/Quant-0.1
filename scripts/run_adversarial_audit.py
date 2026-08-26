@@ -31,10 +31,9 @@ import pandas as pd
 from markov2.backtest import metrics
 from markov2.cointegration.pipeline import scan_cointegrated_pairs, walk_forward_cointegration
 from markov2.data import filter_vendor_artifacts
-from markov2.macro import cross_sectional_signals, walk_forward_macro
+from markov2.macro import walk_forward_macro
 from markov2.splits import get_splits
 from markov2.universe_data import DEFAULT_UNIVERSE, approximate_carry, fetch_universe, get_tickers
-from quant.strategies.macro import SystematicMacroStrategy
 
 
 def run_full_adversarial_audit() -> dict:
@@ -67,8 +66,8 @@ def run_full_adversarial_audit() -> dict:
         val_window=756,
     )
     base_net = baseline_res["net_returns"]
-    base_strat = baseline_res["strategy_returns"]
-    base_pos = baseline_res["positions"]
+    _base_strat = baseline_res["strategy_returns"]
+    _base_pos = baseline_res["positions"]
     base_metrics = baseline_res["net_metrics"]
     base_turnover = baseline_res["turnover"]
 
@@ -308,7 +307,7 @@ def run_full_adversarial_audit() -> dict:
     # -------------------------------------------------------------
     # 6. Regime Analysis (Volatility, Trend, and Rates)
     # -------------------------------------------------------------
-    spy_rets = rets["SPY"].reindex(base_net.index).fillna(0.0)
+    _spy_rets = rets["SPY"].reindex(base_net.index).fillna(0.0)
     tlt_rets = rets["TLT"].reindex(base_net.index).fillna(0.0)
     roll_vol_20 = base_net.rolling(20).std() * np.sqrt(252)
     median_vol = float(roll_vol_20.median())

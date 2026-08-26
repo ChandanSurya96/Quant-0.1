@@ -21,7 +21,6 @@ from markov2 import data as D
 from markov2 import gates as G
 from markov2 import matrix as M
 from markov2 import nulls as N
-from markov2 import report as R
 from markov2 import states as S
 from markov2 import stats as ST
 from markov2 import verify as V
@@ -87,7 +86,7 @@ def main():
     close = df_spliced["Close"]
     daily_ret = close.pct_change()
 
-    print(f"\n  Corporate Action Splicing (2025-10-14 Demerger):")
+    print("\n  Corporate Action Splicing (2025-10-14 Demerger):")
     for a in applied:
         print(f"    Spliced Date: {a['date']} | Ok: {a['ok']} | Raw Move: {a.get('raw_move_pct', 0.0):+6.2f}% | Ratio: {a.get('ratio', 1.0):.4f}")
 
@@ -433,15 +432,15 @@ def main():
         else:
             verdict_str = "MODEL FAILURE"
 
-    print(f"\n  ========================================================")
+    print("\n  ========================================================")
     print(f"   HARD VERDICT:  {verdict_str}")
-    print(f"  ========================================================\n")
+    print("  ========================================================\n")
 
     print("Summary of Diagnostic Findings on TATAMOTORS.NS:")
     print(f"1. Signal Inadmissibility: The corrected stride-20 transition matrix produces max|signal| = {admissibility['max_abs_signal']:.4f}, which fails to reach the required trading conviction threshold of 0.1000. In walk-forward testing, 0 out of 1,714 bars generate an actionable signal. The model produces flat/zero positioning or noise.")
     print(f"2. Negative Out-of-Sample Performance: When forced to trade in standalone mode, Markov 2.0 produces Net Sharpe {nm_fixed['sharpe']:.4f} (CAGR {nm_fixed['cagr']*100:.2f}%) compared to Buy & Hold (Net Sharpe {bh['sharpe']:.4f}, CAGR {bh['cagr']*100:.2f}%).")
-    print(f"3. Zero Predictive Memory: 9 out of 9 transition cells have 95% Wilson intervals containing the unconditional base rates.")
-    print(f"4. Symmetrical Failure Mechanism with SUZLON.NS: Both SUZLON and TATAMOTORS confirm that the discrete 3-state Markov transition matrix contains zero alpha beyond static base rates, and fails all null and baseline gates.")
+    print("3. Zero Predictive Memory: 9 out of 9 transition cells have 95% Wilson intervals containing the unconditional base rates.")
+    print("4. Symmetrical Failure Mechanism with SUZLON.NS: Both SUZLON and TATAMOTORS confirm that the discrete 3-state Markov transition matrix contains zero alpha beyond static base rates, and fails all null and baseline gates.")
 
     print("\n" + "=" * 80)
     return 0

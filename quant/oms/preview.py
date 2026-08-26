@@ -49,7 +49,7 @@ class OrderPreview:
         dt_str = self.created_at.strftime("%Y-%m-%d %H:%M:%S UTC")
         total_notional = sum(item.estimated_notional for item in self.items)
         total_comm = sum(item.estimated_commission for item in self.items)
-        
+
         lines = [
             "=" * 64,
             f"ORDER BATCH PREVIEW FOR HUMAN APPROVAL — {dt_str}",

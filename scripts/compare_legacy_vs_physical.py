@@ -8,8 +8,8 @@ to demonstrate live or real-world strategy performance.
 
 from __future__ import annotations
 
-from pathlib import Path
 import sys
+from pathlib import Path
 
 # Ensure repository root is in python path
 ROOT_DIR = Path(__file__).resolve().parent.parent

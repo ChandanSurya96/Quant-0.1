@@ -3,8 +3,9 @@
 from __future__ import annotations
 
 import json
-from unittest.mock import patch
 import urllib.error
+from unittest.mock import patch
+
 import pytest
 
 from quant.core.enums import ExecutionMode

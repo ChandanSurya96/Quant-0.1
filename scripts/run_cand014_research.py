@@ -40,9 +40,8 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 import numpy as np
 import pandas as pd
 
-from markov2.data import filter_vendor_artifacts
 from markov2.splits import get_splits
-from markov2.universe_data import DEFAULT_UNIVERSE, fetch_universe, get_tickers
+from markov2.universe_data import DEFAULT_UNIVERSE, get_tickers
 from quant.pairs.backtest import YalePairsBacktester
 from quant.portfolio.simulator import PortfolioSimulator
 from scripts.run_cand011_research import get_cand006_target_weights
@@ -133,25 +132,25 @@ def compute_point_in_time_regime_multipliers(
     """Computes point-in-time regime multipliers strictly at decision time t."""
     n_bars = len(df_macro)
     dates = df_macro.index
-    
+
     # Broad market trend proxy (SPY)
     spy_p = df_macro['SPY']
     spy_sma200 = spy_p.rolling(200).mean()
-    
+
     # Rolling 21d market realized volatility
     spy_ret = spy_p.pct_change()
     spy_vol21 = spy_ret.rolling(21).std() * np.sqrt(252.0)
-    
+
     # Rolling 252d volatility percentile
     vol_pctl = spy_vol21.rolling(252).apply(
         lambda s: float(np.mean(s.iloc[-1] >= s)) if len(s) else 0.50,
         raw=False,
     )
-    
+
     # Cross-sectional 126d momentum breadth (% of assets with positive 126d return)
     mom_126 = df_macro.pct_change(126)
     breadth = (mom_126 > 0.0).mean(axis=1)
-    
+
     # Cross-sectional return dispersion
     daily_rets = df_macro.pct_change()
     cross_disp = daily_rets.std(axis=1).rolling(21).mean()
@@ -174,7 +173,7 @@ def compute_point_in_time_regime_multipliers(
         if (i - start_idx) % rebalance_freq == 0:
             # All decisions use information up to bar i - 1 (strictly lagged)
             prev = i - 1
-            
+
             # H1: Market Trend Rule
             is_uptrend = spy_p.iloc[prev] > spy_sma200.iloc[prev]
             curr_t = 1.0 if is_uptrend else 0.50
@@ -329,7 +328,7 @@ def run_cand014_research_suite() -> dict:
 
     # Hypothesis 6: Composite Macro Regime Applied to Multi-Strategy Ensemble ENS-80/20
     mult_comp = regime_multipliers["H5_COMPOSITE"].loc[common_idx]
-    r_mom_comp = hypothesis_results["H5_COMPOSITE"]["full_metrics"]
+    _r_mom_comp = hypothesis_results["H5_COMPOSITE"]["full_metrics"]
     target_w_comp = target_w_mom_base.multiply(mult_comp, axis=0)
     sim_comp = PortfolioSimulator(initial_cash=100_000.0, cost_bps=10.0, borrow_cost_annual_bps=25.0)
     res_comp = sim_comp.run(target_w_comp, df_macro_close, rebalance_freq=21, rebalance_dates=rebalance_dates, start_idx=start_idx)
@@ -353,7 +352,7 @@ def run_cand014_research_suite() -> dict:
 
     m_cand = best_res["full_metrics"]
     m_ctrl = ctrl_res["full_metrics"]
-    m_ctrl_a = ctrl_a_res["full_metrics"]
+    _m_ctrl_a = ctrl_a_res["full_metrics"]
 
     sharpe_decomp = {
         "delta_sharpe_total": m_cand["sharpe"] - m_ctrl["sharpe"],

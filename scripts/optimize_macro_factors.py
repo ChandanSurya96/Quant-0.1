@@ -138,7 +138,7 @@ def main():
     print("-" * 105, flush=True)
     print("\nFACTOR DECAY & REGIME SHIFT ANALYSIS:", flush=True)
     print(f"  1. Combinations with Positive TRUE_OOS Sharpe: {survived_oos} / 16 ({survived_oos/16*100:.1f}%)", flush=True)
-    
+
     top_comb = results[0]
     print(f"  2. Top Validation Parameter Set: Mom={top_comb['mom_win']} ({top_comb['mom_label']}) + Val={top_comb['val_win']} ({top_comb['val_label']})", flush=True)
     print(f"     Achieves Validation Sharpe={top_comb['val_sharpe']:.4f}, but TRUE_OOS Sharpe={top_comb['oos_sharpe']:.4f} (Degradation={top_comb['degradation']:.4f}).", flush=True)

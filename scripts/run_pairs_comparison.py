@@ -36,7 +36,6 @@ def run_portfolio_comparison() -> dict:
 
     # 1. CAND-001 Macro Simulation
     mom = df_close.pct_change(126)
-    valid = mom.notna()
     target_w_df = pd.DataFrame(0.0, index=df_close.index, columns=df_close.columns)
     prev_long, prev_short = [], []
 

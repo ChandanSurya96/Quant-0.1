@@ -10,9 +10,9 @@ Implements:
 from __future__ import annotations
 
 import warnings
+
 import numpy as np
 import pandas as pd
-
 
 # MacKinnon (2010) critical values approximation for ADF cointegration test (with constant)
 # Format: {k_regressors: {0.01: c1, 0.05: c5, 0.10: c10}}
@@ -53,9 +53,9 @@ def _approximate_p_value(stat: float, k: int) -> float:
 
 def _adf_on_residuals(residuals: np.ndarray, max_lags: int = 5) -> tuple[float, float, int]:
     """Runs Augmented Dickey-Fuller (ADF) regression on residuals u_t:
-    
+
     Delta u_t = gamma * u_{t-1} + sum_{i=1}^{L-1} delta_i * Delta u_{t-i} + e_t
-    
+
     Returns (DF_stat, p_val_approx, best_lag).
     """
     u = np.asarray(residuals, dtype=float)
@@ -64,7 +64,7 @@ def _adf_on_residuals(residuals: np.ndarray, max_lags: int = 5) -> tuple[float, 
         raise ValueError(f"Need at least 20 observations for ADF test, got {N}.")
 
     diff_u = np.diff(u)
-    
+
     # Choose optimal lag using Akaike Information Criterion (AIC)
     best_aic = float("inf")
     best_stat = 0.0
@@ -76,33 +76,33 @@ def _adf_on_residuals(residuals: np.ndarray, max_lags: int = 5) -> tuple[float, 
         # Regressors: u_{t-1} (lagged level), and diff_u_{t-1}...diff_u_{t-lag} (lagged diffs)
         Y_adf = diff_u[lag:]
         u_lag = u[lag:-1]
-        
+
         cols = [u_lag]
         for i in range(1, lag):
             cols.append(diff_u[lag - i : -i])
-            
+
         X_adf = np.column_stack(cols)
-        
+
         # OLS solve
         try:
             beta_adf, resids, rank, s = np.linalg.lstsq(X_adf, Y_adf, rcond=None)
             gamma_hat = beta_adf[0]
-            
+
             # Residual variance & SE(gamma_hat)
             e_adf = Y_adf - X_adf @ beta_adf
             rss = float(np.sum(e_adf ** 2))
             df_err = len(Y_adf) - X_adf.shape[1]
             if df_err <= 0 or rss <= 0:
                 continue
-                
+
             sigma_sq = rss / df_err
             var_beta = sigma_sq * np.linalg.inv(X_adf.T @ X_adf)
             se_gamma = float(np.sqrt(var_beta[0, 0]))
-            
+
             if se_gamma > 0:
                 t_stat = float(gamma_hat / se_gamma)
                 aic = len(Y_adf) * np.log(rss / len(Y_adf)) + 2 * X_adf.shape[1]
-                
+
                 if aic < best_aic:
                     best_aic = aic
                     best_stat = t_stat
@@ -142,7 +142,7 @@ def engle_granger_test(
     beta_full, rss, rank, s = np.linalg.lstsq(X_design, y_arr, rcond=None)
     alpha_hat = beta_full[0]
     beta_hat = beta_full[1:]
-    
+
     residuals = y_arr - X_design @ beta_full
 
     # Step 2: ADF test on residuals
@@ -199,7 +199,7 @@ def fast_engle_granger_test(
 
     # Fast OLS via QR decomposition: X = Q R -> R beta = Q^T y
     Q, R = np.linalg.qr(X_design)
-    
+
     # Check for near-singularity using epsilon
     diag_R = np.abs(np.diag(R))
     if np.any(diag_R < epsilon):
@@ -207,7 +207,7 @@ def fast_engle_granger_test(
 
     Qty = Q.T @ y_arr
     beta_full = np.linalg.solve(R, Qty)
-    
+
     alpha_hat = beta_full[0]
     beta_hat = beta_full[1:]
     residuals = y_arr - X_design @ beta_full

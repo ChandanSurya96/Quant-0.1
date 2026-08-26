@@ -2,11 +2,10 @@
 
 from __future__ import annotations
 
-from datetime import datetime, timezone
 import pytest
 
 from quant.broker.paper_broker import PaperBroker
-from quant.core.enums import ExecutionMode, OrderSide, OrderStatus, OrderType
+from quant.core.enums import OrderSide, OrderStatus, OrderType
 from quant.core.interfaces import Order
 
 

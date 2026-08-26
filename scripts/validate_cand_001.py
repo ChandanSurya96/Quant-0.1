@@ -44,7 +44,6 @@ def run_cand_001_validation() -> dict:
     rets = df_close.pct_change().fillna(0.0)
     n_bars, n_assets = df_close.shape
     start_idx = 756
-    cost_bps = 10.0
 
     # -------------------------------------------------------------
     # 1. Custom Target Weight Generator

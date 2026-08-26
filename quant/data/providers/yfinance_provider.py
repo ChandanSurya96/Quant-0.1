@@ -5,6 +5,7 @@ from __future__ import annotations
 import hashlib
 import time
 import warnings
+
 import numpy as np
 import pandas as pd
 import yfinance as yf

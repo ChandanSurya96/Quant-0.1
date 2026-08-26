@@ -8,7 +8,7 @@ from dataclasses import dataclass
 @dataclass(frozen=True)
 class RiskConfig:
     """Pre-trade risk limits and portfolio constraints (PRODUCTION DEFAULTS).
-    
+
     All limits are configurable and represent baseline pre-trade risk controls.
     """
     max_gross_exposure: float = 1.0

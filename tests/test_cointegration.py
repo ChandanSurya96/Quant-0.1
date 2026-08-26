@@ -2,25 +2,21 @@
 
 from __future__ import annotations
 
-import pytest
 import numpy as np
 import pandas as pd
+import pytest
 
 from markov2.cointegration import (
-    exact_condition_number,
-    estimate_condition_number,
     engle_granger_test,
+    estimate_condition_number,
+    exact_condition_number,
     fast_engle_granger_test,
-    scan_cointegrated_pairs,
     walk_forward_cointegration,
 )
 from markov2.cointegration.benchmark import (
-    generate_synthetic_cases,
-    run_synthetic_validation,
-    benchmark_condition_number_estimator,
     benchmark_precision_scaling,
+    generate_synthetic_cases,
 )
-
 
 # =====================================================================
 # 1. UNIT & NUMERICAL TESTS: CONDITION NUMBER
@@ -28,8 +24,8 @@ from markov2.cointegration.benchmark import (
 
 def test_exact_condition_number_identity():
     """Identity matrix should have condition number kappa = 1.0."""
-    I = np.eye(5)
-    assert np.isclose(exact_condition_number(I), 1.0, atol=1e-5)
+    identity_matrix = np.eye(5)
+    assert np.isclose(exact_condition_number(identity_matrix), 1.0, atol=1e-5)
 
 
 def test_exact_condition_number_scaled():

@@ -29,14 +29,12 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 import numpy as np
 import pandas as pd
 
-from markov2.data import filter_vendor_artifacts
 from markov2.splits import get_splits
-from markov2.universe_data import DEFAULT_UNIVERSE, fetch_universe, get_tickers
+from markov2.universe_data import DEFAULT_UNIVERSE, get_tickers
 from quant.pairs.backtest import YalePairsBacktester
 from quant.portfolio.simulator import PortfolioSimulator
 from scripts.run_cand012_research import (
     HISTORICAL_SAFE_TICKERS,
-    SECTOR_MAP,
     generate_sp500_robust_panel,
 )
 
@@ -122,7 +120,7 @@ def apply_volatility_targeting(r_raw: pd.Series, target_vol: float, lookback: in
     """Applies point-in-time volatility targeting with max leverage capped strictly at 1.0x."""
     rolling_vol = r_raw.rolling(lookback).std() * np.sqrt(252.0)
     rolling_vol = rolling_vol.shift(1).fillna(target_vol)  # Strictly prior information
-    
+
     # Sizing factor: min(1.0, target_vol / rolling_vol)
     scaling = (target_vol / np.maximum(1e-4, rolling_vol)).clip(upper=1.0)
     r_targeted = scaling * r_raw
@@ -180,7 +178,7 @@ def run_cand013_research_suite() -> dict:
     bt_control = YalePairsBacktester(top_m=20, entry_threshold_sigma=2.0, exit_threshold_sigma=0.0, cost_bps=10.0)
     res_control = bt_control.run(df_safe_close, df_safe_volumes)
     common_idx = r_mom.index.intersection(res_control["daily_returns"].index)
-    
+
     r1 = r_mom.loc[common_idx]
     r_ctrl_pairs = res_control["daily_returns"].loc[common_idx]
     r_ens_ctrl = 0.80 * r1 + 0.20 * r_ctrl_pairs
@@ -244,7 +242,7 @@ def run_cand013_research_suite() -> dict:
             for v_tgt in vol_grid:
                 cfg_id = f"CFG_E{entry_s:.1f}_X{exit_s:.2f}_V{int(v_tgt*100)}"
                 r_targeted, scaling = apply_volatility_targeting(r_raw_ens, target_vol=v_tgt, lookback=21)
-                
+
                 avg_exposure = float(scaling.mean())
                 # Base turnover scaled by exposure + rebalancing turnover
                 rebal_turnover = float(scaling.diff().abs().mean() * 252.0)

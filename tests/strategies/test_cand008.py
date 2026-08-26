@@ -1,10 +1,7 @@
 """Unit tests for CAND-008 S&P 500 Single-Stock Pairs Trading Engine."""
 
-import numpy as np
-import pandas as pd
-import pytest
-from scripts.run_cand008_research import compute_metrics, generate_sp500_equity_dataset
 from quant.pairs.backtest import YalePairsBacktester
+from scripts.run_cand008_research import generate_sp500_equity_dataset
 
 
 def test_generate_sp500_equity_dataset_structure():

@@ -2,7 +2,7 @@
 
 import numpy as np
 import pandas as pd
-import pytest
+
 from scripts.run_cand011_research import compute_performance_metrics, get_cand006_target_weights
 
 

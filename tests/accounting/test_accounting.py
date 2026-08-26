@@ -6,9 +6,7 @@ import numpy as np
 import pandas as pd
 import pytest
 
-from quant.portfolio.drift import calculate_market_values, calculate_portfolio_nav, calculate_realized_weights
 from quant.portfolio.simulator import PortfolioSimulator
-from quant.portfolio.sizer import target_weights_to_shares
 
 
 # ----------------------------------------------------------- 1. Buy Accounting
@@ -53,7 +51,7 @@ def test_sell_accounting_cash_and_holdings():
     cash_day2 = res["cash"].iloc[2]
     nav_day2 = res["nav"].iloc[2]
 
-    assert shares_day2 == pytest.approx(49.0, abs=1.0)  # Discrete shares from target 0.20 of Day 1 NAV (~$99,960) / $400
+    assert shares_day2 == 49.0  # Exact discrete shares: floor(0.20 * 99,960 / 400) = 49.0
     assert cash_day2 > res["cash"].iloc[1]  # Cash increased from sale proceeds
     assert abs(nav_day2 - (cash_day2 + shares_day2 * 400.0)) < 1e-4  # NAV conservation holds
 

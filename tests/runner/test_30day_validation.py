@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from pathlib import Path
+
 import pandas as pd
 import pytest
 
@@ -55,9 +56,12 @@ def test_deterministic_30day_harness_runs_to_completion(harness_setup):
         assert report.final_run_status == RunStatus.COMPLETED
 
         # Check rebalance schedule vs drift days
-        if day_num in (1, 22):  # Scheduled rebalance days
-            assert record.orders_count in (6, 7)
-            assert record.fills_count == record.orders_count
+        if day_num == 1:  # Day 1 initial allocation (3 long + 3 short = 6 orders)
+            assert record.orders_count == 6
+            assert record.fills_count == 6
+        elif day_num == 22:  # Day 22 rebalance: 6 target rebalances + 1 order closing rotated-out UUP = 7 orders
+            assert record.orders_count == 7
+            assert record.fills_count == 7
         else:  # Intra-month weight drift days (ZERO trades)
             assert record.orders_count == 0
             assert record.fills_count == 0
