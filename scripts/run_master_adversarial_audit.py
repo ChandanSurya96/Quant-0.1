@@ -228,6 +228,7 @@ def run_master_adversarial_audit(
             discrete_shares=discrete_shares,
             short_proceeds_credit_pct=short_proceeds_credit_pct,
             slippage_bps=slippage,
+            risk_free_rate_annual=rf_annual_series,
         )
         return sim.run(
             target_weights_df=target_w,
@@ -235,7 +236,7 @@ def run_master_adversarial_audit(
             rebalance_freq=21,
             rebalance_dates=rebalance_dates,
             start_idx=start_idx,
-            rf_daily=rf_annual_series / 252.0,
+            rf_series=rf_annual_series,
         )
 
     res_cand001 = run_sim(w_cand001)

@@ -2,7 +2,7 @@
 ## Canonical Post-Remediation Real Market Data Audit (EXP-030-AUDIT)
 
 **Audited Strategy**: `CAND-001` Systematic Macro Momentum (Gross 1.0x NAV, 50% Long / 50% Short)  
-**Data Provider**: `YFinanceProvider` (10-Year Real Market Prices + CBOE 3M Treasury Rates)  
+**Data Provider**: `YFinanceProvider` (10-Year Real Market Prices 2016–2026 + CBOE 3M Treasury Rates `^IRX`)  
 **Execution Frictions**: 10 bps turnover cost + 5.0 bps baseline slippage + 25 bps/year borrow fee + discrete integer shares  
 
 ---
@@ -17,12 +17,12 @@
 | **t-Statistic on Excess Sharpe** | `+0.59` | $> +2.00$ | **FAIL (Not Significant)** |
 | **95% Confidence Interval (Excess Sharpe)**| `[-0.5215, +0.9679]` | Lower CI $> 0.0$ | **FAIL (Spans Zero)** |
 | **Deflated Sharpe Ratio (DSR)** | `0.4926` | $> 0.95$ ($p < 0.05$) | **FAIL (Consistent with Noise)** |
-| **True Out-of-Sample Sharpe (2024–2026)** | `+0.1217` | $> +0.30$ | Marginal Positive |
+| **True Out-of-Sample Sharpe (2024-08-22→2026-08-25)** | `+0.1217` | $> +0.30$ | Marginal Positive |
 | **Net CAGR** | `+4.20%` | $> +6.00%$ | PASS (at 1.0x Gross) |
 | **Annualized Volatility** | `7.26%` | $< 12.00%$ | PASS |
 | **Maximum Drawdown** | `-12.22%` | $< -15.00%$ | PASS |
 | **Annualized Turnover** | `427.8%` | $< 600.0%$ | PASS |
-| **Break-Even Half-Spread Slippage** | `~42 bps` | $> 15 bps$ | PASS |
+| **Break-Even Half-Spread Slippage** | `~42.0 bps` | $> 15 bps$ | PASS |
 
 ---
 
@@ -40,5 +40,5 @@
 
 ### Final Research Verdict
 
-- **Standalone Production Alpha Status**: **REJECTED (UNCONFIRMED)**. The empirical edge ($t = 0.59$) is not statistically distinguishable from zero across 29 historical backtest trials.
-- **Portfolio Diversifier Status**: **CONDITIONAL HOLD**. Because the strategy runs at low volatility (7.26%) and max drawdown (-12.22%) with roughly ~3.4% expected excess return over cash, it serves as a viable, non-correlated macro diversifier when combined with equities/fixed income, but should not be levered up prior to live out-of-sample evidence accumulation.
+- **Standalone Production Alpha Status**: **REJECTED (UNCONFIRMED)**. Derived automatically from statistical testing: $t = 0.59 < 2.0$, 95% CI spans zero, and DSR = $0.4926$ ($p = 0.5074$).
+- **Portfolio Diversifier Status**: **CONDITIONAL HOLD**. Operating at 7.26% annualized volatility and -12.22% maximum drawdown with ~3.4% expected excess return over cash, it serves as a viable, zero-leverage macro diversifier when combined with core equities and fixed income, but should not be levered prior to empirical out-of-sample edge confirmation.

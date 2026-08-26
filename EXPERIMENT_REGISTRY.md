@@ -280,8 +280,8 @@ Every quantitative alpha experiment conducted in this repository must be assigne
 - **Hypothesis**: Rigorous adversarial evaluation of CAND-001 under physical share tracking, realistic weight drift, short borrow fees, 5.0 bps baseline half-spread slippage, discrete integer shares, and real 10-year market prices with actual CBOE 3M Treasury Bill yields.
 - **Result**:
   - CAND-001 Canonical (Gross 1.0x NAV, 50% Long / 50% Short): Gross Sharpe = **+0.6035**, Excess Sharpe = **+0.2232**, Sharpe SE = **0.3799**, t-stat = **+0.59**, 95% CI = **[-0.5215, +0.9679]**, CAGR = **+4.20%**, Volatility = **7.26%**, Max DD = **-12.22%**, Annualized Turnover = **427.8%**, DSR = **0.4926** ($p = 0.5074$).
-  - Walk-Forward Partitions: Train (60%) Excess Sharpe = **+0.4305**; Validation (20%) Excess Sharpe = **-0.0384**; True OOS (20%, 2024-2026) Excess Sharpe = **+0.1217** (CAGR: **+4.71%**, Vol: **7.07%**).
-  - Friction Sensitivity Matrix (0 to 50 bps): Break-even half-spread slippage = **~42 bps** (at 5.0 bps slippage, Excess Sharpe = +0.2232).
+  - Walk-Forward Partitions: Train (60%, 2019-08-29→2022-08-22, 751 bars) Excess Sharpe = **+0.4305**; Validation (20%, 2022-08-23→2024-08-21, 502 bars) Excess Sharpe = **-0.0384**; True OOS (20%, 2024-08-22→2026-08-25, 503 bars) Excess Sharpe = **+0.1217** (CAGR: **+4.71%**, Vol: **7.07%**).
+  - Friction Sensitivity Matrix (0 to 50 bps): Break-even half-spread slippage = **~42.0 bps** (at 5.0 bps baseline slippage, Excess Sharpe = +0.2232).
   - Factor Ablations: Momentum alone accounts for 100% of return drift; Value and Carry degrade excess Sharpe to -0.4345; Rank Hysteresis reduces turnover by 48% (from 821% to 428%/yr).
 - **Conclusion**: **REJECTED AS STANDALONE ALPHA / RETAINED AS ZERO-LEVERAGE MACRO DIVERSIFIER**. The strategy possesses roughly 3.4% expected excess return on 7.3% vol with -12.2% max drawdown, but its excess Sharpe has a 95% confidence interval spanning zero ($t = 0.59$) and is consistent with selection bias across 29 historical candidate trials ($DSR = 0.4926$).
 
