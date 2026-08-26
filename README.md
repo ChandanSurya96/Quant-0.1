@@ -30,7 +30,7 @@ Signals are normalized cross-sectionally (z-scores) and equally weighted to cons
 The Markov 2.0 regime filter was originally designed as a single-asset time-series risk overlay: projecting discrete transition probability matrices out-of-sample (walk-forward) to reject Long allocations entering BEAR regimes and Short allocations entering BULL regimes.
 
 ### Empirical Verdict: NO EVIDENCE OF EDGE (Deprecated)
-As comprehensively documented in [walkthrough_cross_sectional.md](file:///c:/Quant/Quant-Algorithm/walkthrough_cross_sectional.md), a large-scale empirical study across 50 liquid equities over 10 years of walk-forward history resulted in the **formal rejection of the Markov regime overlay**:
+As comprehensively documented in [walkthrough_cross_sectional.md](walkthrough_cross_sectional.md), a large-scale empirical study across 50 liquid equities over 10 years of walk-forward history resulted in the **formal rejection of the Markov regime overlay**:
 
 | Hypothesis / Metric | Cross-Sectional Empirical Finding | Required Gate | Status |
 | :--- | :--- | :--- | :--- |
@@ -47,19 +47,44 @@ As comprehensively documented in [walkthrough_cross_sectional.md](file:///c:/Qua
 
 ## 3. Run Instructions
 
-Requires Python 3.9+ and dependencies (`yfinance`, `numpy`, `pandas`, `scipy`, `statsmodels`, `matplotlib`).
+<!-- AUTO-GENERATED: quickstart -->
+Requires **Python >= 3.10** (`pyproject.toml`). Runtime dependencies are
+`numpy>=1.24`, `pandas>=2.0`, `yfinance>=0.2`, `matplotlib>=3.7`. Optional
+extras: `test` (pytest), `enhanced` (scikit-learn), `hmm` (hmmlearn).
 
 ```bash
-# Run unit and regression test suite
-python -m pytest tests/ -q
+pip install -e ".[test]"
+```
 
+```bash
+# Run unit and regression test suite (342 tests)
+python -m pytest tests/ -q
+```
+
+```bash
 # Run Systematic Macro CAND-001 deep audit
 python scripts/run_cand001_deep_audit.py
+```
 
+```bash
 # Run Yale Pairs Trading simulation and risk models
 python scripts/run_pairs_distance.py
 python scripts/run_pairs_comparison.py
 ```
+
+```bash
+# Markov 2.0 CLI - DATA / REGIME / STRATEGY / NULL report
+python -m markov2.run --ticker SPY
+```
+<!-- /AUTO-GENERATED: quickstart -->
+
+Full documentation:
+
+| Document | Contents |
+|----------|----------|
+| [docs/CONTRIBUTING.md](docs/CONTRIBUTING.md) | Setup, every script and CLI flag, testing standards, PR checklist |
+| [docs/ENV.md](docs/ENV.md) | Environment variables and the execution safety interlocks |
+| [docs/RUNBOOK.md](docs/RUNBOOK.md) | Promotion ladder, health checks, emergency stop, rollback |
 
 ---
 
@@ -82,4 +107,4 @@ All strategies operate strictly through physical-share simulation (`quant/portfo
 * **Academic Replications**: Benchmark replications from literature (e.g. *Yale / Zhu 2024 Pairs Trading*).
 * **Paper Broker Burn-In**: Execution testing against Interactive Brokers Paper Trading (`quant/broker/ibkr/`).
 * **Live Execution**: Small capital, fail-closed, operator-controlled execution behind human approval gates. Autonomous live capital is strictly disabled during research phases.
-
+
